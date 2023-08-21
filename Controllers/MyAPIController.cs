@@ -303,10 +303,19 @@ namespace Student_Report_Management.Controllers
         }
 
 
-        //Left Join
-        public string Leftjoin()
+        //Left Outer Join
+        public string LeftOuterjoin()
         {
-            var query = 
+            var query = from SR in db.tbl_Student_Report
+                        join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                                into SSMGroup
+                        from SSM in SSMGroup.DefaultIfEmpty()
+                        select SR;
+
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+
         }
 
     }
