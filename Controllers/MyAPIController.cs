@@ -304,19 +304,101 @@ namespace Student_Report_Management.Controllers
 
 
         //Left Outer Join
-        public string LeftOuterjoin()
+        //public string LeftOuterjoin()
+        //{
+        //    var query = from SR in db.tbl_Student_Report
+        //                join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+        //                        into SSMGroup
+        //                from SSM in SSMGroup.DefaultIfEmpty()
+        //                select SR;
+
+        //    var Result = query.ToList();
+        //    var json = new JavaScriptSerializer().Serialize(Result);
+        //    return json;
+
+        //}
+
+
+        //Lowest Scorer Year Wise
+        public string LowestScorer()
         {
-            var query = from SR in db.tbl_Student_Report
-                        join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
-                                into SSMGroup
-                        from SSM in SSMGroup.DefaultIfEmpty()
-                        select SR;
+            var query = (from SR in db.tbl_Student_Report
+                         join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+                         join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                         join SM in db.tbl_Subject_Master on SSM.Subject_Id equals SM.Subject_Id
+                         join Sem in db.tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+                         join YM in db.tbl_Year_Master on Sem.Year_Id equals YM.Year_Id
+                         select new
+                         {
+                             SR.Student_Id,
+                             Student.Student_Name,
+                             SM.Subject_Name,
+                             SR.User_Score,
+                             Sem.Semister_Name,
+                             YM.Year_Name
+                         })
+                        .ToList()
+                        .GroupBy(y => y.Year_Name)
+                        .SelectMany(s => s.OrderBy(u => u.User_Score)
+                                            .Select((u, Index) =>
+                                            new
+                                            {
+                                                u.Student_Id,
+                                                u.Student_Name,
+                                                u.Subject_Name,
+                                                u.User_Score,
+                                                u.Semister_Name,
+                                                u.Year_Name,
+                                                year = Index + 1
+                                            }))
+                        .Where(y => y.year == 1);
 
             var Result = query.ToList();
             var json = new JavaScriptSerializer().Serialize(Result);
             return json;
-
         }
+
+
+        //Particular Students Lowest Scores
+        public string StudentsLowestScore(string StudentName)
+        {
+            var query = (from SR in db.tbl_Student_Report
+                         join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+                         join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                         join SM in db.tbl_Subject_Master on SSM.Subject_Id equals SM.Subject_Id
+                         join Sem in db.tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+                         join YM in db.tbl_Year_Master on Sem.Year_Id equals YM.Year_Id
+                         where Student.Student_Name == StudentName
+                         select new
+                         {
+                             SR.Student_Id,
+                             Student.Student_Name,
+                             SM.Subject_Name,
+                             SR.User_Score,
+                             Sem.Semister_Name,
+                             YM.Year_Name
+                         })
+                        .ToList()
+                        .GroupBy(y => y.Year_Name)
+                        .SelectMany(s => s.OrderBy(u => u.User_Score)
+                                            .Select((u, Index) =>
+                                            new
+                                            {
+                                                u.Student_Id,
+                                                u.Student_Name,
+                                                u.Subject_Name,
+                                                u.User_Score,
+                                                u.Semister_Name,
+                                                u.Year_Name,
+                                                year = Index + 1
+                                            }))
+                        .Where(y => y.year == 1);
+
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+        }
+
 
     }
 
