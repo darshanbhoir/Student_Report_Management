@@ -359,7 +359,7 @@ namespace Student_Report_Management.Controllers
         }
 
 
-        //Particular Students Lowest Scores
+        //Particular Students Lowest Scores modified
         public string StudentsLowestScore(string StudentName)
         {
             var query = (from SR in db.tbl_Student_Report
