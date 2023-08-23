@@ -400,6 +400,52 @@ namespace Student_Report_Management.Controllers
         }
 
 
+        //Students passed in particular Subject
+        public string PassedStudent(string SubjectName)
+        {
+            var query = from SR in db.tbl_Student_Report
+                        join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+                        join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                        join Subject in db.tbl_Subject_Master on SSM.Subject_Id equals Subject.Subject_Id
+                        join Sem in db.tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+                        join Year in db.tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
+                        where Subject.Subject_Name == SubjectName && SR.User_Score > 24
+                        select new
+                        {
+                            SR.Student_Id,
+                            Student.Student_Name,
+                            Subject.Subject_Name,
+                            SR.User_Score,
+                            Sem.Semister_Name,
+                            Year.Year_Name
+                        };
+
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+        }
+
+
+        //Count of Students Passed in particular Subject
+        public string PassedStudentCount(string SubjectName)
+        {
+            var query = from SR in db.tbl_Student_Report
+                        join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                        join Subject in db.tbl_Subject_Master on SSM.Subject_Id equals Subject.Subject_Id
+                        where Subject.Subject_Name == SubjectName && SR.User_Score >= 24
+                        group SR by Subject.Subject_Name into Sub
+                        select new
+                        {
+                            SubjectName = Sub.Key,
+                            StudentCount = Sub.Count()
+                        };
+
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+
+        }
+
     }
 
 }
