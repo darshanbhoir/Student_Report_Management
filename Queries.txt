@@ -1,0 +1,651 @@
+db_Student_Report_Mgmt
+
+tables:
+	tbl_Student_Master
+	tbl_Subject_Master
+	tbl_Year_Master
+	tbl_Semister_Master
+	tbl_Semister_Subject_Map
+	tbl_Student_Report
+	
+	
+Query:
+
+1] tbl_Student_Master
+	
+	Select-
+			SELECT * FROM tbl_Student_Master
+	
+	Insert-
+		INSERT INTO [dbo].[tbl_Student_Master]
+           ([Student_Name]
+           ,[Student_Email]
+           ,[Student_Mobile]
+           ,[Student_DOB])
+		VALUES
+           ('Jayesh'
+           ,'jayesh@gmail.com'
+           ,9856231458
+           ,'2000-06-23')
+		
+	Update-
+		UPDATE [dbo].[tbl_Student_Master]
+		SET Student_Email = 'darshan@gmail.com'
+		WHERE Student_Id=1
+	
+2] tbl_Subject_Master
+	
+	Select-
+		SELECT * FROM tbl_Subject_Master
+	
+	Insert-
+		INSERT INTO [dbo].[tbl_Subject_Master]
+           ([Subject_Name])
+		VALUES
+           ('Maths4')
+		
+	Update-
+		UPDATE [dbo].[tbl_Subject_Master]
+		SET Subject_Name = 'Engineering Drawing'
+		WHERE Subject_Id=8
+	
+3]tbl_Year_Master
+	
+	Select-
+		SELECT * FROM tbl_Year_Master
+	
+	Insert-
+		INSERT INTO [dbo].[tbl_Year_Master]
+           ([Year_Name])
+		VALUES
+           ('Fourth Year')
+		
+	Update-
+		UPDATE [dbo].[tbl_Year_Master]
+		SET Year_Name = 'Forth Year'
+		WHERE Year_Id=4
+	
+4]tbl_Semister_Master
+	
+	Select-
+		SELECT * FROM tbl_Semister_Master
+	
+	Insert-
+		INSERT INTO [dbo].[tbl_Semister_Master]
+           ([Semister_Name]
+           ,[Year_Id])
+		VALUES
+           ('Semister 8'
+           ,4)
+		
+	Update-
+		UPDATE [dbo].[tbl_Semister_Master]
+		SET Semister_Name = 'Semister 8'
+		WHERE Semister_Id=8
+	
+5]tbl_Semister_Subject_Map
+	
+	Select-
+		SELECT * FROM tbl_Semister_Subject_Map
+	
+	Insert-
+		INSERT INTO [dbo].[tbl_Semister_Subject_Map]
+           ([Semister_Id]
+           ,[Subject_Id]
+           ,[Max_Score])
+		VALUES
+           (7
+           ,10
+           ,58)
+		
+	Update-
+		UPDATE [dbo].[tbl_Semister_Subject_Map]
+		SET Max_Score = 44
+		WHERE Sem_Subject_Id=9
+		
+		
+
+	
+6]tbl_Student_Report
+	
+	Select-
+		SELECT * FROM tbl_Student_Report
+	
+	Insert-
+		INSERT INTO [dbo].[tbl_Student_Report]
+           ([Student_Id]
+           ,[Sem_Subject_Id]
+           ,[User_Score]
+           ,[Updated_On])
+		VALUES
+           (1
+           ,1
+           ,566
+           ,GETDATE())
+		
+	Update-
+		UPDATE [dbo].[tbl_Student_Report]
+		SET User_Score = 31,
+		Updated_On=getdate()
+		WHERE Report_Id=1
+	
+	
+	
+	
+	
+	
+Joins-
+		1. select * from tbl_Semister_Subject_Map join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id=tbl_Semister_Master.Semister_Id
+
+		2. Semister Wise Subject data-
+			select 
+			tbl_Semister_Subject_Map.Sem_Subject_Id, 
+			tbl_Semister_Subject_Map.Semister_Id, 
+			tbl_Semister_Subject_Map.Subject_Id, 
+			tbl_Subject_Master.Subject_Name, 
+			tbl_Semister_Master.Semister_Name 
+			from tbl_Semister_Subject_Map 
+			join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id=tbl_Semister_Master.Semister_Id
+			join tbl_Subject_Master on tbl_Semister_Subject_Map.Subject_Id=tbl_Subject_Master.Subject_Id
+			order by Semister_Name
+			
+			
+		3. Complete Data-
+			select * from tbl_Student_Report inner join tbl_Student_Master on tbl_Student_Report.Student_Id=tbl_Student_Master.Student_Id
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id=tbl_Semister_Subject_Map.Sem_Subject_Id
+		
+		
+		4. Particular Student Data order by Semister-
+			select 
+			tbl_Student_Report.Report_Id, 
+			tbl_Student_Report.Student_Id, 
+			tbl_Student_Report.User_Score, 
+			tbl_Student_Master.Student_Name, 
+			tbl_Student_Master.Student_Mobile, 
+			tbl_Semister_Subject_Map.Semister_Id, 
+			tbl_Semister_Master.Semister_Name 
+			from tbl_Student_Report 
+			inner join tbl_Student_Master on tbl_Student_Report.Student_Id=tbl_Student_Master.Student_Id
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id=tbl_Semister_Subject_Map.Sem_Subject_Id
+			inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id=tbl_Semister_Master.Semister_Id
+			where Student_Name='Darshan'
+			order by Semister_Name
+		
+		
+		5. Semister wise subject data with max score-
+			select 
+			tbl_Semister_Subject_Map.Sem_Subject_Id, 
+			tbl_Semister_Subject_Map.Max_Score, 
+			tbl_Subject_Master.Subject_Name, 
+			tbl_Semister_Master.Semister_Name 
+			from tbl_Semister_Subject_Map 
+			inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id = tbl_Semister_Master.Semister_Id
+			inner join tbl_Subject_Master on tbl_Semister_Subject_Map.Subject_Id= tbl_Subject_Master.Subject_Id
+			order by Semister_Name
+			
+		
+		6. Year wise Data-
+			select 
+			tbl_Semister_Subject_Map.Sem_Subject_Id, 
+			tbl_Semister_Subject_Map.Max_Score, 
+			tbl_Subject_Master.Subject_Name, 
+			tbl_Semister_Master.Semister_Name, 
+			tbl_Year_Master.Year_Name 
+			from tbl_Semister_Subject_Map 
+			inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id = tbl_Semister_Master.Semister_Id
+			inner join tbl_Subject_Master on tbl_Semister_Subject_Map.Subject_Id= tbl_Subject_Master.Subject_Id
+			inner join tbl_Year_Master on tbl_Semister_Master.Year_Id= tbl_Year_Master.Year_Id
+			order by Year_Name
+		
+		
+		7. LeftJoin-
+			select * from tbl_Student_Report left join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id=tbl_Semister_Subject_Map.Subject_Id
+			
+			
+		8. Right Join-
+			select * from tbl_Student_Report right join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id=tbl_Semister_Subject_Map.Subject_Id
+			
+			
+		1. User's Year wise Over All Score
+			select 
+			tbl_Student_Master.Student_Name, 
+			tbl_Semister_Subject_Map.Sem_Subject_Id, 
+			tbl_Semister_Master.Semister_Name, 
+			tbl_Year_Master.Year_Name, 
+			tbl_Student_Report.User_Score 
+			from tbl_Student_Report
+			inner join tbl_Student_Master on tbl_Student_Report.Student_Id=tbl_Student_Master.Student_Id
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id=tbl_Semister_Subject_Map.Sem_Subject_Id
+			inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id=tbl_Semister_Master.Semister_Id
+			inner join tbl_Year_Master on tbl_Semister_Master.Year_Id=tbl_Year_Master.Year_Id
+			where tbl_Student_Report.Student_Id=1
+			
+			
+		2. User's Year wise Semister Wise Score (For all the years and a particular year)
+			For All Year-
+				select 
+				tbl_Student_Master.Student_Name, 
+				tbl_Semister_Subject_Map.Sem_Subject_Id, 
+				tbl_Semister_Master.Semister_Name, 
+				tbl_Semister_Subject_Map.Max_Score, 
+				tbl_Subject_Master.Subject_Name, 
+				tbl_Year_Master.Year_Name, 
+				tbl_Student_Report.User_Score 
+				from tbl_Student_Report
+				inner join tbl_Student_Master on tbl_Student_Report.Student_Id=tbl_Student_Master.Student_Id
+				inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id=tbl_Semister_Subject_Map.Sem_Subject_Id
+				inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id=tbl_Semister_Master.Semister_Id
+				inner join tbl_Year_Master on tbl_Semister_Master.Year_Id=tbl_Year_Master.Year_Id
+				inner join tbl_Subject_Master on tbl_Semister_Subject_Map.Subject_Id=tbl_Subject_Master.Subject_Id
+				where tbl_Student_Report.Student_Id=4
+				
+			For particular Year-	
+				select 
+				tbl_Student_Master.Student_Name, 
+				tbl_Semister_Subject_Map.Sem_Subject_Id, 
+				tbl_Semister_Master.Semister_Name, 
+				tbl_Semister_Subject_Map.Max_Score, 
+				tbl_Subject_Master.Subject_Name, 
+				tbl_Year_Master.Year_Name, 
+				tbl_Student_Report.User_Score 
+				from tbl_Student_Report
+				inner join tbl_Student_Master on tbl_Student_Report.Student_Id=tbl_Student_Master.Student_Id
+				inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id=tbl_Semister_Subject_Map.Sem_Subject_Id
+				inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id=tbl_Semister_Master.Semister_Id
+				inner join tbl_Year_Master on tbl_Semister_Master.Year_Id=tbl_Year_Master.Year_Id
+				inner join tbl_Subject_Master on tbl_Semister_Subject_Map.Subject_Id=tbl_Subject_Master.Subject_Id
+				where tbl_Student_Report.Student_Id=4 and Year_Name='First Year'
+				
+			
+		3. List of users in a descending order of their overall score for a particular year.
+			select 
+			tbl_Student_Master.Student_Name, 
+			tbl_Student_Report.User_Score,
+			tbl_Semister_Subject_Map.Max_Score, 
+			tbl_Year_Master.Year_Name, 
+			tbl_Semister_Master.Semister_Name 
+			from tbl_Student_Report
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id=tbl_Semister_Subject_Map.Sem_Subject_Id
+			inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id=tbl_Semister_Master.Semister_Id
+			inner join tbl_Year_Master on tbl_Semister_Master.Year_Id=tbl_Year_Master.Year_Id
+			inner join tbl_Student_Master on tbl_Student_Report.Student_Id=tbl_Student_Master.Student_Id
+			where Year_Name='First Year'
+			order by User_Score desc
+
+
+		4. Top subject of a particular user for a particular year
+			select 
+			tbl_Student_Master.Student_Name, 
+			max(tbl_Student_Report.User_Score) as MaximumScore 
+			from tbl_Student_Report
+			inner join tbl_Student_Master on tbl_Student_Report.Student_Id=tbl_Student_Master.Student_Id
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id=tbl_Semister_Subject_Map.Sem_Subject_Id
+			inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id=tbl_Semister_Master.Semister_Id
+			inner join tbl_Year_Master on tbl_Semister_Master.Year_Id=tbl_Year_Master.Year_Id
+			where Student_Name='Darshan' and Year_Name='Second Year'
+			group by Student_Name
+			
+		5. Top subject Semister wise of a particular user for a particular year.
+		
+			For One Semester-
+			select top 1 
+			tbl_Student_Master.Student_Name,
+			tbl_Year_Master.Year_Name,
+			tbl_Semister_Master.Semister_Name,
+			tbl_Subject_Master.Subject_Name, 
+			tbl_Student_Report.User_Score 
+			from tbl_Student_Report
+			inner join tbl_Student_Master on tbl_Student_Report.Student_Id=tbl_Student_Master.Student_Id
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id=tbl_Semister_Subject_Map.Sem_Subject_Id
+			inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id=tbl_Semister_Master.Semister_Id
+			inner join tbl_Year_Master on tbl_Semister_Master.Year_Id=tbl_Year_Master.Year_Id
+			inner join tbl_Subject_Master on tbl_Semister_Subject_Map.Subject_Id=tbl_Subject_Master.Subject_Id
+			where Student_Name='Darshan' and Year_Name='First year'
+			order by User_Score desc
+			
+			For Both Semester in Year-
+			with Newtbl as (	
+			select 
+			tbl_Student_Master.Student_Name,
+			tbl_Year_Master.Year_Name,
+			tbl_Semister_Master.Semister_Name,
+			tbl_Subject_Master.Subject_Name, 
+			tbl_Student_Report.User_Score, 
+			row_number() over (partition by tbl_Semister_Master.Semister_Name order by User_Score desc)as Sem_Name
+			from tbl_Student_Report
+			inner join tbl_Student_Master on tbl_Student_Report.Student_Id=tbl_Student_Master.Student_Id
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id=tbl_Semister_Subject_Map.Sem_Subject_Id
+			inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id=tbl_Semister_Master.Semister_Id
+			inner join tbl_Year_Master on tbl_Semister_Master.Year_Id=tbl_Year_Master.Year_Id
+			inner join tbl_Subject_Master on tbl_Semister_Subject_Map.Subject_Id=tbl_Subject_Master.Subject_Id
+			where Student_Name='Darshan' and Year_Name='Second year'
+			)
+			select Student_Name, Year_Name, Semister_Name, Subject_Name, User_Score from Newtbl 
+			where Sem_Name=1 
+			
+			
+		6. Top Scorer from all Students with subject details
+			select top 1
+			tbl_Student_Report.Student_Id, 
+			tbl_Student_Master.Student_Name, 
+			tbl_Subject_Master.Subject_Name,
+			tbl_Student_Report.User_Score, 
+			tbl_Semister_Master.Semister_Name, 
+			tbl_Year_Master.Year_Name 
+			from tbl_Student_Report
+			inner join tbl_Student_Master on tbl_Student_Report.Student_Id=tbl_Student_Master.Student_Id
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id=tbl_Semister_Subject_Map.Sem_Subject_Id
+			inner join tbl_Subject_Master on tbl_Semister_Subject_Map.Subject_Id=tbl_Subject_Master.Subject_Id
+			inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id=tbl_Semister_Master.Semister_Id
+			inner join tbl_Year_Master on tbl_Semister_Master.Year_Id=tbl_Year_Master.Year_Id
+			order by User_Score desc
+			
+			
+		7. Top Scorer Year wise
+			with TopRanker as (
+			select
+			tbl_Student_Report.Student_Id, 
+			tbl_Student_Master.Student_Name, 
+			tbl_Subject_Master.Subject_Name,
+			tbl_Student_Report.User_Score, 
+			tbl_Semister_Master.Semister_Name, 
+			tbl_Year_Master.Year_Name,
+			row_number() over(partition by tbl_Year_Master.Year_Name order by User_Score desc) as year
+			from tbl_Student_Report
+			inner join tbl_Student_Master on tbl_Student_Report.Student_Id=tbl_Student_Master.Student_Id
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id=tbl_Semister_Subject_Map.Sem_Subject_Id
+			inner join tbl_Subject_Master on tbl_Semister_Subject_Map.Subject_Id=tbl_Subject_Master.Subject_Id
+			inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id=tbl_Semister_Master.Semister_Id
+			inner join tbl_Year_Master on tbl_Semister_Master.Year_Id=tbl_Year_Master.Year_Id
+			)
+			select Student_Id, Student_Name, Subject_Name, User_Score, Semister_Name, Year_Name from TopRanker where year=1
+			
+			
+		8. Particular Students top subject from each Semister-	
+			with TotalScore as (
+			select
+			tbl_Student_Report.Student_Id,
+			tbl_Student_Master.Student_Name,
+			tbl_Semister_Master.Semister_Name,
+			tbl_Student_Report.User_Score ,
+			tbl_Year_Master.Year_Name,
+			max(tbl_Student_Report.User_Score) over (partition by tbl_Semister_Master.Semister_Name) as Total,
+			row_number() over(partition by tbl_Semister_Master.Semister_Name order by User_Score) as Sem
+			from tbl_Student_Report
+			inner join tbl_Student_Master on tbl_Student_Report.Student_Id=tbl_Student_Master.Student_Id
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id=tbl_Semister_Subject_Map.Sem_Subject_Id
+			inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id = tbl_Semister_Master.Semister_Id
+			inner join tbl_Year_Master on tbl_Semister_Master.Year_Id= tbl_Year_Master.Year_Id
+			where Student_Name='Darshan'
+			)
+			select Student_Id, Student_Name, Semister_Name, Total, Year_Name from TotalScore where Sem=1
+			----------------	
+			var query = (from SR in db.tbl_Student_Report
+                         join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+                         join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                         join SM in db.tbl_Subject_Master on SSM.Subject_Id equals SM.Subject_Id
+                         join Sem in db.tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+                         join YM in db.tbl_Year_Master on Sem.Year_Id equals YM.Year_Id
+                         select new
+                         {
+                             SR.Student_Id,
+                             Student.Student_Name,
+                             SM.Subject_Name,
+                             SR.User_Score,
+                             Sem.Semister_Name,
+                             YM.Year_Name
+                         })
+                        .ToList()
+                        .GroupBy(y => y.Year_Name)
+                        .SelectMany(s => s.OrderBy(u => u.User_Score)
+                                            .Select((u, Index) =>
+                                            new
+                                            {
+                                                u.Student_Id,
+                                                u.Student_Name,
+                                                u.Subject_Name,
+                                                u.User_Score,
+                                                u.Semister_Name,
+                                                u.Year_Name,
+                                                year = Index + 1
+                                            }))
+                        .Where(y => y.year == 1);
+
+
+
+		9. Lowest Scorer Year wise
+			
+			with LowRanker as (
+			select
+			tbl_Student_Report.Student_Id, 
+			tbl_Student_Master.Student_Name, 
+			tbl_Subject_Master.Subject_Name,
+			tbl_Student_Report.User_Score, 
+			tbl_Semister_Master.Semister_Name, 
+			tbl_Year_Master.Year_Name,
+			row_number() over(partition by tbl_Year_Master.Year_Name order by User_Score) as year
+			from tbl_Student_Report
+			where tbl_Student_Master.Student_Name == 'Darshan'
+			inner join tbl_Student_Master on tbl_Student_Report.Student_Id=tbl_Student_Master.Student_Id
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id=tbl_Semister_Subject_Map.Sem_Subject_Id
+			inner join tbl_Subject_Master on tbl_Semister_Subject_Map.Subject_Id=tbl_Subject_Master.Subject_Id
+			inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id=tbl_Semister_Master.Semister_Id
+			inner join tbl_Year_Master on tbl_Semister_Master.Year_Id=tbl_Year_Master.Year_Id
+			)
+			select Student_Id, Student_Name, Subject_Name, User_Score, Semister_Name, Year_Name from LowRanker where year=1
+			----------------------
+			var query = (from SR in db.tbl_Student_Report
+                         join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+                         join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                         join SM in db.tbl_Subject_Master on SSM.Subject_Id equals SM.Subject_Id
+                         join Sem in db.tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+                         join YM in db.tbl_Year_Master on Sem.Year_Id equals YM.Year_Id
+                         where Student.Student_Name == StudentName
+                         select new
+                         {
+                             SR.Student_Id,
+                             Student.Student_Name,
+                             SM.Subject_Name,
+                             SR.User_Score,
+                             Sem.Semister_Name,
+                             YM.Year_Name
+                         })
+                        .ToList()
+                        .GroupBy(y => y.Year_Name)
+                        .SelectMany(s => s.OrderBy(u => u.User_Score)
+                                            .Select((u, Index) =>
+                                            new
+                                            {
+                                                u.Student_Id,
+                                                u.Student_Name,
+                                                u.Subject_Name,
+                                                u.User_Score,
+                                                u.Semister_Name,
+                                                u.Year_Name,
+                                                year = Index + 1
+                                            }))
+                        .Where(y => y.year == 1);
+
+
+		10. Students passed in particular Subject
+			select
+			tbl_Student_Report.Student_Id, 
+			tbl_Student_Master.Student_Name, 
+			tbl_Subject_Master.Subject_Name,
+			tbl_Student_Report.User_Score, 
+			tbl_Semister_Master.Semister_Name, 
+			tbl_Year_Master.Year_Name
+			from tbl_Student_Report
+			inner join tbl_Student_Master on tbl_Student_Report.Student_Id=tbl_Student_Master.Student_Id
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id=tbl_Semister_Subject_Map.Sem_Subject_Id
+			inner join tbl_Subject_Master on tbl_Semister_Subject_Map.Subject_Id=tbl_Subject_Master.Subject_Id
+			inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id=tbl_Semister_Master.Semister_Id
+			inner join tbl_Year_Master on tbl_Semister_Master.Year_Id=tbl_Year_Master.Year_Id
+			where tbl_Subject_Master.Subject_Name == 'ED' and tbl_Student_Report.User_Score>24
+
+
+		11. Count of Students Passed in particular Subject
+			select
+			tbl_Subject_Master.Subject_Name,
+			Count(tbl_Student_Report.User_Score) as PassedStud
+			from tbl_Student_Report
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id=tbl_Semister_Subject_Map.Sem_Subject_Id
+			inner join tbl_Subject_Master on tbl_Semister_Subject_Map.Subject_Id=tbl_Subject_Master.Subject_Id
+			where tbl_Subject_Master.Subject_Name == 'ED' and tbl_Student_Report.User_Score>24
+			group by tbl_Subject_Master.Subject_Name
+			
+			
+		12. Avg of Student marks for Semester
+			select 
+			tbl_Student_Master.Student_Name,
+			tbl_Semister_Master.Semister_Name,
+			AVG( tbl_Student_Report.User_Score) as average
+			from tbl_Student_Report
+			inner join tbl_Student_Master on tbl_Student_Report.Student_Id = tbl_Student_Master.Student_Id
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id = tbl_Semister_Subject_Map.Sem_Subject_Id
+			inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id = tbl_Semister_Master.Semister_Id
+			where tbl_Student_Master.Student_Name='Darshan'
+			group by tbl_Student_Master.Student_Name, tbl_Semister_Master.Semister_Name
+			
+			
+		13. Sum and Avg of Particular Student for Semester
+			select 
+			tbl_Student_Master.Student_Name,
+			tbl_Semister_Master.Semister_Name,
+			Count( tbl_Student_Report.User_Score) as Subjects,
+			Sum(tbl_Student_Report.User_Score) as Total,
+			AVG( tbl_Student_Report.User_Score) as average
+			from tbl_Student_Report
+			inner join tbl_Student_Master on tbl_Student_Report.Student_Id = tbl_Student_Master.Student_Id
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id = tbl_Semister_Subject_Map.Sem_Subject_Id
+			inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id = tbl_Semister_Master.Semister_Id
+			where tbl_Student_Master.Student_Name='Darshan'
+			group by tbl_Student_Master.Student_Name, tbl_Semister_Master.Semister_Name
+			
+			
+			
+		14. Student-Subject with avg more than 60
+			select 
+			tbl_Student_Master.Student_Name,
+			tbl_Semister_Master.Semister_Name,
+			Count( tbl_Student_Report.User_Score) as Subjects,
+			Sum(tbl_Student_Report.User_Score) as Total,
+			AVG( tbl_Student_Report.User_Score) as average
+			from tbl_Student_Report
+			inner join tbl_Student_Master on tbl_Student_Report.Student_Id = tbl_Student_Master.Student_Id
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id = tbl_Semister_Subject_Map.Sem_Subject_Id
+			inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id = tbl_Semister_Master.Semister_Id
+			where tbl_Student_Master.Student_Name='Darshan'
+			group by tbl_Student_Master.Student_Name, tbl_Semister_Master.Semister_Name
+			having average>60
+			
+			
+			
+		15. List of Students with more than 60 avg
+			select 
+			tbl_Student_Master.Student_Name,
+			tbl_Semister_Master.Semister_Name,
+			Count( tbl_Student_Report.User_Score) as Subjects,
+			Sum(tbl_Student_Report.User_Score) as Total,
+			AVG( tbl_Student_Report.User_Score) as average
+			from tbl_Student_Report
+			inner join tbl_Student_Master on tbl_Student_Report.Student_Id = tbl_Student_Master.Student_Id
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id = tbl_Semister_Subject_Map.Sem_Subject_Id
+			inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id = tbl_Semister_Master.Semister_Id
+			group by tbl_Student_Master.Student_Name, tbl_Semister_Master.Semister_Name
+			having average>60
+			
+			
+			
+		16. Semester wise Percentage of particular student
+			select 
+			tbl_Student_Master.Student_Name,
+			tbl_Semister_Master.Semister_Name,
+			Sum(tbl_Student_Report.User_Score) as Obtained,
+			Sum(tbl_Semister_Subject_Map.Max_Score) as Total,
+			(Sum(tbl_Student_Report.User_Score))*100.0/Sum(tbl_Semister_Subject_Map.Max_Score) as ObtainedPercentage
+			from tbl_Student_Report
+			inner join tbl_Student_Master on tbl_Student_Report.Student_Id = tbl_Student_Master.Student_Id
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id = tbl_Semister_Subject_Map.Sem_Subject_Id
+			inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id = tbl_Semister_Master.Semister_Id
+			where tbl_Student_Master.Student_Name='Darshan'
+			group by tbl_Student_Master.Student_Name, tbl_Semister_Master.Semister_Name
+			
+			select 
+			tbl_Student_Master.Student_Name,			
+			Sum(tbl_Student_Report.User_Score) as Obtained,
+			Sum(tbl_Semister_Subject_Map.Max_Score) as Total,
+			(Sum(tbl_Student_Report.User_Score))*100.0/Sum(tbl_Semister_Subject_Map.Max_Score) as ObtainedPercentage
+			from tbl_Student_Report
+			inner join tbl_Student_Master on tbl_Student_Report.Student_Id = tbl_Student_Master.Student_Id
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id = tbl_Semister_Subject_Map.Sem_Subject_Id			
+			group by tbl_Student_Master.Student_Name
+			
+		17. Count of Subject in Particular Semester
+			select
+			tbl_Semister_Master.Semister_Name,
+			count(tbl_Subject_Master.Subject_Name) as NoofSubjects
+			from tbl_Semister_Subject_Map	
+			inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id=tbl_Semister_Master.Semister_Id
+			inner join tbl_Subject_Master on tbl_Semister_Subject_Map.Subject_Id= tbl_Subject_Master.Subject_Id
+			--where tbl_Semister_Master.Semister_Name='Semester 1'
+			group by tbl_Semister_Master.Semister_Name
+			
+			
+			
+		18. Students Score using OR operators
+			select 
+			tbl_Student_Master.Student_Name,
+			tbl_Student_Report.User_Score
+			from tbl_Student_Report
+			inner join tbl_Student_Master on tbl_Student_Report.Student_Id = tbl_Student_Master.Student_Id
+			where tbl_Student_Report.User_Score<32 or tbl_Student_Report.User_Score > 60
+			
+			
+		19. Determine Age of Students
+			select 
+			tbl_Student_Master.Student_Name,
+			tbl_Student_Master.Student_DOB,
+			(DATEDIFF(YEAR, tbl_Student_Master.Student_DOB, GETDATE())) as Age
+			from tbl_Student_Master
+			
+			
+		20. using Distinct keyword
+			select distinct
+			tbl_Student_Report.Student_Id,
+			tbl_Student_Master.Student_Name
+			from tbl_Student_Report
+			inner join tbl_Student_Master on tbl_Student_Report.Student_Id = tbl_Student_Master.Student_Id
+
+
+		21. Subject wise failed Student count
+			select
+			tbl_Subject_Master.Subject_Name,
+			COUNT(tbl_Student_Report.User_Score) as FailedCount
+			from tbl_Student_Report
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id = tbl_Semister_Subject_Map.Sem_Subject_Id
+			inner join tbl_Subject_Master on tbl_Semister_Subject_Map.Subject_Id = tbl_Subject_Master.Subject_Id
+			where tbl_Student_Report.User_Score < 32
+			group by tbl_Subject_Master.Subject_Name
+
+
+		22. lowest scoring students semester wise
+			with TotalScore as (
+			select
+			tbl_Student_Report.Student_Id,
+			tbl_Student_Master.Student_Name,
+			tbl_Semister_Master.Semister_Name,
+			tbl_Subject_Master.Subject_Name,
+			tbl_Student_Report.User_Score ,
+			tbl_Year_Master.Year_Name,
+			min(tbl_Student_Report.User_Score) over (partition by tbl_Semister_Master.Semister_Name) as Total,
+			row_number() over(partition by tbl_Semister_Master.Semister_Name order by User_Score) as Sem
+			from tbl_Student_Report
+			inner join tbl_Student_Master on tbl_Student_Report.Student_Id=tbl_Student_Master.Student_Id
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id=tbl_Semister_Subject_Map.Sem_Subject_Id
+			inner join tbl_Subject_Master on tbl_Semister_Subject_Map.Subject_Id = tbl_Subject_Master.Subject_Id
+			inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id = tbl_Semister_Master.Semister_Id
+			inner join tbl_Year_Master on tbl_Semister_Master.Year_Id= tbl_Year_Master.Year_Id
+			)
+			select Student_Id, Student_Name, Semister_Name,Subject_Name, Total, Year_Name from TotalScore where Sem=1
+			
