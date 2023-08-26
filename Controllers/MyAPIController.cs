@@ -99,7 +99,8 @@ namespace Student_Report_Management.Controllers
                         join YM in db.tbl_Year_Master on SM.Year_Id equals YM.Year_Id
                         join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
                         where YM.Year_Name == YearName
-                        orderby SR.User_Score descending
+                        orderby Student.Student_Name, 
+                                SR.User_Score descending
                         select new
                         {
                             Student.Student_Name,
@@ -732,6 +733,171 @@ namespace Student_Report_Management.Controllers
             return json;
         }
 
+
+        //Skip
+        public string SkipRecords()
+        {
+            var query = (from SR in db.tbl_Student_Report
+                         join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+                         orderby SR.Report_Id
+                         select new
+                         {
+                             SR.Report_Id,
+                             Student.Student_Name
+                         }).Skip(10);
+
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+        }
+
+
+        //Subject wise Failed Student
+        public string FailedStudent()
+        {
+            var query = from SR in db.tbl_Student_Report
+                        join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                        join Sub in db.tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
+                        where SR.User_Score < 32
+                        group SR by Sub.Subject_Name into Sub
+                        select new
+                        {
+                            SubjectName = Sub.Key,
+                            FailedCount = Sub.Count()
+                        };
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+        }
+
+
+        //Lowest scoring students Semester wise
+        public string LowestScorerSemwise()
+        {
+            var query = (from SR in db.tbl_Student_Report
+                         join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+                         join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                         join Sub in db.tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
+                         join Sem in db.tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+                         join Year in db.tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
+                         select new
+                         {
+                             SR.Student_Id,
+                             Student.Student_Name,
+                             Sem.Semister_Name,
+                             Sub.Subject_Name,
+                             SR.User_Score,
+                             Year.Year_Name
+                         })
+                       .ToList()
+                       .GroupBy(s => s.Semister_Name)
+                       .SelectMany(s => s.OrderBy(u => u.User_Score)
+                       .Select((g, Index) =>
+                       new
+                       {
+                           g.Student_Id,
+                           g.Student_Name,
+                           g.Semister_Name,
+                           g.Subject_Name,
+                           g.User_Score,
+                           g.Year_Name,
+                           Sem = Index + 1
+                       }
+                       ))
+                       .Where(s => s.Sem == 1);
+
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+
+        }
+
+
+        //Pending
+        //Age Calculation 
+        public string AgeCalculation()
+        {
+            var query = from Student in db.tbl_Student_Master
+                        let Year = DateTime.Now - Student.Student_DOB.Value
+                        let birthday = Student.Student_DOB
+                        select new
+                        {
+                            Student.Student_Name,
+                            Student.Student_DOB,
+                            Year
+
+                        };
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+        }
+
+
+        //Lowest Scoring  Excluding Failed Students
+        public string LowestScorerswithoutFailed()
+        {
+            var query = (from SR in db.tbl_Student_Report
+                         join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+                         join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                         join Sub in db.tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
+                         join Sem in db.tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+                         join Year in db.tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
+                         where SR.User_Score > 32
+                         select new
+                         {
+                             Student.Student_Name,
+                             Sem.Semister_Name,
+                             Sub.Subject_Name,
+                             SR.User_Score,
+                             Year.Year_Name
+                         })
+                        .ToList()
+                        .GroupBy(s => s.Semister_Name)
+                        .SelectMany(s => s.OrderBy(u => u.User_Score)
+                        .Select((g, index) =>
+                        new
+                        {
+                            g.Student_Name,
+                            g.Semister_Name,
+                            g.Subject_Name,
+                            g.User_Score,
+                            g.Year_Name,
+                            Sem = index + 1
+                        }
+                        ))
+                        .Where(s => s.Sem == 1);
+
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+
+        }
+
+
+        //Top Subject of Student with more selects
+        public string StudentTopSubYear(string StudentName, string YearName)
+        {
+            var query = from SR in db.tbl_Student_Report
+                        join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+                        join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                        join SM in db.tbl_Semister_Master on SSM.Semister_Id equals SM.Semister_Id
+                        join YM in db.tbl_Year_Master on SM.Year_Id equals YM.Year_Id
+                        where Student.Student_Name == StudentName && YM.Year_Name == YearName
+                        group SR by Student.Student_Name into StudentGroup
+                        select new
+                        {
+                            StudentName = StudentGroup.Key,
+                            Year= YearName,
+                            StudentMob= StudentGroup.FirstOrDefault().tbl_Student_Master.Student_Mobile,
+                            MaxScore = StudentGroup.Max(x => x.User_Score)
+                        };
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result); 
+            return json;
+        }
+
+
+        
 
     }   
 

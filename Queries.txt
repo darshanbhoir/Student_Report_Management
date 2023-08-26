@@ -616,3 +616,59 @@ Joins-
 			tbl_Student_Master.Student_Name
 			from tbl_Student_Report
 			inner join tbl_Student_Master on tbl_Student_Report.Student_Id = tbl_Student_Master.Student_Id
+			
+			
+
+
+		21. Subject wise failed Student count
+			select
+			tbl_Subject_Master.Subject_Name,
+			COUNT(tbl_Student_Report.User_Score) as FailedCount
+			from tbl_Student_Report
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id = tbl_Semister_Subject_Map.Sem_Subject_Id
+			inner join tbl_Subject_Master on tbl_Semister_Subject_Map.Subject_Id = tbl_Subject_Master.Subject_Id
+			where tbl_Student_Report.User_Score < 32
+			group by tbl_Subject_Master.Subject_Name
+
+
+		22. lowest scoring students semester wise
+			with TotalScore as (
+			select
+			tbl_Student_Report.Student_Id,
+			tbl_Student_Master.Student_Name,
+			tbl_Semister_Master.Semister_Name,
+			tbl_Subject_Master.Subject_Name,
+			tbl_Student_Report.User_Score ,
+			tbl_Year_Master.Year_Name,
+			min(tbl_Student_Report.User_Score) over (partition by tbl_Semister_Master.Semister_Name) as Total,
+			row_number() over(partition by tbl_Semister_Master.Semister_Name order by User_Score) as Sem
+			from tbl_Student_Report
+			inner join tbl_Student_Master on tbl_Student_Report.Student_Id=tbl_Student_Master.Student_Id
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id=tbl_Semister_Subject_Map.Sem_Subject_Id
+			inner join tbl_Subject_Master on tbl_Semister_Subject_Map.Subject_Id = tbl_Subject_Master.Subject_Id
+			inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id = tbl_Semister_Master.Semister_Id
+			inner join tbl_Year_Master on tbl_Semister_Master.Year_Id= tbl_Year_Master.Year_Id
+			)
+			select Student_Id, Student_Name, Semister_Name,Subject_Name, Total, Year_Name from TotalScore where Sem=1
+			
+			
+		23. Lowest Scoring withput Including failed Students
+			with TotalScore as (
+			select
+			tbl_Student_Report.Student_Id,
+			tbl_Student_Master.Student_Name,
+			tbl_Semister_Master.Semister_Name,
+			tbl_Subject_Master.Subject_Name,
+			tbl_Student_Report.User_Score ,
+			tbl_Year_Master.Year_Name,
+			min(tbl_Student_Report.User_Score) over (partition by tbl_Semister_Master.Semister_Name) as Total,
+			row_number() over(partition by tbl_Semister_Master.Semister_Name order by User_Score) as Sem
+			from tbl_Student_Report
+			inner join tbl_Student_Master on tbl_Student_Report.Student_Id=tbl_Student_Master.Student_Id
+			inner join tbl_Semister_Subject_Map on tbl_Student_Report.Sem_Subject_Id=tbl_Semister_Subject_Map.Sem_Subject_Id
+			inner join tbl_Subject_Master on tbl_Semister_Subject_Map.Subject_Id = tbl_Subject_Master.Subject_Id
+			inner join tbl_Semister_Master on tbl_Semister_Subject_Map.Semister_Id = tbl_Semister_Master.Semister_Id
+			inner join tbl_Year_Master on tbl_Semister_Master.Year_Id= tbl_Year_Master.Year_Id
+			)			
+			select Student_Id, Student_Name, Semister_Name,Subject_Name, Total, Year_Name from TotalScore where Sem=1
+			and Total>32
