@@ -616,8 +616,11 @@ Joins-
 			tbl_Student_Master.Student_Name
 			from tbl_Student_Report
 			inner join tbl_Student_Master on tbl_Student_Report.Student_Id = tbl_Student_Master.Student_Id
+<<<<<<< HEAD
 			
 			
+=======
+>>>>>>> edc91bfcabdf2c01d472dd6a7b366dbdd02a6037
 
 
 		21. Subject wise failed Student count
@@ -650,6 +653,7 @@ Joins-
 			inner join tbl_Year_Master on tbl_Semister_Master.Year_Id= tbl_Year_Master.Year_Id
 			)
 			select Student_Id, Student_Name, Semister_Name,Subject_Name, Total, Year_Name from TotalScore where Sem=1
+<<<<<<< HEAD
 			
 			
 		23. Lowest Scoring withput Including failed Students
@@ -672,3 +676,6 @@ Joins-
 			)			
 			select Student_Id, Student_Name, Semister_Name,Subject_Name, Total, Year_Name from TotalScore where Sem=1
 			and Total>32
+=======
+			
+>>>>>>> edc91bfcabdf2c01d472dd6a7b366dbdd02a6037

@@ -717,7 +717,7 @@ namespace Student_Report_Management.Controllers
             return json;
         }
 
-        //Using Distinct
+        //Using Distinct 111
         public string DistinctNames()
         {
             var query = (from SR in db.tbl_Student_Report
@@ -727,6 +727,22 @@ namespace Student_Report_Management.Controllers
                             SR.Student_Id,
                             Student.Student_Name
                         }).Distinct();
+
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+        }
+
+        //Using Distinct
+        public string DistinctName()
+        {
+            var query = (from SR in db.tbl_Student_Report
+                         join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+                         select new
+                         {
+                             SR.Student_Id,
+                             Student.Student_Name
+                         }).Distinct();
 
             var Result = query.ToList();
             var json = new JavaScriptSerializer().Serialize(Result);
