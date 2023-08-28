@@ -831,22 +831,32 @@ namespace Student_Report_Management.Controllers
 
         //Pending
         //Age Calculation 
-        public string AgeCalculation()
-        {
-            var query = from Student in db.tbl_Student_Master
-                        let Year = DateTime.Now - Student.Student_DOB.Value
-                        let birthday = Student.Student_DOB
-                        select new
-                        {
-                            Student.Student_Name,
-                            Student.Student_DOB,
-                            Year
-
-                        };
-            var Result = query.ToList();
-            var json = new JavaScriptSerializer().Serialize(Result);
-            return json;
-        }
+        //public string AgeCalculation()
+        //{
+        //    var query = from Student in db.tbl_Student_Master
+        //                select new
+        //                {
+        //                    StudentName = Student.Student_Name,
+        //                    StudentDOB = Student.Student_DOB,
+        //                };
+        //    var result = query.ToList();
+        //    var newResult = result.Select(r =>
+        //                            new
+        //                            {
+        //                                r.StudentName,
+        //                                Age = CalculateAge(r.StudentDOB)
+        //                            });
+        //    var json = new JavaScriptSerializer().Serialize(newResult);
+        //    return json;
+        //}
+        //private int CalculateAge(DateTime studentDOB)
+        //{
+        //    DateTime today = DateTime.Today;
+        //    int age = today.Year - studentDOB.Year;
+        //    if (studentDOB > today.AddYears(-age))
+        //        age--;
+        //    return age;
+        //}
 
 
         //Lowest Scoring  Excluding Failed Students
@@ -913,7 +923,69 @@ namespace Student_Report_Management.Controllers
         }
 
 
+        //Reports Data
+        public string ReportsData()
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var query = from SR in db.tbl_Student_Report
+                        join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+                        select new
+                        {
+                            SR.Report_Id,
+                            Student
+                            //here DOB comes in inix timestamp
+                        };
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+        }
         
+
+
+        //Reports data with Corrected DOB
+        public string ReportsDatawithDOB()
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var query = from SR in db.tbl_Student_Report
+                        join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+                        select new
+                        {
+                            SR.Report_Id,
+                            Student.Student_Name,
+                            Student.Student_DOB
+                            
+                        };
+            var Result = query.ToList();
+
+            var NewResult = Result.Select(r =>
+                                            new
+                                            {
+                                                r.Report_Id,
+                                                r.Student_Name,
+                                                //DOB= r.Student_DOB.HasValue ? DateTimeOffset.FromUnixTimeMilliseconds(r.Student_DOB.Value.Ticks/TimeSpan.TicksPerMillisecond).Date.ToString("yyyy-MM-dd") : string.Empty
+                                                DOB = r.Student_DOB != null ? r.Student_DOB.Value.ToString("yyyy-MM-dd") : string.Empty
+                                            });
+
+            var json = new JavaScriptSerializer().Serialize(NewResult);
+            return json;
+        }
+
+
+        //Studentwise Report Count
+        public string ReportCount()
+        {
+            var query = from SR in db.tbl_Student_Report
+                        join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+                        group SR by Student.Student_Name into Stud
+                        select new
+                        {
+                            StudentName = Stud.Key,
+                            ReportsCpount = Stud.Count()
+                        };
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+        }
 
     }   
 
