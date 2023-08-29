@@ -829,34 +829,36 @@ namespace Student_Report_Management.Controllers
         }
 
 
-        //Pending
+        
         //Age Calculation 
-        //public string AgeCalculation()
-        //{
-        //    var query = from Student in db.tbl_Student_Master
-        //                select new
-        //                {
-        //                    StudentName = Student.Student_Name,
-        //                    StudentDOB = Student.Student_DOB,
-        //                };
-        //    var result = query.ToList();
-        //    var newResult = result.Select(r =>
-        //                            new
-        //                            {
-        //                                r.StudentName,
-        //                                Age = CalculateAge(r.StudentDOB)
-        //                            });
-        //    var json = new JavaScriptSerializer().Serialize(newResult);
-        //    return json;
-        //}
-        //private int CalculateAge(DateTime studentDOB)
-        //{
-        //    DateTime today = DateTime.Today;
-        //    int age = today.Year - studentDOB.Year;
-        //    if (studentDOB > today.AddYears(-age))
-        //        age--;
-        //    return age;
-        //}
+        public string AgeCalculation()
+        {
+            var query = from Student in db.tbl_Student_Master
+                        select new
+                        {
+                            StudentName = Student.Student_Name,
+                            StudentDOB = Student.Student_DOB,
+                        };
+            var result = query.ToList();
+            var newResult = result.Select(r =>
+                                    new
+                                    {
+                                        r.StudentName,
+                                        Age = CalculateAge(r.StudentDOB.Value)
+                                    });
+            var json = new JavaScriptSerializer().Serialize(newResult);
+            return json;
+        }
+        private int CalculateAge(DateTime studentDOB)
+        {
+            DateTime today = DateTime.Today;
+            int age = today.Year - studentDOB.Year;
+            if (studentDOB > today.AddYears(-age))
+                age--;
+            return age;
+        }
+
+
 
 
         //Lowest Scoring  Excluding Failed Students
@@ -906,6 +908,7 @@ namespace Student_Report_Management.Controllers
             var query = from SR in db.tbl_Student_Report
                         join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
                         join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                        join Sub in db.tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
                         join SM in db.tbl_Semister_Master on SSM.Semister_Id equals SM.Semister_Id
                         join YM in db.tbl_Year_Master on SM.Year_Id equals YM.Year_Id
                         where Student.Student_Name == StudentName && YM.Year_Name == YearName
@@ -915,6 +918,7 @@ namespace Student_Report_Management.Controllers
                             StudentName = StudentGroup.Key,
                             Year= YearName,
                             StudentMob= StudentGroup.FirstOrDefault().tbl_Student_Master.Student_Mobile,
+                            Subject = StudentGroup.FirstOrDefault().tbl_Semister_Subject_Map.tbl_Subject_Master.Subject_Name,
                             MaxScore = StudentGroup.Max(x => x.User_Score)
                         };
             var Result = query.ToList();
@@ -986,6 +990,69 @@ namespace Student_Report_Management.Controllers
             var json = new JavaScriptSerializer().Serialize(Result);
             return json;
         }
+
+
+        //Top subjects with more selects
+        public string TopSubwithMoreSelect(string StudentName, string YearName)
+        {
+            var query = from SR in db.tbl_Student_Report
+                        join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+                        join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                        join SM in db.tbl_Semister_Master on SSM.Semister_Id equals SM.Semister_Id
+                        join YM in db.tbl_Year_Master on SM.Year_Id equals YM.Year_Id
+                        join Sub in db.tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
+                        where Student.Student_Name == StudentName && YM.Year_Name == YearName
+                        group SR by Student.Student_Name into Stud
+                        select new
+                        {
+                            StudentName = Stud.Key,
+                            //StudentEmail = Stud.FirstOrDefault().tbl_Student_Master.Student_Email,
+                            Subject = Stud.FirstOrDefault().tbl_Semister_Subject_Map.tbl_Subject_Master.Subject_Name,
+                            MaxScore = Stud.Max(u => u.User_Score),
+                            Total = Stud.FirstOrDefault().tbl_Semister_Subject_Map.Max_Score
+                        };
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+
+        }
+
+
+        //Semister wise data sorting
+        public string SemwiseDataSort()
+        {
+            var query = from S in db.tbl_Student_Report
+                        join Stud in db.tbl_Student_Master on S.Student_Id equals Stud.Student_Id
+                        join SSM in db.tbl_Semister_Subject_Map on S.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                        join Sem in db.tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+                        join Sub in db.tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
+                        join Year in db.tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
+                        //group S by Sub.Subject_Name into Subjects
+                        orderby Sem.Semister_Name, Sub.Subject_Id, Sub.Subject_Name
+                        select new
+                        {
+                            StudentName = Stud.Student_Name,
+                            Semister = Sem.Semister_Name,
+                            Subject = Sub.Subject_Name,
+                            Score = S.User_Score,
+                            MaxScore = SSM.Max_Score
+                        };
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+
+        }
+
+        //Trial
+        //public string Trial()
+        //{
+        //    var query = (from S in db.tbl_Student_Master
+        //                 where S.Student_Name == "Darshan"
+        //                 select new
+        //                 {
+        //                     S
+        //                 }).All();
+        //}
 
     }   
 
