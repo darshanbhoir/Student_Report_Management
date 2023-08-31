@@ -1144,6 +1144,141 @@ namespace Student_Report_Management.Controllers
 
 
         }
+
+
+
+        //All() Function
+        public string AllFunction(string StudentName)
+        {
+            var query = (from SR in db.tbl_Student_Report
+                         join Stud in db.tbl_Student_Master on SR.Student_Id equals Stud.Student_Id
+                         join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                         join Sub in db.tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
+                         join Sem in db.tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+                         join Year in db.tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
+                         select new
+                         {
+                             Stud.Student_Id,
+                             Stud.Student_Name
+                         }).All(u => u.Student_Name == StudentName);
+
+            var Result = query;
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+        }
+
+
+        //Particular Subject Result Passed or Failed
+        public string SubjectResult(int StudentId)
+        {
+            var query = from SR in db.tbl_Student_Report
+                        join Stud in db.tbl_Student_Master on SR.Student_Id equals Stud.Student_Id
+                        join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                        join Sub in db.tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
+                        join Sem in db.tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+                        join Year in db.tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
+                        where Stud.Student_Id == StudentId
+                        //&& Year.Year_Name=="First Year"
+                        select new
+                        {
+                            Sub.Subject_Name,
+                            SR.User_Score,
+                            SSM.Max_Score,
+                            Percentage = SR.User_Score * 100.0 / SSM.Max_Score,
+                            Result = (SR.User_Score * 100.0 / SSM.Max_Score) > 40 ? "Passed" : "Failed"
+                        };
+
+            var Result = query;
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+        }
+
+
+        //Result Passed or Failed by Semister
+        public string SemisterResult(string StudentName)
+        {
+            var query = from SR in db.tbl_Student_Report
+                        join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+                        join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                        join Sem in db.tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+                        where Student.Student_Name == StudentName
+                        group new { SR, SSM } by new
+                        {
+                            Student.Student_Name,
+                            Sem.Semister_Name
+                        } into X
+                        select new
+                        {
+                            StudentName = X.Key.Student_Name,
+                            SemisterName = X.Key.Semister_Name,
+                            Obtained = X.Sum(u => u.SR.User_Score),
+                            Total = X.Sum(v => v.SSM.Max_Score),
+                            Percentage = (X.Sum(u => u.SR.User_Score)) * 100.0 / X.Sum(v => v.SSM.Max_Score),
+                            Result = ((X.Sum(u => u.SR.User_Score)) * 100.0 / X.Sum(v => v.SSM.Max_Score)) > 40 ? "Passed" : "Failed"
+                        };
+
+            var Result = query;
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+        }
+
+
+        //Grouping by User Score
+        public string UserScoreGroup()
+        {
+            var query = from SR in db.tbl_Student_Report
+                        join Stud in db.tbl_Student_Master on SR.Student_Id equals Stud.Student_Id
+                        join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                        join Sub in db.tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
+                        join Sem in db.tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+                        join Year in db.tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
+                        group new
+                        {
+                            Stud.Student_Name,
+                            Sem.Semister_Name,
+                            Sub.Subject_Name,
+                            score = SR.User_Score,
+                        }
+                        by SR.User_Score into Score
+                        orderby Score.Key
+                        select Score;
+
+            var Result = query;
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+        }
+
+
+        //Nested Queries
+        public string NestedQuery()
+        {
+            //var query = from Stud in db.tbl_Student_Master
+            //            group Stud by Stud.Student_Name into Student
+            //            from Student2 in 
+            //            (
+            //                from Stud in Student
+            //                group Stud by Stud.Student_Id
+            //            )
+            //            group Student2.Key by Student.Key;
+
+
+
+            var query = from SR in db.tbl_Student_Report
+                        join Stud in db.tbl_Student_Master on SR.Student_Id equals Stud.Student_Id
+                        group SR by Stud.Student_Name into Student
+                        from Student2 in (
+                       from Stud in Student
+                       group Stud by Stud.Student_Id
+                       )
+                        group Student2.Key by Student.Key;
+
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+
+        }
+
+
     }   
 
 }
