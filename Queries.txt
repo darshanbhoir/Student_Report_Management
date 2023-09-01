@@ -679,3 +679,21 @@ Joins-
 =======
 			
 >>>>>>> edc91bfcabdf2c01d472dd6a7b366dbdd02a6037
+
+
+
+
+from SR in tbl_Student_Report
+join Student in tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+join SSM in tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+join Sem in tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+join Sub in tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
+join Year in tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
+group SR by Student.Student_Name into Stud
+//let Score = (Stud.User_Score)
+//where Score<500
+select new
+{
+	Stud.Key,
+	Stud
+}
