@@ -136,7 +136,7 @@ namespace Student_Report_Management.Controllers
 
 
 
-        //Top Scorer from all Students with subject details.
+        // Students with subject details.
         public string StudentTopSubjectfromSem(string StudentName, string YearName)
         {
             var query = (from SR in db.tbl_Student_Report
@@ -1345,49 +1345,98 @@ namespace Student_Report_Management.Controllers
 
         }
 
+        //Couning passed students in subject
+        public string PassedCount()
 
-        //Trial
-        public string Trial()
         {
-            var query =
-                        /*from Stud in db.tbl_Student_Master
-                        where Stud.Student_Name.Contains("Darshan")
-                        select Stud;*/
+            var query = from SR in db.tbl_Student_Report
+                        join Stud in db.tbl_Student_Master on SR.Student_Id equals Stud.Student_Id
+                        join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                        join Sub in db.tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
+                        join Sem in db.tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+                        where SR.User_Score >= 0.4 * SR.User_Score
+                        orderby Sub.Subject_Id
+                        group SR by Sub.Subject_Name into S
+                        select new
+                        {
+                            Semister = S.FirstOrDefault().tbl_Semister_Subject_Map.tbl_Semister_Master.Semister_Name,
+                            SubName = S.Key,
+                            Count = S.Count()
+                        };
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
 
 
-                        /*from S in db.tbl_Student_Master
-                        where S.Student_Name.Length != 6
-                        select S;*/
-
-
-                        /*from SR in db.tbl_Student_Report
-                        join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id into StuR
+        }
+        //By using Let keyword
+        public string ScorebyLet(string StudentName)
+        {
+            var query = from SR in db.tbl_Student_Report
+                        join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
                         join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
                         join Sem in db.tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
                         join Sub in db.tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
                         join Year in db.tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
+                        let Per = SR.User_Score * 100 / SSM.Max_Score
+                        let Status = (SR.User_Score * 100 / SSM.Max_Score) > 40 ? "Passed" : "Failed"
+                        where Student.Student_Name == StudentName
                         select new
                         {
-                            StudentName = SR.Student_Id,
-                            Results = StuR
-                        };*/
-
-                        //Trial
-                        /*from SR in tbl_Student_Report
-                        join Student in tbl_Student_Master on SR.Student_Id equals Student.Student_Id into StuR
-                        from Res in StuR.DefaultIfEmpty()
-                        select new
-                        {
-                            SR.Report_Id,
-                            Result = Res?.User_Score ?? string.Empty
-                        }*/
-
+                            Student.Student_Name,
+                            Marks = Per,
+                            Result = Status
+                        };
 
             var Result = query.ToList();
             var json = new JavaScriptSerializer().Serialize(Result);
             return json;
 
         }
+
+
+        //Trial
+        //public string Trial()
+        //{
+        //    var query =
+        //                /*from Stud in db.tbl_Student_Master
+        //                where Stud.Student_Name.Contains("Darshan")
+        //                select Stud;*/
+
+
+        //                /*from S in db.tbl_Student_Master
+        //                where S.Student_Name.Length != 6
+        //                select S;*/
+
+
+        //                /*from SR in db.tbl_Student_Report
+        //                join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id into StuR
+        //                join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+        //                join Sem in db.tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+        //                join Sub in db.tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
+        //                join Year in db.tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
+        //                select new
+        //                {
+        //                    StudentName = SR.Student_Id,
+        //                    Results = StuR
+        //                };*/
+
+
+        //                /*from SR in tbl_Student_Report
+        //                join Student in tbl_Student_Master on SR.Student_Id equals Student.Student_Id into StuR
+        //                from Res in StuR.DefaultIfEmpty()
+        //                select new
+        //                {
+        //                    SR.Report_Id,
+        //                    Result = Res?.User_Score ?? string.Empty
+        //                }*/
+
+
+        //    var Result = query.ToList();
+        //    var json = new JavaScriptSerializer().Serialize(Result);
+        //    return json;
+
+        //}
 
     }
 
