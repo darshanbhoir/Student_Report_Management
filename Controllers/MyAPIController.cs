@@ -1280,7 +1280,7 @@ namespace Student_Report_Management.Controllers
 
 
         //Subquery inside Group
-        public string SubQueryinGroup()
+        public string SubQueryinGroupforMin()
         {
             var query = from SR in db.tbl_Student_Report
                         group SR by SR.Student_Id into Report
@@ -1392,6 +1392,32 @@ namespace Student_Report_Management.Controllers
             var json = new JavaScriptSerializer().Serialize(Result);
             return json;
 
+        }
+
+
+        //Subquery inside group for max
+        public string SubqueryInsideGroupforMax()
+        {
+            var query = from SR in db.tbl_Student_Report
+                        group SR by SR.Student_Id into Stud
+                        select new
+                        {
+                            Id = Stud.Key,
+                            Name = Stud.Where(u => u.User_Score == Stud.Max(s => s.User_Score))
+                                        .Select(s => s.tbl_Student_Master.Student_Name)
+                                        .FirstOrDefault(),
+                            Sub = Stud.Where(u => u.User_Score == Stud.Max(s => s.User_Score))
+                                        .Select(s => s.tbl_Semister_Subject_Map.tbl_Subject_Master.Subject_Name)
+                                        .FirstOrDefault(),
+
+                            Score = (
+                                    from S in Stud
+                                    select S.User_Score
+                                    ).Max()
+                        };
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
         }
 
 
