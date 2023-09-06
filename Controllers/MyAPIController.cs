@@ -1421,6 +1421,63 @@ namespace Student_Report_Management.Controllers
         }
 
 
+
+        //MinandMaxScore
+        public string MinandMaxScore()
+        {
+            var query = from SR in db.tbl_Student_Report
+                        join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+                        join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                        join Sem in db.tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+                        join Year in db.tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
+                        group SR by Student.Student_Name into Stud
+                        select new
+                        {
+                            Name = Stud.Key,
+
+                            ScoreMax = Stud.Max(u => u.User_Score),
+                            YearofMaxScore = Stud.Where(u => u.User_Score == Stud.Max(s => s.User_Score))
+                                            .Select(s => s.tbl_Semister_Subject_Map.tbl_Semister_Master.tbl_Year_Master.Year_Name)
+                                            .FirstOrDefault(),
+                            MaxScoreSubject= Stud.Where(u=>u.User_Score==Stud.Max(s=>s.User_Score))
+                                            .Select(s=>s.tbl_Semister_Subject_Map.tbl_Subject_Master.Subject_Name)
+                                            .FirstOrDefault(),
+
+                            ScoreMin = Stud.Min(u => u.User_Score),
+                            YearofMinScore = Stud.Where(u => u.User_Score == Stud.Min(s => s.User_Score))
+                                            .Select(s => s.tbl_Semister_Subject_Map.tbl_Semister_Master.tbl_Year_Master.Year_Name)
+                                            .FirstOrDefault(),
+                            MinScoreSubject= Stud.Where(u => u.User_Score == Stud.Min(s => s.User_Score))
+                                            .Select(s => s.tbl_Semister_Subject_Map.tbl_Subject_Master.Subject_Name)
+                                            .FirstOrDefault(),
+                        };
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+        }
+
+
+        //PassedandfailedCount
+        public string PassedFailedCount()
+        {
+            var query = from SR in db.tbl_Student_Report
+                        join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+                        join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                        join Sem in db.tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+                        join Sub in db.tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
+                        group SR by Sub.Subject_Name into Subject
+                        select new
+                        {
+                            Name = Subject.Key,
+                            FailedCount = Subject.Count(u => u.User_Score < 32),
+                            PassedCount = Subject.Count(u => u.User_Score > 32)
+                        };
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+        }
+
+
         //Trial
         //public string Trial()
         //{
