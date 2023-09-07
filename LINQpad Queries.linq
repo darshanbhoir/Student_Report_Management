@@ -414,31 +414,116 @@
 
 
 
-(from SR in tbl_Student_Report
+//(from SR in tbl_Student_Report
+//join Student in tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+//join SSM in tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+//join Sem in tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+//join Sub in tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id 
+//join Year in tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
+//select new
+//{
+//	Student.Student_Name,
+//	Sub.Subject_Name,
+//	Sem.Semister_Name,
+//	SR.User_Score
+//})
+//.ToList()
+//.GroupBy(s=>s.Semister_Name)
+//.SelectMany(s=>s.OrderBy(u=>u.User_Score)
+//				.Select((g, index)=>
+//				new
+//				{
+//					g.Student_Name,
+//					g.Subject_Name,
+//					g.Semister_Name,
+//					g.User_Score,
+//					Sem=index+1
+//				}
+//				))
+//				.Where(s=>s.Sem==1)
+
+
+//from SR in tbl_Student_Report 
+//join Student in tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+//join SSM in tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+//join Sub in tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
+//join Sem in tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+//let Diff= SSM.Max_Score-SR.User_Score
+//select new
+//{
+//	Student.Student_Name,
+//	Sub.Subject_Name,
+//	SSM.Max_Score,
+//	SR.User_Score,
+//	Diff,
+//	PerDiff= Diff*100/SSM.Max_Score
+//}
+
+
+
+//(from SR in tbl_Student_Report 
+//join Student in tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+//join SSM in tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+//join Sub in tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
+//join Sem in tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+//join Year in tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
+//select new
+//{
+//	Student.Student_Name,
+//	Sub.Subject_Name,
+//	SR.User_Score,
+//	Sem.Semister_Name,
+//	Year.Year_Name
+//})
+//.ToList()
+//.GroupBy(u=>u.Year_Name)
+//.SelectMany(s=>s.OrderByDescending(u=>u.User_Score)
+//					.Select((g, index)=>
+//					new
+//					{
+//						g.Student_Name,
+//						g.Subject_Name,
+//						g.User_Score,
+//						g.Semister_Name,
+//						g.Year_Name,
+//						Y= index+1
+//					}
+//					))
+//.Where(y=>y.Y==1)
+
+
+
+
+//(from SR in tbl_Student_Report 
+//join Student in tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+//join SSM in tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+//join Sub in tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
+//join Sem in tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+//join Year in tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
+//orderby SR.User_Score descending
+//select new
+//{
+//	Student.Student_Name,
+//	Sub.Subject_Name,
+//	SR.User_Score,
+//	Sem.Semister_Name,
+//	Year.Year_Name
+//}).Take(3)
+
+
+(from SR in tbl_Student_Report 
 join Student in tbl_Student_Master on SR.Student_Id equals Student.Student_Id
 join SSM in tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
-join Sem in tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
-join Sub in tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id 
+join Sub in tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
+join Sem in tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id 
 join Year in tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
+where Student.Student_Name=="darshan" || Sub.Subject_Name=="ed"  
+orderby SR.User_Score descending
 select new
 {
 	Student.Student_Name,
 	Sub.Subject_Name,
+	SR.User_Score,
 	Sem.Semister_Name,
-	SR.User_Score
+	Year.Year_Name
 })
-.ToList()
-.GroupBy(s=>s.Semister_Name)
-.SelectMany(s=>s.OrderBy(u=>u.User_Score)
-				.Select((g, index)=>
-				new
-				{
-					g.Student_Name,
-					g.Subject_Name,
-					g.Semister_Name,
-					g.User_Score,
-					Sem=index+1
-				}
-				))
-				.Where(s=>s.Sem==1)
-				

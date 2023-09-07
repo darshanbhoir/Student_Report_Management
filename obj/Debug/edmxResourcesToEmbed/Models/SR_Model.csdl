@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SR_Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tbl_Semister_Master">
+    <Key>
+      <PropertyRef Name="Semister_Id" />
+    </Key>
+    <Property Name="Semister_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Semister_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Year_Id" Type="Int32" />
+    <NavigationProperty Name="tbl_Year_Master" Relationship="Self.FK_tbl_Semister_Master_tbl_Year_Master" FromRole="tbl_Semister_Master" ToRole="tbl_Year_Master" />
+    <NavigationProperty Name="tbl_Semister_Subject_Map" Relationship="Self.FK_tbl_Semister_Subject_Map_tbl_Semister_Master" FromRole="tbl_Semister_Master" ToRole="tbl_Semister_Subject_Map" />
+  </EntityType>
+  <EntityType Name="tbl_Semister_Subject_Map">
+    <Key>
+      <PropertyRef Name="Sem_Subject_Id" />
+    </Key>
+    <Property Name="Sem_Subject_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Semister_Id" Type="Int32" />
+    <Property Name="Subject_Id" Type="Int32" />
+    <Property Name="Max_Score" Type="Int32" />
+    <NavigationProperty Name="tbl_Semister_Master" Relationship="Self.FK_tbl_Semister_Subject_Map_tbl_Semister_Master" FromRole="tbl_Semister_Subject_Map" ToRole="tbl_Semister_Master" />
+    <NavigationProperty Name="tbl_Subject_Master" Relationship="Self.FK_tbl_Semister_Subject_Map_tbl_Subject_Master" FromRole="tbl_Semister_Subject_Map" ToRole="tbl_Subject_Master" />
+    <NavigationProperty Name="tbl_Student_Report" Relationship="Self.FK_tbl_Student_Report_tbl_Semister_Subject_Map" FromRole="tbl_Semister_Subject_Map" ToRole="tbl_Student_Report" />
+  </EntityType>
+  <EntityType Name="tbl_Student_Master">
+    <Key>
+      <PropertyRef Name="Student_Id" />
+    </Key>
+    <Property Name="Student_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Student_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Student_Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Student_Mobile" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+    <Property Name="Student_DOB" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="tbl_Student_Report" Relationship="Self.FK_tbl_Student_Report_tbl_Student_Master" FromRole="tbl_Student_Master" ToRole="tbl_Student_Report" />
+  </EntityType>
+  <EntityType Name="tbl_Student_Report">
+    <Key>
+      <PropertyRef Name="Report_Id" />
+    </Key>
+    <Property Name="Report_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Student_Id" Type="Int32" />
+    <Property Name="Sem_Subject_Id" Type="Int32" />
+    <Property Name="User_Score" Type="Int32" />
+    <Property Name="Updated_On" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tbl_Semister_Subject_Map" Relationship="Self.FK_tbl_Student_Report_tbl_Semister_Subject_Map" FromRole="tbl_Student_Report" ToRole="tbl_Semister_Subject_Map" />
+    <NavigationProperty Name="tbl_Student_Master" Relationship="Self.FK_tbl_Student_Report_tbl_Student_Master" FromRole="tbl_Student_Report" ToRole="tbl_Student_Master" />
+  </EntityType>
+  <EntityType Name="tbl_Subject_Master">
+    <Key>
+      <PropertyRef Name="Subject_Id" />
+    </Key>
+    <Property Name="Subject_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Subject_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tbl_Semister_Subject_Map" Relationship="Self.FK_tbl_Semister_Subject_Map_tbl_Subject_Master" FromRole="tbl_Subject_Master" ToRole="tbl_Semister_Subject_Map" />
+  </EntityType>
+  <EntityType Name="tbl_Year_Master">
+    <Key>
+      <PropertyRef Name="Year_Id" />
+    </Key>
+    <Property Name="Year_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Year_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tbl_Semister_Master" Relationship="Self.FK_tbl_Semister_Master_tbl_Year_Master" FromRole="tbl_Year_Master" ToRole="tbl_Semister_Master" />
+  </EntityType>
+  <Association Name="FK_tbl_Semister_Master_tbl_Year_Master">
+    <End Role="tbl_Year_Master" Type="Self.tbl_Year_Master" Multiplicity="0..1" />
+    <End Role="tbl_Semister_Master" Type="Self.tbl_Semister_Master" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Year_Master">
+        <PropertyRef Name="Year_Id" />
+      </Principal>
+      <Dependent Role="tbl_Semister_Master">
+        <PropertyRef Name="Year_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_Semister_Subject_Map_tbl_Semister_Master">
+    <End Role="tbl_Semister_Master" Type="Self.tbl_Semister_Master" Multiplicity="0..1" />
+    <End Role="tbl_Semister_Subject_Map" Type="Self.tbl_Semister_Subject_Map" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Semister_Master">
+        <PropertyRef Name="Semister_Id" />
+      </Principal>
+      <Dependent Role="tbl_Semister_Subject_Map">
+        <PropertyRef Name="Semister_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_Semister_Subject_Map_tbl_Subject_Master">
+    <End Role="tbl_Subject_Master" Type="Self.tbl_Subject_Master" Multiplicity="0..1" />
+    <End Role="tbl_Semister_Subject_Map" Type="Self.tbl_Semister_Subject_Map" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Subject_Master">
+        <PropertyRef Name="Subject_Id" />
+      </Principal>
+      <Dependent Role="tbl_Semister_Subject_Map">
+        <PropertyRef Name="Subject_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_Student_Report_tbl_Semister_Subject_Map">
+    <End Role="tbl_Semister_Subject_Map" Type="Self.tbl_Semister_Subject_Map" Multiplicity="0..1" />
+    <End Role="tbl_Student_Report" Type="Self.tbl_Student_Report" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Semister_Subject_Map">
+        <PropertyRef Name="Sem_Subject_Id" />
+      </Principal>
+      <Dependent Role="tbl_Student_Report">
+        <PropertyRef Name="Sem_Subject_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_Student_Report_tbl_Student_Master">
+    <End Role="tbl_Student_Master" Type="Self.tbl_Student_Master" Multiplicity="0..1" />
+    <End Role="tbl_Student_Report" Type="Self.tbl_Student_Report" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Student_Master">
+        <PropertyRef Name="Student_Id" />
+      </Principal>
+      <Dependent Role="tbl_Student_Report">
+        <PropertyRef Name="Student_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SR_conn" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="tbl_Semister_Master" EntityType="Self.tbl_Semister_Master" />
+    <EntitySet Name="tbl_Semister_Subject_Map" EntityType="Self.tbl_Semister_Subject_Map" />
+    <EntitySet Name="tbl_Student_Master" EntityType="Self.tbl_Student_Master" />
+    <EntitySet Name="tbl_Student_Report" EntityType="Self.tbl_Student_Report" />
+    <EntitySet Name="tbl_Subject_Master" EntityType="Self.tbl_Subject_Master" />
+    <EntitySet Name="tbl_Year_Master" EntityType="Self.tbl_Year_Master" />
+    <AssociationSet Name="FK_tbl_Semister_Master_tbl_Year_Master" Association="Self.FK_tbl_Semister_Master_tbl_Year_Master">
+      <End Role="tbl_Year_Master" EntitySet="tbl_Year_Master" />
+      <End Role="tbl_Semister_Master" EntitySet="tbl_Semister_Master" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_Semister_Subject_Map_tbl_Semister_Master" Association="Self.FK_tbl_Semister_Subject_Map_tbl_Semister_Master">
+      <End Role="tbl_Semister_Master" EntitySet="tbl_Semister_Master" />
+      <End Role="tbl_Semister_Subject_Map" EntitySet="tbl_Semister_Subject_Map" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_Semister_Subject_Map_tbl_Subject_Master" Association="Self.FK_tbl_Semister_Subject_Map_tbl_Subject_Master">
+      <End Role="tbl_Subject_Master" EntitySet="tbl_Subject_Master" />
+      <End Role="tbl_Semister_Subject_Map" EntitySet="tbl_Semister_Subject_Map" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_Student_Report_tbl_Semister_Subject_Map" Association="Self.FK_tbl_Student_Report_tbl_Semister_Subject_Map">
+      <End Role="tbl_Semister_Subject_Map" EntitySet="tbl_Semister_Subject_Map" />
+      <End Role="tbl_Student_Report" EntitySet="tbl_Student_Report" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_Student_Report_tbl_Student_Master" Association="Self.FK_tbl_Student_Report_tbl_Student_Master">
+      <End Role="tbl_Student_Master" EntitySet="tbl_Student_Master" />
+      <End Role="tbl_Student_Report" EntitySet="tbl_Student_Report" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SR_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="tbl_Semister_Master">
+    <Key>
+      <PropertyRef Name="Semister_Id" />
+    </Key>
+    <Property Name="Semister_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Semister_Name" Type="varchar" MaxLength="50" />
+    <Property Name="Year_Id" Type="int" />
+  </EntityType>
+  <EntityType Name="tbl_Semister_Subject_Map">
+    <Key>
+      <PropertyRef Name="Sem_Subject_Id" />
+    </Key>
+    <Property Name="Sem_Subject_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Semister_Id" Type="int" />
+    <Property Name="Subject_Id" Type="int" />
+    <Property Name="Max_Score" Type="int" />
+  </EntityType>
+  <EntityType Name="tbl_Student_Master">
+    <Key>
+      <PropertyRef Name="Student_Id" />
+    </Key>
+    <Property Name="Student_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Student_Name" Type="varchar" MaxLength="100" />
+    <Property Name="Student_Email" Type="varchar" MaxLength="100" />
+    <Property Name="Student_Mobile" Type="varchar" MaxLength="12" />
+    <Property Name="Student_DOB" Type="date" />
+  </EntityType>
+  <EntityType Name="tbl_Student_Report">
+    <Key>
+      <PropertyRef Name="Report_Id" />
+    </Key>
+    <Property Name="Report_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Student_Id" Type="int" />
+    <Property Name="Sem_Subject_Id" Type="int" />
+    <Property Name="User_Score" Type="int" />
+    <Property Name="Updated_On" Type="datetime" />
+  </EntityType>
+  <EntityType Name="tbl_Subject_Master">
+    <Key>
+      <PropertyRef Name="Subject_Id" />
+    </Key>
+    <Property Name="Subject_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Subject_Name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tbl_Year_Master">
+    <Key>
+      <PropertyRef Name="Year_Id" />
+    </Key>
+    <Property Name="Year_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Year_Name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_tbl_Semister_Master_tbl_Year_Master">
+    <End Role="tbl_Year_Master" Type="Self.tbl_Year_Master" Multiplicity="0..1" />
+    <End Role="tbl_Semister_Master" Type="Self.tbl_Semister_Master" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Year_Master">
+        <PropertyRef Name="Year_Id" />
+      </Principal>
+      <Dependent Role="tbl_Semister_Master">
+        <PropertyRef Name="Year_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_Semister_Subject_Map_tbl_Semister_Master">
+    <End Role="tbl_Semister_Master" Type="Self.tbl_Semister_Master" Multiplicity="0..1" />
+    <End Role="tbl_Semister_Subject_Map" Type="Self.tbl_Semister_Subject_Map" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Semister_Master">
+        <PropertyRef Name="Semister_Id" />
+      </Principal>
+      <Dependent Role="tbl_Semister_Subject_Map">
+        <PropertyRef Name="Semister_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_Semister_Subject_Map_tbl_Subject_Master">
+    <End Role="tbl_Subject_Master" Type="Self.tbl_Subject_Master" Multiplicity="0..1" />
+    <End Role="tbl_Semister_Subject_Map" Type="Self.tbl_Semister_Subject_Map" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Subject_Master">
+        <PropertyRef Name="Subject_Id" />
+      </Principal>
+      <Dependent Role="tbl_Semister_Subject_Map">
+        <PropertyRef Name="Subject_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_Student_Report_tbl_Semister_Subject_Map">
+    <End Role="tbl_Semister_Subject_Map" Type="Self.tbl_Semister_Subject_Map" Multiplicity="0..1" />
+    <End Role="tbl_Student_Report" Type="Self.tbl_Student_Report" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Semister_Subject_Map">
+        <PropertyRef Name="Sem_Subject_Id" />
+      </Principal>
+      <Dependent Role="tbl_Student_Report">
+        <PropertyRef Name="Sem_Subject_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_Student_Report_tbl_Student_Master">
+    <End Role="tbl_Student_Master" Type="Self.tbl_Student_Master" Multiplicity="0..1" />
+    <End Role="tbl_Student_Report" Type="Self.tbl_Student_Report" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Student_Master">
+        <PropertyRef Name="Student_Id" />
+      </Principal>
+      <Dependent Role="tbl_Student_Report">
+        <PropertyRef Name="Student_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SR_ModelStoreContainer">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_Semister_Master" EntityType="Self.tbl_Semister_Master" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_Semister_Subject_Map" EntityType="Self.tbl_Semister_Subject_Map" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_Student_Master" EntityType="Self.tbl_Student_Master" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_Student_Report" EntityType="Self.tbl_Student_Report" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_Subject_Master" EntityType="Self.tbl_Subject_Master" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_Year_Master" EntityType="Self.tbl_Year_Master" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_tbl_Semister_Master_tbl_Year_Master" Association="Self.FK_tbl_Semister_Master_tbl_Year_Master">
+      <End Role="tbl_Year_Master" EntitySet="tbl_Year_Master" />
+      <End Role="tbl_Semister_Master" EntitySet="tbl_Semister_Master" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_Semister_Subject_Map_tbl_Semister_Master" Association="Self.FK_tbl_Semister_Subject_Map_tbl_Semister_Master">
+      <End Role="tbl_Semister_Master" EntitySet="tbl_Semister_Master" />
+      <End Role="tbl_Semister_Subject_Map" EntitySet="tbl_Semister_Subject_Map" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_Semister_Subject_Map_tbl_Subject_Master" Association="Self.FK_tbl_Semister_Subject_Map_tbl_Subject_Master">
+      <End Role="tbl_Subject_Master" EntitySet="tbl_Subject_Master" />
+      <End Role="tbl_Semister_Subject_Map" EntitySet="tbl_Semister_Subject_Map" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_Student_Report_tbl_Semister_Subject_Map" Association="Self.FK_tbl_Student_Report_tbl_Semister_Subject_Map">
+      <End Role="tbl_Semister_Subject_Map" EntitySet="tbl_Semister_Subject_Map" />
+      <End Role="tbl_Student_Report" EntitySet="tbl_Student_Report" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_Student_Report_tbl_Student_Master" Association="Self.FK_tbl_Student_Report_tbl_Student_Master">
+      <End Role="tbl_Student_Master" EntitySet="tbl_Student_Master" />
+      <End Role="tbl_Student_Report" EntitySet="tbl_Student_Report" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

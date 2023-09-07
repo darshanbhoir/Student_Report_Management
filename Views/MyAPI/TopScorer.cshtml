@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Student_Report_Management.Models.tbl_Student_Report>
+
+@{
+    ViewBag.Title = "TopScorer";
+}
+
+<h2>TopScorer</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.User_Score)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Updated_On)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tbl_Semister_Subject_Map.Sem_Subject_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tbl_Student_Master.Student_Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.User_Score)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Updated_On)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tbl_Semister_Subject_Map.Sem_Subject_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tbl_Student_Master.Student_Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Report_Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Report_Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Report_Id })
+        </td>
+    </tr>
+}
+
+</table>

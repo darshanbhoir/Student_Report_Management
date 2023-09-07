@@ -12,7 +12,7 @@ namespace Student_Report_Management.Controllers
     {
         private SRM_conn db = new SRM_conn();
         // GET: Student Data for Particular Year
-        public string Index(int StudentId, string YearName)
+        public ActionResult Index(int StudentId, string YearName)
         {
             var query = from StudentReport in db.tbl_Student_Report
                         join StudentMaster in db.tbl_Student_Master on StudentReport.Student_Id equals StudentMaster.Student_Id
@@ -33,7 +33,7 @@ namespace Student_Report_Management.Controllers
 
             var Result = query.ToList();
             var json = new JavaScriptSerializer().Serialize(Result);
-            return json;
+            return View(json);
         }
 
 
@@ -1471,6 +1471,30 @@ namespace Student_Report_Management.Controllers
                             Name = Subject.Key,
                             FailedCount = Subject.Count(u => u.User_Score < 32),
                             PassedCount = Subject.Count(u => u.User_Score > 32)
+                        };
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+        }
+
+
+        //Let keyword
+        public string DatabyLet()
+        {
+            var query = from SR in db.tbl_Student_Report
+                        join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+                        join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                        join Sub in db.tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
+                        join Sem in db.tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+                        let Diff = SSM.Max_Score - SR.User_Score
+                        select new
+                        {
+                            Student.Student_Name,
+                            Sub.Subject_Name,
+                            SSM.Max_Score,
+                            SR.User_Score,
+                            Diff,
+                            PerDiff = Diff * 100 / SSM.Max_Score
                         };
             var Result = query.ToList();
             var json = new JavaScriptSerializer().Serialize(Result);

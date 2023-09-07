@@ -16,7 +16,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Student Report Management", "Index", "MyAPI", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -27,8 +27,16 @@
             </div>
         </div>
     </div>
+
+    @*MyAPI controller*@
+<div class="container">
+    @Html.ActionLink("Data by Name and Year", "Index", "MyAPI")
+    <br />
+    @Html.ActionLink("Top Scorer", "TopScorer", "MyAPI")
+</div>
+
     <div class="container body-content">
-        @RenderBody()
+        @RenderBody() 
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Darshan Bhoir</p>
