@@ -1,6 +1,6 @@
 <Query Kind="Expression">
   <Connection>
-    <ID>ea3f7c03-c61d-4dc4-aea8-01acd22e1a61</ID>
+    <ID>7fbe476c-df1c-469f-a256-86560aa4593c</ID>
     <Persist>true</Persist>
     <Server>13.233.140.191,1433</Server>
     <SqlSecurity>true</SqlSecurity>
@@ -8,7 +8,7 @@
     <NoPluralization>true</NoPluralization>
     <NoCapitalization>true</NoCapitalization>
     <UserName>sa</UserName>
-    <Password>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAG27VzC120EOqHH4iU/QWxgAAAAACAAAAAAAQZgAAAAEAACAAAADwbBfHdgkep/ljh0RE7H0+PSNdiitlZ3DiSyPEYnqGnwAAAAAOgAAAAAIAACAAAADEtKx/i/5zz5P7kZD8ZvukfbI7XiDfDeLP6igzZlwIRiAAAAAZFO4ULpZ1M4VFUGbgC+51BTNu8/SLT2X1R37iz+OthUAAAACNiJnr1rCitjpe54riknAbHAkpsQhlE5CF6xCD8pIUj+2Xh6ReM82HBC5LApW0xj+YT/M5JfE2B4P6nmGDThgB</Password>
+    <Password>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAARY3ZS+SvkUS+1eZ8VVBstwAAAAACAAAAAAAQZgAAAAEAACAAAADSJbZ6Eemf/fgrlln/+qnbjEivRPu2zdHF8pkoFZJtYgAAAAAOgAAAAAIAACAAAAAkw+hFtGDnZOGaet83e0+VFxu84LwVJXvEqjPf3nOOBiAAAAAHj95zbabEQtaYYXnAp6fG7MErznNCt7Byhh18p2QpMUAAAADfUdPoPHyioPWmkHg0UegUbtR1Jbn4SgNdS0Y/DEK+i/BROfBIPPnoDfTDxL5qfsKI+veNcnveReeauJ4gxB81</Password>
   </Connection>
 </Query>
 
@@ -511,19 +511,154 @@
 //}).Take(3)
 
 
-(from SR in tbl_Student_Report 
+//(from SR in tbl_Student_Report 
+//join Student in tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+//join SSM in tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+//join Sub in tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
+//join Sem in tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id 
+//join Year in tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
+//where Student.Student_Name=="K" && Sub.Subject_Name=="ed"  || SR.User_Score==30
+//orderby SR.User_Score descending
+//select new
+//{
+//	Student.Student_Name,
+//	Sub.Subject_Name,
+//	SR.User_Score,
+//	Sem.Semister_Name,
+//	Year.Year_Name
+//})
+
+
+
+//(from SR in tbl_Student_Report
+//join Student in tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+//join SSM in tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+//join Subject in tbl_Subject_Master on SSM.Subject_Id equals Subject.Subject_Id
+//join Semister in tbl_Semister_Master on SSM.Semister_Id equals Semister.Semister_Id
+//join Year in tbl_Year_Master on Semister.Year_Id equals Year.Year_Id
+//select new
+//{
+//	Student.Student_Name,
+//	Year.Year_Name,
+//	SR.User_Score,
+//	Subject.Subject_Name,
+//	Semister.Semister_Name
+//})
+//.ToList()
+//.GroupBy(s=>s.Year_Name)
+//.SelectMany(u=>u.OrderBy(s=>s.User_Score)
+//				.Select((g, index)=>
+//				new
+//				{
+//					g.Student_Name,
+//					g.Year_Name,
+//					g.User_Score,
+//					g.Subject_Name,
+//					Y=index+1
+//				}
+//				))
+//.Where(u=>u.Y==1)
+//
+
+
+
+//(from SR in tbl_Student_Report
+//join Student in tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+//join SSM in tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+//join Subject in tbl_Subject_Master on SSM.Subject_Id equals Subject.Subject_Id
+//join Semister in tbl_Semister_Master on SSM.Semister_Id equals Semister.Semister_Id
+//join Year in tbl_Year_Master on Semister.Year_Id equals Year.Year_Id
+//select new
+//{
+//	Student.Student_Name,
+//	Year.Year_Name,
+//	SR.User_Score,
+//	Subject.Subject_Name,
+//	Semister.Semister_Name
+//})
+
+
+
+//from SR in tbl_Student_Report
+//join Student in tbl_Student_Master on SR.Student_Id equals Student.Student_Id into StudGroup
+//from SG in StudGroup.DefaultIfEmpty()
+//select new
+//{
+//	Name=StudGroup.FirstOrDefault().Student_Name,
+//	UserScore= StudGroup.FirstOrDefault().tbl_Student_Report.FirstOrDefault().User_Score
+//}
+
+
+
+//from SR in tbl_Student_Report
+//join Student in tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+//join SSM in tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+//join Subject in tbl_Subject_Master on SSM.Subject_Id equals Subject.Subject_Id
+//join Semister in tbl_Semister_Master on SSM.Semister_Id equals Semister.Semister_Id
+//join Year in tbl_Year_Master on Semister.Year_Id equals Year.Year_Id
+//group SR by Subject.Subject_Name into Sub
+//select new
+//{
+//	Id= Sub.FirstOrDefault().Report_Id,
+//	Subject= Sub.Key,
+//	Score= Sub.Count()
+//}
+
+
+
+//(from SR in tbl_Student_Report
+//join Student in tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+//join SSM in tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+//join Subject in tbl_Subject_Master on SSM.Subject_Id equals Subject.Subject_Id
+//join Semister in tbl_Semister_Master on SSM.Semister_Id equals Semister.Semister_Id
+//join Year in tbl_Year_Master on Semister.Year_Id equals Year.Year_Id
+//select new
+//{
+//	SR.Report_Id,
+//	Student.Student_Name,
+//	Subject.Subject_Name,
+//	SR.User_Score
+//})
+//.ToList()
+//.GroupBy(s=>s.Subject_Name)
+//.SelectMany(u=>u.OrderBy(s=>s.User_Score)
+//				.Select((g, index)=>
+//				new
+//				{
+//				g.Report_Id,
+//				g.Student_Name,
+//				g.Subject_Name,
+//				g.User_Score,
+//				Sub=index+1
+//				}))
+//.Where(u=>u.Sub==1)
+
+
+
+(from SR in tbl_Student_Report
 join Student in tbl_Student_Master on SR.Student_Id equals Student.Student_Id
 join SSM in tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
-join Sub in tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
-join Sem in tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id 
-join Year in tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
-where Student.Student_Name=="darshan" || Sub.Subject_Name=="ed"  
-orderby SR.User_Score descending
+join Subject in tbl_Subject_Master on SSM.Subject_Id equals Subject.Subject_Id
+join Semister in tbl_Semister_Master on SSM.Semister_Id equals Semister.Semister_Id
+join Year in tbl_Year_Master on Semister.Year_Id equals Year.Year_Id
 select new
 {
+	SR.Report_Id,
 	Student.Student_Name,
-	Sub.Subject_Name,
-	SR.User_Score,
-	Sem.Semister_Name,
-	Year.Year_Name
+	Subject.Subject_Name,
+	SR.User_Score
 })
+.ToList()
+.GroupBy(u=>u.Subject_Name)
+.SelectMany(u=>u.OrderByDescending(s=>s.User_Score)
+					.Select((g, index)=>
+					new
+					{
+						g.Subject_Name,						
+						g.Student_Name,
+						g.Report_Id,
+						g.User_Score,
+						Sub= index+1
+					}
+					))
+.Where(u=>u.Sub==1)

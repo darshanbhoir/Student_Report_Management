@@ -127,4 +127,3 @@ D:\Git-Student Management\Student_Report_Management\obj\Debug\Student_Report_Man
 D:\Git-Student Management\Student_Report_Management\obj\Debug\Student_Report_Management.csproj.CopyComplete
 D:\Git-Student Management\Student_Report_Management\obj\Debug\Student_Report_Management.dll
 D:\Git-Student Management\Student_Report_Management\obj\Debug\Student_Report_Management.pdb
-D:\Git-Student Management\Student_Report_Management\obj\Debug\Student_Report_Management.csprojAssemblyReference.cache

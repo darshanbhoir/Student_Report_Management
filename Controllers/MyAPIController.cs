@@ -12,7 +12,8 @@ namespace Student_Report_Management.Controllers
     {
         private SRM_conn db = new SRM_conn();
         // GET: Student Data for Particular Year
-        public ActionResult Index(int StudentId, string YearName)
+        
+        public ActionResult Index(int? StudentId, string YearName)
         {
             var query = from StudentReport in db.tbl_Student_Report
                         join StudentMaster in db.tbl_Student_Master on StudentReport.Student_Id equals StudentMaster.Student_Id
@@ -32,8 +33,8 @@ namespace Student_Report_Management.Controllers
                         };
 
             var Result = query.ToList();
-            var json = new JavaScriptSerializer().Serialize(Result);
-            return View(json);
+            //var json = new JavaScriptSerializer().Serialize(Result);
+            return View("Index", Result);
         }
 
 
@@ -1502,48 +1503,123 @@ namespace Student_Report_Management.Controllers
         }
 
 
+        //Subjectwise Lowest Scorer
+        public string SubLowestScorer()
+        {
+            var query = (from SR in db.tbl_Student_Report
+                         join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+                         join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+                         join Subject in db.tbl_Subject_Master on SSM.Subject_Id equals Subject.Subject_Id
+                         join Semister in db.tbl_Semister_Master on SSM.Semister_Id equals Semister.Semister_Id
+                         join Year in db.tbl_Year_Master on Semister.Year_Id equals Year.Year_Id
+                         select new
+                         {
+                             SR.Report_Id,
+                             Student.Student_Name,
+                             Subject.Subject_Name,
+                             SR.User_Score
+                         })
+                        .ToList()
+                        .GroupBy(s => s.Subject_Name)
+                        .SelectMany(u => u.OrderBy(s => s.User_Score)
+                                            .Select((g, index) =>
+                                            new
+                                            {
+                                                g.Report_Id,
+                                                g.Student_Name,
+                                                g.Subject_Name,
+                                                g.User_Score,
+                                                Sub = index + 1
+                                            }))
+                        .Where(u => u.Sub == 1);
+
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+
+        }
+
         //Trial
-        //public string Trial()
-        //{
-        //    var query =
-        //                /*from Stud in db.tbl_Student_Master
-        //                where Stud.Student_Name.Contains("Darshan")
-        //                select Stud;*/
+        public string Trial()
+        {
+            var query =
+            /*from Stud in db.tbl_Student_Master
+            where Stud.Student_Name.Contains("Darshan")
+            select Stud;*/
 
 
-        //                /*from S in db.tbl_Student_Master
-        //                where S.Student_Name.Length != 6
-        //                select S;*/
+            /*from S in db.tbl_Student_Master
+            where S.Student_Name.Length != 6
+            select S;*/
 
 
-        //                /*from SR in db.tbl_Student_Report
-        //                join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id into StuR
-        //                join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
-        //                join Sem in db.tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
-        //                join Sub in db.tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
-        //                join Year in db.tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
-        //                select new
-        //                {
-        //                    StudentName = SR.Student_Id,
-        //                    Results = StuR
-        //                };*/
+            /*from SR in db.tbl_Student_Report
+            join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id into StuR
+            join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+            join Sem in db.tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
+            join Sub in db.tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
+            join Year in db.tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
+            select new
+            {
+                StudentName = SR.Student_Id,
+                Results = StuR
+            };*/
 
 
-        //                /*from SR in tbl_Student_Report
-        //                join Student in tbl_Student_Master on SR.Student_Id equals Student.Student_Id into StuR
-        //                from Res in StuR.DefaultIfEmpty()
-        //                select new
-        //                {
-        //                    SR.Report_Id,
-        //                    Result = Res?.User_Score ?? string.Empty
-        //                }*/
+            /*from SR in tbl_Student_Report
+            join Student in tbl_Student_Master on SR.Student_Id equals Student.Student_Id into StuR
+            from Res in StuR.DefaultIfEmpty()
+            select new
+            {
+                SR.Report_Id,
+                Result = Res?.User_Score ?? string.Empty
+            }*/
 
 
-        //    var Result = query.ToList();
-        //    var json = new JavaScriptSerializer().Serialize(Result);
-        //    return json;
+            /*(from SR in db.tbl_Student_Report
+             join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+             join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
+             join Subject in db.tbl_Subject_Master on SSM.Subject_Id equals Subject.Subject_Id
+             join Semister in db.tbl_Semister_Master on SSM.Semister_Id equals Semister.Semister_Id
+             join Year in db.tbl_Year_Master on Semister.Year_Id equals Year.Year_Id
+             select new
+             {
+                 Student.Student_Name,
+                 Year.Year_Name,
+                 SR.User_Score,
+                 Subject.Subject_Name,
+                 Semister.Semister_Name
+             })
+            .ToList()
+            .GroupBy(s => s.Year_Name)
+            .SelectMany(u => u.OrderBy(s => s.User_Score)
+                .Select((g, index) =>
+                new
+                {
+                    g.Student_Name,
+                    g.Year_Name,
+                    g.User_Score,
+                    g.Subject_Name,
+                    Y = index + 1
+                }
+                ))
+            .Where(u => u.Y == 1);*/
 
-        //}
+            (from SR in db.tbl_Student_Report
+             join Stud in db.tbl_Student_Master on SR.Student_Id equals Stud.Student_Id into StudGroup
+             from SG in StudGroup.DefaultIfEmpty()
+             select new
+             {
+                 Name = StudGroup.FirstOrDefault().Student_Name,
+                 Score = StudGroup.FirstOrDefault().tbl_Student_Report.FirstOrDefault().User_Score
+             });
+
+
+            var Result = query.ToList();
+            var json = new JavaScriptSerializer().Serialize(Result);
+            return json;
+
+        }
 
     }
 
