@@ -1,4 +1,5 @@
 ﻿using Student_Report_Management.Models;
+using Student_Report_Management.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,8 @@ namespace Student_Report_Management.Controllers
     public class MyAPIController : Controller
     {
         private SRM_conn db = new SRM_conn();
+
         // GET: Student Data for Particular Year
-        
         public ActionResult Index(int? StudentId, string YearName)
         {
             var query = from StudentReport in db.tbl_Student_Report
@@ -22,14 +23,14 @@ namespace Student_Report_Management.Controllers
                         join YearMaster in db.tbl_Year_Master on SemesterMaster.Year_Id equals YearMaster.Year_Id
                         join SubjectMaster in db.tbl_Subject_Master on SemisterSubjectMap.Subject_Id equals SubjectMaster.Subject_Id
                         where StudentReport.Student_Id == StudentId && YearMaster.Year_Name == YearName
-                        select new 
+                        select new StudentReportViewModel
                         {
-                            StudentMaster.Student_Name,
-                            SemisterSubjectMap.Sem_Subject_Id,
-                            SemesterMaster.Semister_Name,
-                            SemisterSubjectMap.Max_Score,
-                            SubjectMaster.Subject_Name,
-                            StudentReport.User_Score
+                            Student_Name = StudentMaster.Student_Name,
+                            Sem_Subject_Id = SemisterSubjectMap.Sem_Subject_Id,
+                            Semister_Name = SemesterMaster.Semister_Name,
+                            Max_Score= (int)SemisterSubjectMap.Max_Score,
+                            Subject_Name=SubjectMaster.Subject_Name,
+                            User_Score= (int)StudentReport.User_Score
                         };
 
             var Result = query.ToList();
@@ -39,7 +40,7 @@ namespace Student_Report_Management.Controllers
 
 
         //Semester wise Particular Student Data
-        public string SemesterwiseStudent(string StudentName)
+        public ActionResult SemesterwiseStudent(string StudentName)
         {
             var query = from StudentReport in db.tbl_Student_Report
                         join StudentMaster in db.tbl_Student_Master on StudentReport.Student_Id equals StudentMaster.Student_Id
@@ -47,26 +48,26 @@ namespace Student_Report_Management.Controllers
                         join SemesterMaster in db.tbl_Semister_Master on SemesterSubjectMap.Semister_Id equals SemesterMaster.Semister_Id
                         where StudentMaster.Student_Name == StudentName
                         orderby SemesterMaster.Semister_Name
-                        select new 
+                        select new StudentReportViewModel
                         {
-                           StudentReport.Report_Id,
-                            StudentReport.Student_Id,
-                            StudentReport.User_Score,
-                            StudentMaster.Student_Name,
-                            StudentMaster.Student_Mobile,
-                            SemesterSubjectMap.Semister_Id,
-                            SemesterMaster.Semister_Name
+                            Report_Id=StudentReport.Report_Id,
+                            Student_Id=StudentReport.Student_Id,
+                            User_Score= (int)StudentReport.User_Score,
+                            Student_Name=StudentMaster.Student_Name,
+                            Student_Mobile=StudentMaster.Student_Mobile,
+                            Semister_Id=SemesterSubjectMap.Semister_Id,
+                            Semister_Name=SemesterMaster.Semister_Name
                         };
 
             var Result = query.ToList();
-            var json = new JavaScriptSerializer().Serialize(Result);
-            return json;
+            //var json = new JavaScriptSerializer().Serialize(Result);
+            return View("SemesterwiseStudent",Result);
         }
 
 
 
         //Student Score Yearwise
-        public string StudentScoreYearwise(int StudentId)
+        public ActionResult StudentScoreYearwise(int? StudentId)
         {
             var query = from StudentReport in db.tbl_Student_Report
                         join StudentMaster in db.tbl_Student_Master on StudentReport.Student_Id equals StudentMaster.Student_Id
@@ -74,19 +75,19 @@ namespace Student_Report_Management.Controllers
                         join SemesterMaster in db.tbl_Semister_Master on SemisterSubjectMap.Semister_Id equals SemesterMaster.Semister_Id
                         join YearMaster in db.tbl_Year_Master on SemesterMaster.Year_Id equals YearMaster.Year_Id
                         where StudentReport.Student_Id == StudentId
-                        select new 
+                        select new StudentReportViewModel
                         {
-                            StudentReport.Student_Id,
-                            StudentMaster.Student_Name,
-                            StudentReport.Report_Id,
-                            SemesterMaster.Semister_Name,
-                            YearMaster.Year_Name,
-                            StudentReport.User_Score
+                            Student_Id=StudentReport.Student_Id,
+                            Student_Name=StudentMaster.Student_Name,
+                            Report_Id=StudentReport.Report_Id,
+                            Semister_Name=SemesterMaster.Semister_Name,
+                            Year_Name=YearMaster.Year_Name,
+                            User_Score= (int)StudentReport.User_Score
                         };
 
             var Result = query.ToList();
-            var json = new JavaScriptSerializer().Serialize(Result);
-            return json;
+            //var json = new JavaScriptSerializer().Serialize(Result);
+            return View("StudentScoreYearwise", Result);
         }
 
 
@@ -178,7 +179,7 @@ namespace Student_Report_Management.Controllers
 
 
         //Top Scorer from all Students with subject details
-        public string TopScorer()
+        public ActionResult TopScorer()
         {
             var query = (from SR in db.tbl_Student_Report
                          join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
@@ -187,18 +188,18 @@ namespace Student_Report_Management.Controllers
                          join Semester in db.tbl_Semister_Master on SSM.Semister_Id equals Semester.Semister_Id
                          join Year in db.tbl_Year_Master on Semester.Year_Id equals Year.Year_Id
                          orderby SR.User_Score descending
-                         select new
+                         select new StudentReportViewModel
                          {
-                             SR.Student_Id,
-                             Student.Student_Name,
-                             Subject.Subject_Name,
-                             SR.User_Score,
-                             Semester.Semister_Name,
-                             Year.Year_Name,
+                             Student_Id=SR.Student_Id,
+                             Student_Name=Student.Student_Name,
+                             Subject_Name=Subject.Subject_Name,
+                             User_Score= (int)SR.User_Score,
+                             Semister_Name=Semester.Semister_Name,
+                             Year_Name=Year.Year_Name,
                          }).Take(1);
             var Result = query.ToList();
-            var json = new JavaScriptSerializer().Serialize(Result);
-            return json;
+            //var json = new JavaScriptSerializer().Serialize(Result);
+            return View("TopScorer", Result);
         }
 
 

@@ -32,5 +32,9 @@ namespace Student_Report_Management.Models
         public virtual DbSet<tbl_Student_Report> tbl_Student_Report { get; set; }
         public virtual DbSet<tbl_Subject_Master> tbl_Subject_Master { get; set; }
         public virtual DbSet<tbl_Year_Master> tbl_Year_Master { get; set; }
+
+        
+
+        public System.Data.Entity.DbSet<Student_Report_Management.Models.ViewModels.StudentReportViewModel> StudentReportViewModels { get; set; }
     }
 }

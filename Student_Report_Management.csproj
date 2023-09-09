@@ -204,6 +204,7 @@
     <Compile Include="Models\tbl_Year_Master.cs">
       <DependentUpon>SRM_Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModels\StudentReportViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -298,6 +299,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\MyAPI\Index.cshtml" />
     <Content Include="Views\MyAPI\TopScorer.cshtml" />
+    <Content Include="Views\MyAPI\SemesterwiseStudent.cshtml" />
+    <Content Include="Views\MyAPI\StudentScoreYearwise.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

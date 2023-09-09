@@ -1,61 +1,65 @@
-﻿@model List<Student_Report_Management.Models.tbl_Student_Report>
-
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model IEnumerable<Student_Report_Management.Models.ViewModels.StudentReportViewModel>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Search Students by Student Id and Year Name</h2>
 
+<h6>Enter Deatils</h6>
 <form method="get" action="/MyAPI/Index">
     <label for="StudentId">Enter Student Id</label>
     <input type="number" name="StudentId" id="StudentId" />
-
+    <br />
     <label for="YearName">Enter Year Name</label>
     <input type="text" name="YearName" id="YearName" />
-
+    <br />
     <button type="submit">Search</button>
 </form>
-
-
-
 <table class="table">
-    <tr>
+    <tr>        
+        <th>
+            @Html.DisplayNameFor(model => model.Semister_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sem_Subject_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Max_Score)
+        </th>       
+        <th>
+            @Html.DisplayNameFor(model => model.Student_Name)
+        </th>        
         <th>
             @Html.DisplayNameFor(model => model.User_Score)
-        </th>
+        </th>       
         <th>
-            @Html.DisplayNameFor(model => model.Updated_On)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.tbl_Semister_Subject_Map.Sem_Subject_Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.tbl_Student_Master.Student_Name)
-        </th>
+            @Html.DisplayNameFor(model => model.Subject_Name)
+        </th>        
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.User_Score)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Updated_On)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.tbl_Semister_Subject_Map.Sem_Subject_Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.tbl_Student_Master.Student_Name)
-            </td>
-
-        </tr>
-    }
-
+@foreach (var item in Model)
+{
+    <tr>        
+        <td>
+            @Html.DisplayFor(modelItem => item.Semister_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sem_Subject_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Max_Score)
+        </td>       
+        <td>
+            @Html.DisplayFor(modelItem => item.Student_Name)
+        </td>        
+        <td>
+            @Html.DisplayFor(modelItem => item.User_Score)
+        </td>        
+        <td>
+            @Html.DisplayFor(modelItem => item.Subject_Name)
+        </td>       
+    </tr>
+}
 </table>

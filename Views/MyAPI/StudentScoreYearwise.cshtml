@@ -1,9 +1,17 @@
 ﻿@model IEnumerable<Student_Report_Management.Models.ViewModels.StudentReportViewModel>
 @{
-    ViewBag.Title = "TopScorer";
+    ViewBag.Title = "StudentScoreYearwise";
 }
 
-<h2>Top Scorer of the students</h2>
+<h2>Student Score Year wise</h2>
+
+<h6>Enter Details</h6>
+<form method="get" action="/MyAPI/StudentScoreYearwise">
+    <label for="StudentId">Enter Student Name</label>
+    <input type="number" name="StudentId" id="StudentId" />
+    <br />
+    <button type="submit">Search</button>
+</form>
 
 <table class="table">
     <tr>
@@ -14,16 +22,16 @@
             @Html.DisplayNameFor(model => model.Student_Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Subject_Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.User_Score)
+            @Html.DisplayNameFor(model => model.Report_Id)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Semister_Name)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Year_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User_Score)
         </th>
     </tr>
 
@@ -37,10 +45,7 @@
                         @Html.DisplayFor(modelItem => item.Student_Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Subject_Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.User_Score)
+                        @Html.DisplayFor(modelItem => item.Report_Id)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Semister_Name)
@@ -48,13 +53,9 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Year_Name)
                     </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User_Score)
+                    </td>
                 </tr>
             }
-
 </table>
-
-<hr />
-<div>
-    @Html.ActionLink("Semester wise Students data", "SemesterwiseStudent", "MyAPI")
-</div>
-

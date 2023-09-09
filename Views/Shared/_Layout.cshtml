@@ -16,27 +16,35 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Student Report Management", "Index", "MyAPI", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Student Report Management", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
+            @*<div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
-            </div>
+            </div>*@
         </div>
     </div>
 
-    @*MyAPI controller*@
-    <div class="container">
-        @Html.ActionLink("Data by Name and Year", "Index", "MyAPI")
-    <br />
-        @Html.ActionLink("Top Scorer", "TopScorer", "MyAPI")
-    </div>
+    
 
     <div class="container body-content">
-        @RenderBody() 
+        @RenderBody()
+        <hr />
+
+        @*MyAPI controller*@
+    <div class="container">
+        @Html.ActionLink("Data by Name and Year", "Index", "MyAPI")
+        <br />
+        @Html.ActionLink("Top Scorer", "TopScorer", "MyAPI")
+        <br />
+        @Html.ActionLink("Semester wise Students data", "SemesterwiseStudent", "MyAPI")
+        <br />
+        @Html.ActionLink("Student Score Year wise", "StudentScoreYearwise", "MyAPI")
+    </div>
+
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Darshan Bhoir</p>
