@@ -301,6 +301,9 @@
     <Content Include="Views\MyAPI\TopScorer.cshtml" />
     <Content Include="Views\MyAPI\SemesterwiseStudent.cshtml" />
     <Content Include="Views\MyAPI\StudentScoreYearwise.cshtml" />
+    <Content Include="Views\MyAPI\TopScorerYearwise.cshtml" />
+    <Content Include="Views\MyAPI\SemwiseSubjectData.cshtml" />
+    <Content Include="Views\MyAPI\StudentList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

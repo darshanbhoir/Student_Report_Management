@@ -1,0 +1,51 @@
+﻿@model IEnumerable<dynamic> 
+@{
+    ViewBag.Title = "StudentList";
+}
+
+<h2>StudentList</h2>
+
+<table>
+    <tr>
+        <th>
+            Student Name
+        </th>
+        <th>
+            Semister Name
+        </th>
+        <th>
+            Subject Count
+        </th>
+        <th>
+            Total
+        </th>
+        <th>
+            Average
+        </th>
+    </tr>
+
+    @foreach(var a in ViewBag.StudentListData)
+            {
+                <tr>
+                    @*<td>
+            @a.StudentName
+        </td>
+        <td>
+            @a.SemisterName
+        </td>
+        <td>
+            @a.SubjectCount
+        </td>
+        <td>
+            @a.Total
+        </td>
+        <td>
+            @a.Average
+        </td>*@
+                    <td>
+                        @a.GetType().GetProperties()
+                    </td>
+                </tr>
+            }
+</table>
+

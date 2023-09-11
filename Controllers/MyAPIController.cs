@@ -205,7 +205,7 @@ namespace Student_Report_Management.Controllers
 
 
         //Top Scorer Year wise
-        public string TopScorerYearwise()
+        public ActionResult TopScorerYearwise()
         {
             var query = (from SR in db.tbl_Student_Report
                          join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
@@ -213,14 +213,14 @@ namespace Student_Report_Management.Controllers
                          join Subject in db.tbl_Subject_Master on SSM.Subject_Id equals Subject.Subject_Id
                          join Semester in db.tbl_Semister_Master on SSM.Semister_Id equals Semester.Semister_Id
                          join Year in db.tbl_Year_Master on Semester.Year_Id equals Year.Year_Id
-                         select new
+                         select new StudentReportViewModel
                          {
-                             SR.Student_Id,
-                             Student.Student_Name,
-                             Subject.Subject_Name,
-                             SR.User_Score,
-                             Semester.Semister_Name,
-                             Year.Year_Name,
+                             Student_Id=SR.Student_Id,
+                             Student_Name=Student.Student_Name,
+                             Subject_Name=Subject.Subject_Name,
+                             User_Score= (int)SR.User_Score,
+                             Semister_Name=Semester.Semister_Name,
+                             Year_Name=Year.Year_Name,
                          })
                         .ToList()
                         .GroupBy(g => g.Year_Name)
@@ -234,13 +234,13 @@ namespace Student_Report_Management.Controllers
                                              g.User_Score,
                                              g.Semister_Name,
                                              g.Year_Name,
-                                             Year = index + 1
+                                             Years = index + 1
                                          }))
-                        .Where(x => x.Year == 1);
+                        .Where(x => x.Years == 1);
 
             var Result = query.ToList();
-            var json = new JavaScriptSerializer().Serialize(Result);
-            return json;
+            //var json = new JavaScriptSerializer().Serialize(Result);
+            return View("TopScorerYearwise", Result);
 
 
         }
@@ -248,22 +248,22 @@ namespace Student_Report_Management.Controllers
 
 
         //Semister wise subject data with max score
-        public string SemwiseSubjectData()
+        public ActionResult SemwiseSubjectData()
         {
             var query = from SSM in db.tbl_Semister_Subject_Map
                         join Semester in db.tbl_Semister_Master on SSM.Semister_Id equals Semester.Semister_Id
                         join Subject in db.tbl_Subject_Master on SSM.Subject_Id equals Subject.Subject_Id
-                        select new
+                        select new StudentReportViewModel
                         {
-                            SSM.Sem_Subject_Id,
-                            Subject.Subject_Name,
-                            SSM.Max_Score,
-                            Semester.Semister_Name,
+                            Sem_Subject_Id=SSM.Sem_Subject_Id,
+                            Subject_Name=Subject.Subject_Name,
+                            Max_Score= (int)SSM.Max_Score,
+                            Semister_Name=Semester.Semister_Name,
                         };
 
             var Result = query.ToList();
-            var json = new JavaScriptSerializer().Serialize(Result);
-            return json;
+            //var json = new JavaScriptSerializer().Serialize(Result);
+            return View("SemwiseSubjectData", Result);
 
         }
 
@@ -534,13 +534,13 @@ namespace Student_Report_Management.Controllers
         }
 
         //List of Students with more than 60 avg
-        public string StudentList()
+        public ActionResult StudentList()  
         {
             var query = from SR in db.tbl_Student_Report
                         join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
                         join SSM in db.tbl_Semister_Subject_Map on SR.Sem_Subject_Id equals SSM.Sem_Subject_Id
                         join Sem in db.tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
-                        group SR by new
+                        group SR by new 
                         {
                             Student.Student_Name,
                             Sem.Semister_Name
@@ -556,8 +556,9 @@ namespace Student_Report_Management.Controllers
                         };
 
             var Result = query.ToList();
-            var json = new JavaScriptSerializer().Serialize(Result);
-            return json;
+            //var json = new JavaScriptSerializer().Serialize(Result);
+            ViewBag.StudentListData = Result;
+            return View("StudentList");
         }
 
 

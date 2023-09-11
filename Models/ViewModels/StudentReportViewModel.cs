@@ -37,5 +37,13 @@ namespace Student_Report_Management.Models.ViewModels
         //Year_Master
         public int Year_Id { get; set; }
         public string Year_Name { get; set; }
+
+
+
+        //
+        //public int Year { get; set; }
+        //public int SubjectCount { get; set; }
+        //public int Total { get; set; }
+        //public double Average { get; set; }
     }
 }

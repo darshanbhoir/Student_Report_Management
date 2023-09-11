@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Student_Report_Management.Models.ViewModels.StudentReportViewModel>
+
+@{
+    ViewBag.Title = "SemwiseSubjectData";
+}
+
+<h2>SemwiseSubjectData</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Sem_Subject_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Subject_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Max_Score)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Semister_Name)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sem_Subject_Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subject_Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Max_Score)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Semister_Name)
+                    </td>
+                </tr>
+            }
+
+</table>
+
