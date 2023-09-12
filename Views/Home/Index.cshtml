@@ -48,8 +48,11 @@
             <button type="submit">Search</button>
         }
     </div>
-    <hr />
+</div>
+
+<br />
     
+<div class="row">
     <div class="col-md-3">
         <p>
             Data by Name and Year
@@ -76,5 +79,50 @@
         {
             <button type="submit">Search</button>
         }
+    </div>
+    <div class="col-md-3">
+        <p>
+            Overall Score for year descending
+        </p>
+        @using (Html.BeginForm("OverallScoreforYear", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit">Search</button>
+        }
+
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-md-3">
+        <p>
+            Student Max Score for Year
+        </p>
+        @using (Html.BeginForm("StudentMaxScoreYear", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit">Search</button>
+        }
+
+    </div>
+    <div class="col-md-3">
+        <p>
+            Students with subject details semister wise
+        </p>
+        @using (Html.BeginForm("SemwiseSubjectData", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit">Search</button>
+        }
+
+    </div>
+    <div class="col-md-3">
+        <p>
+            Particular Students top subject from each Semister
+        </p>
+        @using (Html.BeginForm("StudentTopSubEachSem", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit">Search</button>
+        }
+
     </div>
 </div>

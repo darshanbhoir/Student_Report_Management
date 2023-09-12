@@ -24,22 +24,23 @@
     </tr>
 
     @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Sem_Subject_Id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Subject_Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Max_Score)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Semister_Name)
-                    </td>
-                </tr>
-            }
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sem_Subject_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Max_Score)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Semister_Name)
+            </td>
+        </tr>
+    }
 
 </table>
 
+@Html.ActionLink("Back", "Index", "Home")

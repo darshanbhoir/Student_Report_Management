@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Student_Report_Management.Models.ViewModels.StudentReportViewModel>
+@{
+    ViewBag.Title = "StudentTopSubjectfromSem";
+}
+
+<h2>StudentTopSubjectfromSem</h2>
+
+<h6>Enter Details</h6>
+<form method="get" action="/MyAPI/StudentTopSubjectfromSem">
+    <label for="StudentName">Enter Student Name</label>
+    <input type="text" name="StudentName" id="StudentName" />
+    <br />
+    <label for="YearName">Enter Year Name</label>
+    <input type="text" name="YearName" id="YearName" />
+    <br />
+    <button type="submit">Search</button>
+</form>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Student_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Year_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Semister_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Subject_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User_Score)
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.Sem)
+            </th>*@
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Semister_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User_Score)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.Sem)
+                </td>*@
+        </tr>
+    }
+</table>
+
+
+@Html.ActionLink("Back", "Index", "Home")

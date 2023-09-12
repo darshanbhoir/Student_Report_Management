@@ -7,7 +7,7 @@
 
 <h6>Enter Details</h6>
 <form method="get" action="/MyAPI/StudentScoreYearwise">
-    <label for="StudentId">Enter Student Name</label>
+    <label for="StudentId">Enter Student Id</label>
     <input type="number" name="StudentId" id="StudentId" />
     <br />
     <button type="submit">Search</button>
@@ -35,27 +35,30 @@
         </th>
     </tr>
 
-    @foreach(var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Student_Id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Student_Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Report_Id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Semister_Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Year_Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.User_Score)
-                    </td>
-                </tr>
-            }
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Report_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Semister_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User_Score)
+            </td>
+        </tr>
+    }
 </table>
+
+
+@Html.ActionLink("Back", "Index", "Home")

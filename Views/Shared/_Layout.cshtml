@@ -9,22 +9,22 @@
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+        <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" title="more options">
+                @*<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" title="more options">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
+                </button>*@
                 @Html.ActionLink("Student Report Management", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            @*<div class="navbar-collapse collapse">
+            <div class="navbar-dark">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
-            </div>*@
+            </div>
         </div>
     </div>
 
@@ -35,7 +35,7 @@
         <hr />
 
         @*MyAPI controller*@
-        <div class="container">
+        @*<div class="container">
             @Html.ActionLink("Data by Name and Year", "Index", "MyAPI")
                 <br />
             @Html.ActionLink("Top Scorer", "TopScorer", "MyAPI")
@@ -43,17 +43,17 @@
             @Html.ActionLink("Semester wise Students data", "SemesterwiseStudent", "MyAPI")
                 <br />
             @Html.ActionLink("Student Score Year wise", "StudentScoreYearwise", "MyAPI")
-        </div>
+        </div>*@
 
 
-        <hr />
+        
         <footer>
             <p>&copy; @DateTime.Now.Year -Darshan Bhoir</p>
         </footer>
     </div>
 
-    @*@Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)*@
+    @RenderSection("scripts", required: false)
 </body>
 </html>

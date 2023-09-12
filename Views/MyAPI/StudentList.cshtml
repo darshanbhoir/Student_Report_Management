@@ -1,51 +1,54 @@
-﻿@model IEnumerable<dynamic> 
+﻿@model IEnumerable<Student_Report_Management.Models.ViewModels.StudentReportViewModel>
 @{
     ViewBag.Title = "StudentList";
 }
 
-<h2>StudentList</h2>
+<h2>List of Students with more than 60 avg</h2>
 
-<table>
+<table class="table">
     <tr>
         <th>
-            Student Name
+            @Html.DisplayNameFor(model => model.Student_Name)
         </th>
         <th>
-            Semister Name
+            @Html.DisplayNameFor(model => model.Semister_Name)
         </th>
         <th>
-            Subject Count
+            @Html.DisplayNameFor(model => model.SubjectCount)
         </th>
         <th>
-            Total
+            @Html.DisplayNameFor(model => model.Total)
         </th>
         <th>
-            Average
+            @Html.DisplayNameFor(model => model.Average)
         </th>
     </tr>
 
-    @foreach(var a in ViewBag.StudentListData)
-            {
-                <tr>
-                    @*<td>
-            @a.StudentName
-        </td>
-        <td>
-            @a.SemisterName
-        </td>
-        <td>
-            @a.SubjectCount
-        </td>
-        <td>
-            @a.Total
-        </td>
-        <td>
-            @a.Average
-        </td>*@
-                    <td>
-                        @a.GetType().GetProperties()
-                    </td>
-                </tr>
-            }
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Semister_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubjectCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Average)
+            </td>
+
+            @*<td>
+                    @a.GetType().GetProperties()
+                </td>*@
+        </tr>
+    }
 </table>
 
+
+@Html.ActionLink("Back", "Index", "Home")
