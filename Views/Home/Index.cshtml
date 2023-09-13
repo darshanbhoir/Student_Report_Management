@@ -2,7 +2,7 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
+<div class="jumbotron text-center">
     <h1>Student Report Management</h1>
     
 </div>
@@ -120,6 +120,51 @@
             Particular Students top subject from each Semister
         </p>
         @using (Html.BeginForm("StudentTopSubEachSem", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit">Search</button>
+        }
+
+    </div>
+    <div class="col-md-3">
+        <p>
+            Lowest Scorer student- Year Wise
+        </p>
+        @using (Html.BeginForm("LowestScorer", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit">Search</button>
+        }
+
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-md-3">
+        <p>
+            Particular Students Lowest Scores
+        </p>
+        @using (Html.BeginForm("StudentsLowestScore", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit">Search</button>
+        }
+
+    </div>
+    <div class="col-md-3">
+        <p>
+            Students passed in particular Subject
+        </p>
+        @using (Html.BeginForm("PassedStudent", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit">Search</button>
+        }
+
+    </div>
+    <div class="col-md-3">
+        <p>
+            Count of Students Passed in particular Subject
+        </p>
+        @using (Html.BeginForm("PassedStudentCount", "MyAPI", FormMethod.Get))
         {
             <button type="submit">Search</button>
         }

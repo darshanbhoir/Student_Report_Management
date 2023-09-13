@@ -20,7 +20,7 @@ namespace Student_Report_Management
                         "~/Scripts/modernizr-*"));
 
             //removal of Script from ScriptBundle or .js will handle the error of null pointer exception
-            bundles.Add(new Bundle("~/bundles/bootstrap").Include(
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

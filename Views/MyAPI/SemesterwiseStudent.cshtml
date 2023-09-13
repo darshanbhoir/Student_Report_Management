@@ -15,8 +15,10 @@
     <button type="submit">Search</button>
 </form>
 
+
+
 <table class="table">
-    <tr>
+    <tr class="text-center">
         <th>
             @Html.DisplayNameFor(model => model.Report_Id)
         </th>
@@ -42,7 +44,7 @@
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr class="text-center">
             <td>
                 @Html.DisplayFor(modelItem => item.Report_Id)
             </td>

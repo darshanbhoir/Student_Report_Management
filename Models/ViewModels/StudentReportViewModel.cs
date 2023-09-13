@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading;
 using System.Web;
 
 namespace Student_Report_Management.Models.ViewModels
@@ -61,5 +62,6 @@ namespace Student_Report_Management.Models.ViewModels
         public int Total { get; set; }
         public double Average { get; set; }
         public int Sem { get; set; }
+        public int Count { get; set; }
     }
 }

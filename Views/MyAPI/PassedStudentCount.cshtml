@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Student_Report_Management.Models.ViewModels.StudentReportViewModel>
+@{
+    ViewBag.Title = "PassedStudentCount";
+}
+
+<h2>Count of Students Passed in particular Subject</h2>
+
+<h6>Enter Details</h6>
+<form method="get" action="/MyAPI/PassedStudentCount">
+    <label for="SubjectName">Enter Subject Name</label>
+    <input type="text" name="SubjectName" id="SubjectName" />
+    <br />
+    <button type="submit">Search</button>
+</form>
+
+<table class="table">
+    <tr class="text-center">
+        <th>
+            @Html.DisplayNameFor(model => model.Subject_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Count)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="text-center">
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Count)
+            </td>
+        </tr>
+    }
+</table>
+
+@Html.ActionLink("Back", "Index", "Home")
+
+

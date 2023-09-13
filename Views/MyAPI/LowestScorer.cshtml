@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Student_Report_Management.Models.ViewModels.StudentReportViewModel>
+@{
+    ViewBag.Title = "LowestScorer";
+}
+
+<h2>Lowest Scorer among Students</h2>
+
+<table class="table">
+    <tr class="text-center">
+        <th>
+            @Html.DisplayNameFor(model => model.Student_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Student_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Subject_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User_Score)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Semister_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Year_Name)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Years)
+        </th>*@
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="text-center">
+            <td>
+                @Html.DisplayFor(itemModel => item.Student_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(itemModel => item.Student_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(itemModel => item.Subject_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(itemModel => item.User_Score)
+            </td>
+            <td>
+                @Html.DisplayFor(itemModel => item.Semister_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(itemModel => item.Year_Name)
+            </td>
+            @*<td>
+                @Html.DisplayFor(itemModel => item.Years)
+            </td>*@
+        </tr>
+    }
+</table>
+
+@Html.ActionLink("Back", "Index", "Home")
