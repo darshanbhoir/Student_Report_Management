@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Student_Report_Management.Models.ViewModels.StudentReportViewModel>
+@{
+    ViewBag.Title = "SumandAvgofStudent";
+}
+
+<h4>Sum and Avg of Particular Student for Semester</h4>
+
+<h6>Enter Details</h6>
+<form method="get" action="/MyAPI/SumandAvgofStudent">
+    <label for="StudentName">Enter Student Name</label>
+    <input type="text" name="StudentName" id="StudentName" />
+    <br />
+    <button type="submit" class="btn-outline-primary">Search</button>
+</form>
+
+
+<div id="dataTable" style="display:none">
+    <table class="table table-bordered table-striped">
+        <tr class="text-center">
+            <th>
+                @Html.DisplayNameFor(model => model.Student_Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Semister_Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Count)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Average)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr class="text-center">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Student_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Semister_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Count)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Average)
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+
+@Html.ActionLink("Back", "Index", "Home")
+
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#dataTable").show();
+    });
+</script>

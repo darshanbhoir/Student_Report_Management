@@ -4,7 +4,7 @@
     ViewBag.Title = "SemesterwiseStudent";
 }
 
-<h2>SemesterwiseStudent</h2>
+<h4>Semesterwise Student details</h4>
 
 
 <h6>Enter Details</h6>
@@ -12,12 +12,12 @@
     <label for="StudentName">Enter Student Name</label>
     <input type="text" name="StudentName" id="StudentName" />
     <br />
-    <button type="submit">Search</button>
+    <button type="submit" class="btn-outline-primary">Search</button>
 </form>
 
 
 
-<table class="table">
+<table class="table table-bordered table-striped">
     <tr class="text-center">
         <th>
             @Html.DisplayNameFor(model => model.Report_Id)

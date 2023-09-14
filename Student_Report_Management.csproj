@@ -380,6 +380,11 @@
     <Content Include="Views\MyAPI\StudentsLowestScore.cshtml" />
     <Content Include="Views\MyAPI\PassedStudent.cshtml" />
     <Content Include="Views\MyAPI\PassedStudentCount.cshtml" />
+    <Content Include="Views\MyAPI\AvgMarksSemesterwise.cshtml" />
+    <Content Include="Views\MyAPI\SumandAvgofStudent.cshtml" />
+    <Content Include="Views\MyAPI\PercentageofStudent.cshtml" />
+    <Content Include="Views\MyAPI\SubjectCount.cshtml" />
+    <Content Include="Views\MyAPI\StudentPercentage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

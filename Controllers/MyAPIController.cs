@@ -457,7 +457,7 @@ namespace Student_Report_Management.Controllers
 
 
         //Avg of Student marks Semester wise
-        public string AvgMarksSemesterwise(string StudentName)
+        public ActionResult AvgMarksSemesterwise(string StudentName)
         {
             var query = from SR in db.tbl_Student_Report
                         join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
@@ -469,22 +469,22 @@ namespace Student_Report_Management.Controllers
                             Student.Student_Name,
                             Sem.Semister_Name
                         } into X
-                        select new
+                        select new StudentReportViewModel
                         {
-                            StudentName = X.Key.Student_Name,
-                            SemisterName = X.Key.Semister_Name,
-                            Average = X.Average(u => u.User_Score)
+                            Student_Name = X.Key.Student_Name,
+                            Semister_Name = X.Key.Semister_Name,
+                            Average = (double)X.Average(u => u.User_Score)
                         };
 
             var Result = query.ToList();
-            var json = new JavaScriptSerializer().Serialize(Result);
-            return json;
+            //var json = new JavaScriptSerializer().Serialize(Result);
+            return View("AvgMarksSemesterwise", Result);
 
         }
 
 
         //Sum and Avg of Particular Student for Semester
-        public string SumandAvgofStudent(string StudentName)
+        public ActionResult SumandAvgofStudent(string StudentName)
         {
             var query = from SR in db.tbl_Student_Report
                         join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
@@ -496,18 +496,18 @@ namespace Student_Report_Management.Controllers
                             Student.Student_Name,
                             Sem.Semister_Name
                         } into X
-                        select new
+                        select new StudentReportViewModel
                         {
-                            StudentName = X.Key.Student_Name,
-                            SemisterName = X.Key.Semister_Name,
-                            SubjectCount = X.Count(),
-                            Total= X.Sum(u=>u.User_Score),
-                            Average = X.Average(u => u.User_Score)
+                            Student_Name = X.Key.Student_Name,
+                            Semister_Name = X.Key.Semister_Name,
+                            Count = X.Count(),
+                            Total= (int)X.Sum(u=>u.User_Score),
+                            Average = (double)X.Average(u => u.User_Score)
                         };
 
             var Result = query.ToList();
-            var json = new JavaScriptSerializer().Serialize(Result);
-            return json;
+            //var json = new JavaScriptSerializer().Serialize(Result);
+            return View("SumandAvgofStudent", Result);
         }
 
 
@@ -556,7 +556,7 @@ namespace Student_Report_Management.Controllers
                         {
                             Student_Name = X.Key.Student_Name,
                             Semister_Name = X.Key.Semister_Name,
-                            SubjectCount = X.Count(),
+                            Count = X.Count(),
                             Total = (int)X.Sum(u => u.User_Score),
                             Average = (double)X.Average(u => u.User_Score)
                         };
@@ -569,7 +569,7 @@ namespace Student_Report_Management.Controllers
 
 
         //Percentage of Particular Student Semester wise
-        public string PercentageofStudent(string StudentName)
+        public ActionResult PercentageofStudent(string StudentName)
         {
             var query = from SR in db.tbl_Student_Report
                         join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
@@ -581,43 +581,43 @@ namespace Student_Report_Management.Controllers
                             Student.Student_Name,
                             Sem.Semister_Name
                         } into X                        
-                        select new
+                        select new StudentReportViewModel
                         {
-                            StudentName = X.Key.Student_Name,
-                            SemisterName = X.Key.Semister_Name,
-                            Obtained = X.Sum(u => u.SR.User_Score),
-                            Total = X.Sum(v=>v.SSM.Max_Score),
-                            Percentage = (X.Sum(u => u.SR.User_Score))*100.0/ X.Sum(v => v.SSM.Max_Score)
+                            Student_Name = X.Key.Student_Name,
+                            Semister_Name = X.Key.Semister_Name,
+                            Obtained = (int)X.Sum(u => u.SR.User_Score),
+                            Total = (int)X.Sum(v=>v.SSM.Max_Score),
+                            Percentage = (double)((X.Sum(u => u.SR.User_Score))*100.0/ X.Sum(v => v.SSM.Max_Score))
                         };
 
             var Result = query.ToList();
-            var json = new JavaScriptSerializer().Serialize(Result);
-            return json;
+            //var json = new JavaScriptSerializer().Serialize(Result);
+            return View("PercentageofStudent", Result);
         }
 
 
 
         //Count of Subjects in each Semester
-        public string SubjectCount()
+        public ActionResult SubjectCount()
         {
             var query = from SSM in db.tbl_Semister_Subject_Map
                         join Sem in db.tbl_Semister_Master on SSM.Semister_Id equals Sem.Semister_Id
                         join Subject in db.tbl_Subject_Master on SSM.Subject_Id equals Subject.Subject_Id
                         group SSM by Sem.Semister_Name into Sem
-                        select new
+                        select new StudentReportViewModel
                         {
-                            SemisterName = Sem.Key,
-                            SubjectCount = Sem.Count()
+                            Semister_Name = Sem.Key,
+                            Count = Sem.Count()
                         };
 
             var Result = query.ToList();
-            var json = new JavaScriptSerializer().Serialize(Result);
-            return json;
+            //var json = new JavaScriptSerializer().Serialize(Result);
+            return View("SubjectCount", Result);
 
         }
 
 
-        //Students Score using OR operators
+        //Students Score using OR operators 
         public string StudentScore()
         {
             var query = from SR in db.tbl_Student_Report
@@ -678,7 +678,7 @@ namespace Student_Report_Management.Controllers
 
 
         //Percentage of All Students yearwise
-        public string StudentPercentage()
+        public ActionResult StudentPercentage()
         {
             var query = from SR in db.tbl_Student_Report
                         join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
@@ -690,18 +690,18 @@ namespace Student_Report_Management.Controllers
                             Student.Student_Name,
                             Year.Year_Name
                         } into X
-                        select new
+                        select new StudentReportViewModel
                         {
-                            StudentName = X.Key.Student_Name,
-                            YearName = X.Key.Year_Name,
-                            Obtained = X.Sum(u => u.SR.User_Score),
-                            Total = X.Sum(v => v.SSM.Max_Score),
-                            Percentage = (X.Sum(u => u.SR.User_Score)) * 100.0 / X.Sum(v => v.SSM.Max_Score)
+                            Student_Name = X.Key.Student_Name,
+                            Year_Name = X.Key.Year_Name,
+                            Obtained = (int)X.Sum(u => u.SR.User_Score),
+                            Total = (int)X.Sum(v => v.SSM.Max_Score),
+                            Percentage = (double)((X.Sum(u => u.SR.User_Score)) * 100.0 / X.Sum(v => v.SSM.Max_Score))
                         };
 
             var Result = query.ToList();
-            var json = new JavaScriptSerializer().Serialize(Result);
-            return json;
+            //var json = new JavaScriptSerializer().Serialize(Result);
+            return View("StudentPercentage", Result);
         }
 
 

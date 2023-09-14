@@ -3,17 +3,17 @@
     ViewBag.Title = "StudentsLowestScore";
 }
 
-<h2>Particular Students Lowest Scores</h2>
+<h4>Particular Students Lowest Scores</h4>
 
 <h6>Enter Details</h6>
 <form method="get" action="/MyAPI/StudentsLowestScore">
     <label for="StudentName">Enter Student Name</label>
     <input type="text" name="StudentName" id="StudentName" />
     <br />
-    <button type="submit">Search</button>
+    <button type="submit" class="btn-outline-primary">Search</button>
 </form>
 
-<table class="table">
+<table class="table table-bordered table-striped">
     <tr class="text-center">
         <th>
             @Html.DisplayNameFor(model => model.Student_Id)

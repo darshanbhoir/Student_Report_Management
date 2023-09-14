@@ -3,18 +3,18 @@
     ViewBag.Title = "StudentTopSubEachSem";
 }
 
-<h2>Particular Students top subject from each Semister</h2>
+<h4>Particular Students top subject from each Semister</h4>
 
 <h6>Enter Details</h6>
 <form method="get" action="/MyAPI/StudentTopSubEachSem">
     <label for="StudentName">Enter Student Name</label>
     <input type="text" name="StudentName" id="StudentName" />
     <br />
-    <button type="submit">Search</button>
+    <button type="submit" class="btn-outline-primary">Search</button>
 </form>
 
 
-<table class="table">
+<table class="table table-bordered table-striped">
     <tr class="text-center">
         <th>
             @Html.DisplayNameFor(model => model.Student_Id)

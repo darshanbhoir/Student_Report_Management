@@ -4,7 +4,7 @@
     ViewBag.Title = "SemwiseSubjectData";
 }
 
-<h2>SemwiseSubjectData</h2>
+<h4>Semister wise subject data with max score</h4>
 
 
 @using(Html.BeginForm("SemwiseSubjectData", "MyAPI", FormMethod.Get))
@@ -13,11 +13,11 @@
                     @Html.Label("Search Subject")
                     @Html.TextBox("SubjectName", ViewBag.CurrentFilter as string)
                 </div>
-                <button type="submit" class="btn-primary">Filter</button>
+                <button type="submit" class="btn-outline-primary">Search</button>
             }
 
 
-    <table class="table">
+    <table class="table table-bordered table-striped">
         <tr class="text-center">
             <th>
                 @Html.DisplayNameFor(model => model.Sem_Subject_Id)

@@ -3,17 +3,17 @@
     ViewBag.Title = "StudentScoreYearwise";
 }
 
-<h2>Student Score Year wise</h2>
+<h4>Student Score Year wise</h4>
 
 <h6>Enter Details</h6>
 <form method="get" action="/MyAPI/StudentScoreYearwise">
     <label for="StudentId">Enter Student Id</label>
     <input type="number" name="StudentId" id="StudentId" />
     <br />
-    <button type="submit">Search</button>
+    <button type="submit" class="btn-outline-primary">Search</button>
 </form>
 
-<table class="table">
+<table class="table table-bordered table-striped">
     <tr class="text-center">
         <th>
             @Html.DisplayNameFor(model => model.Student_Id)

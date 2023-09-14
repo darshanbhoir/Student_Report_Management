@@ -1,20 +1,18 @@
 ﻿@model IEnumerable<Student_Report_Management.Models.ViewModels.StudentReportViewModel>
 @{
-    ViewBag.Title = "StudentMaxScoreYear";
+    ViewBag.Title = "AvgMarksSemesterwise";
 }
 
-<h4>Top subject Semister wise of a particular user for a particular year.</h4>
+<h4>Avg of Student marks Semester wise</h4>
 
 <h6>Enter Details</h6>
-<form method="get" action="/MyAPI/StudentMaxScoreYear">
+<form method="get" action="/MyAPI/AvgMarksSemesterwise">
     <label for="StudentName">Enter Student Name</label>
     <input type="text" name="StudentName" id="StudentName" />
     <br />
-    <label for="YearName">Enter Year Name</label>
-    <input type="text" name="YearName" id="YearName" />
-    <br />
     <button type="submit" class="btn-outline-primary">Search</button>
 </form>
+
 
 <table class="table table-bordered table-striped">
     <tr class="text-center">
@@ -22,7 +20,10 @@
             @Html.DisplayNameFor(model => model.Student_Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Max_Score)
+            @Html.DisplayNameFor(model => model.Semister_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Average)
         </th>
     </tr>
 
@@ -33,11 +34,13 @@
                 @Html.DisplayFor(modelItem => item.Student_Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Max_Score)
+                @Html.DisplayFor(modelItem => item.Semister_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Average)
             </td>
         </tr>
     }
 </table>
-
 
 @Html.ActionLink("Back", "Index", "Home")

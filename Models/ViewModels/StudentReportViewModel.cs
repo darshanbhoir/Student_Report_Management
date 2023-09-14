@@ -58,10 +58,14 @@ namespace Student_Report_Management.Models.ViewModels
 
         //Annomous
         public int Years { get; set; }
-        public int SubjectCount { get; set; }
+        [Display(Name = "Total Marks")]
         public int Total { get; set; }
+        [Display(Name = "Average of Marks")]
         public double Average { get; set; }
         public int Sem { get; set; }
         public int Count { get; set; }
+        [Display(Name = "Obtained Marks")]
+        public int Obtained { get; set; }
+        public double Percentage { get; set; }
     }
 }

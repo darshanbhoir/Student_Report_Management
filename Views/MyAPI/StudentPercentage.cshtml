@@ -1,9 +1,9 @@
 ﻿@model IEnumerable<Student_Report_Management.Models.ViewModels.StudentReportViewModel>
 @{
-    ViewBag.Title = "StudentList";
+    ViewBag.Title = "StudentPercentage";
 }
 
-<h4>List of Students with more than 60 avg</h4>
+<h4>Percentage of All Students yearwise</h4>
 
 <table class="table table-bordered table-striped">
     <tr class="text-center">
@@ -11,16 +11,16 @@
             @Html.DisplayNameFor(model => model.Student_Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Semister_Name)
+            @Html.DisplayNameFor(model => model.Year_Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Count)
+            @Html.DisplayNameFor(model => model.Obtained)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Total)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Average)
+            @Html.DisplayNameFor(model => model.Percentage)
         </th>
     </tr>
 
@@ -31,21 +31,17 @@
                 @Html.DisplayFor(modelItem => item.Student_Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Semister_Name)
+                @Html.DisplayFor(modelItem => item.Year_Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Count)
+                @Html.DisplayFor(modelItem => item.Obtained)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Total)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Average)
+                @Html.DisplayFor(modelItem => item.Percentage)
             </td>
-
-            @*<td>
-                    @a.GetType().GetProperties()
-                </td>*@
         </tr>
     }
 </table>

@@ -3,17 +3,17 @@
     ViewBag.Title = "PassedStudentCount";
 }
 
-<h2>Count of Students Passed in particular Subject</h2>
+<h4>Count of Students Passed in particular Subject</h4>
 
 <h6>Enter Details</h6>
 <form method="get" action="/MyAPI/PassedStudentCount">
     <label for="SubjectName">Enter Subject Name</label>
     <input type="text" name="SubjectName" id="SubjectName" />
     <br />
-    <button type="submit">Search</button>
+    <button type="submit" class="btn-outline-primary">Search</button>
 </form>
 
-<table class="table">
+<table class="table table-bordered table-striped">
     <tr class="text-center">
         <th>
             @Html.DisplayNameFor(model => model.Subject_Name)
