@@ -223,3 +223,67 @@
     </div>
 
 </div>
+
+<br />
+
+<div class="row">
+    <div class="col-md-3">
+        <p>
+            Students Percentage overall
+        </p>
+        @using (Html.BeginForm("OverallPercentage", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit" class="btn-primary">Search</button>
+        }
+    </div>
+    <div class="col-md-3">
+        <p>
+            Subject wise Failed Student
+        </p>
+        @using (Html.BeginForm("FailedStudent", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit" class="btn-primary">Search</button>
+        }
+    </div>
+    <div class="col-md-3">
+        <p>
+            Lowest scoring students Semester wise
+        </p>
+        @using (Html.BeginForm("LowestScorerSemwise", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit" class="btn-primary">Search</button>
+        }
+    </div>
+    <div class="col-md-3">
+        <p>
+            Lowest Scoring  Excluding Failed Students
+        </p>
+        @using (Html.BeginForm("LowestScorerswithoutFailed", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit" class="btn-primary">Search</button>
+        }
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-md-3">
+        <p>
+            Age Calculation
+        </p>
+        @using (Html.BeginForm("AgeCalculation", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit" class="btn-primary">Search</button>
+        }
+    </div>
+    <div class="col-md-3">
+        <p>
+            Top Subject of Student with more selects
+        </p>
+        @using (Html.BeginForm("StudentTopSubYear", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit" class="btn-primary">Search</button>
+        }
+    </div>
+</div>

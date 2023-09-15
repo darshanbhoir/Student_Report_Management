@@ -3,19 +3,21 @@
     ViewBag.Title = "SumandAvgofStudent";
 }
 
+@*Pending on Display table on clicking Search button*@
+
 <h4>Sum and Avg of Particular Student for Semester</h4>
 
 <h6>Enter Details</h6>
-<form method="get" action="/MyAPI/SumandAvgofStudent">
+<form method="get" action="/MyAPI/SumandAvgofStudent" onsubmit="return false;">
     <label for="StudentName">Enter Student Name</label>
     <input type="text" name="StudentName" id="StudentName" />
     <br />
-    <button type="submit" class="btn-outline-primary">Search</button>
+    <button type="submit" class="btn-outline-primary" id="searchbutton">Search</button>
 </form>
 
 
-<div id="dataTable" style="display:none">
-    <table class="table table-bordered table-striped">
+
+    <table class="table table-bordered table-striped" style="display:none;" id="dt">
         <tr class="text-center">
             <th>
                 @Html.DisplayNameFor(model => model.Student_Name)
@@ -55,7 +57,7 @@
             </tr>
         }
     </table>
-</div>
+
 
 
 @Html.ActionLink("Back", "Index", "Home")
@@ -64,8 +66,10 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="~/Content/style.css" />
 <script>
-    $(document).ready(function () {
-        $("#dataTable").show();
+    document.getElementById("searchbutton").addEventListener("click", function () {
+        var table = document.getElementById("dt");
+        table.style.display = "table";
     });
 </script>

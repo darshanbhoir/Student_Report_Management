@@ -1,0 +1,24 @@
+﻿header{
+    position: fixed;
+    top:0;
+    width: 100%;
+}
+   header .navigation-bar{
+       display:inline-block;
+       width: 65%;
+       vertical-align:middle;
+
+   }
+    header .navigation-bar .navbar-nav li{
+        display:inline-block;
+        vertical-align:middle;
+        margin-left:20px;
+    }
+    header .navigation-bar .navbar-nav {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+.datatbl{
+    display:none;
+}

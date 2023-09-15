@@ -214,6 +214,7 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -385,6 +386,12 @@
     <Content Include="Views\MyAPI\PercentageofStudent.cshtml" />
     <Content Include="Views\MyAPI\SubjectCount.cshtml" />
     <Content Include="Views\MyAPI\StudentPercentage.cshtml" />
+    <Content Include="Views\MyAPI\OverallPercentage.cshtml" />
+    <Content Include="Views\MyAPI\FailedStudent.cshtml" />
+    <Content Include="Views\MyAPI\LowestScorerSemwise.cshtml" />
+    <Content Include="Views\MyAPI\LowestScorerswithoutFailed.cshtml" />
+    <Content Include="Views\MyAPI\AgeCalculation.cshtml" />
+    <Content Include="Views\MyAPI\StudentTopSubYear.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

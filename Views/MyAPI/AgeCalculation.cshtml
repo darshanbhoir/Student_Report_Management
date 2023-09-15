@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Student_Report_Management.Models.ViewModels.StudentReportViewModel>
+@{
+    ViewBag.Title = "AgeCalculation";
+}
+
+<h4>Age Calculation</h4>
+
+<table class="table table-bordered table-striped">
+    <tr class="text-center">
+        <th>
+            @Html.DisplayNameFor(model => model.Student_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Age)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="text-center">
+            <td>
+                @Html.DisplayFor(modelItem => item.Student_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+        </tr>
+    }
+</table>
+
+@Html.ActionLink("Back", "Index", "Home")
+

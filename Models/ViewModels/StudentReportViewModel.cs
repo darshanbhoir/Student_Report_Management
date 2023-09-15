@@ -58,6 +58,7 @@ namespace Student_Report_Management.Models.ViewModels
 
         //Annomous
         public int Years { get; set; }
+        public string Year { get; set; }
         [Display(Name = "Total Marks")]
         public int Total { get; set; }
         [Display(Name = "Average of Marks")]
@@ -66,6 +67,9 @@ namespace Student_Report_Management.Models.ViewModels
         public int Count { get; set; }
         [Display(Name = "Obtained Marks")]
         public int Obtained { get; set; }
+        [Display(Name = "Total Percentage")]
         public double Percentage { get; set; }
+        [Display(Name = "Age in Years")]
+        public int Age { get; set; }
     }
 }
