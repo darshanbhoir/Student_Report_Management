@@ -286,4 +286,54 @@
             <button type="submit" class="btn-primary">Search</button>
         }
     </div>
+    <div class="col-md-3">
+        <p>
+            Reports data with Corrected DOB
+        </p>
+        @using (Html.BeginForm("ReportsDatawithDOB", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit" class="btn-primary">Search</button>
+        }
+    </div>
+    <div class="col-md-3">
+        <p>
+            Studentwise Report Count
+        </p>
+        @using (Html.BeginForm("ReportCount", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit" class="btn-primary">Search</button>
+        }
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-md-3">
+        <p>
+            Top subjects with more selects
+        </p>
+        @using (Html.BeginForm("TopSubwithMoreSelect", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit" class="btn-primary">Search</button>
+        }
+    </div>
+    <div class="col-md-3">
+        <p>
+            top 3 from Particular Subject
+        </p>
+        @using (Html.BeginForm("TopThree", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit" class="btn-primary">Search</button>
+        }
+    </div>
+    <div class="col-md-3">
+        <p>
+            Particular Students top Subjects
+        </p>
+        @using (Html.BeginForm("StudTopSub", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit" class="btn-primary">Search</button>
+        }
+    </div>
 </div>

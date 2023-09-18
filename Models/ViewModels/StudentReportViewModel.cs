@@ -71,5 +71,7 @@ namespace Student_Report_Management.Models.ViewModels
         public double Percentage { get; set; }
         [Display(Name = "Age in Years")]
         public int Age { get; set; }
+        [Display(Name = "Birth Date")]
+        public string DOB { get; set; }
     }
 }

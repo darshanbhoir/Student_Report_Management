@@ -392,6 +392,11 @@
     <Content Include="Views\MyAPI\LowestScorerswithoutFailed.cshtml" />
     <Content Include="Views\MyAPI\AgeCalculation.cshtml" />
     <Content Include="Views\MyAPI\StudentTopSubYear.cshtml" />
+    <Content Include="Views\MyAPI\ReportsDatawithDOB.cshtml" />
+    <Content Include="Views\MyAPI\ReportCount.cshtml" />
+    <Content Include="Views\MyAPI\TopSubwithMoreSelect.cshtml" />
+    <Content Include="Views\MyAPI\TopThree.cshtml" />
+    <Content Include="Views\MyAPI\StudTopSub.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

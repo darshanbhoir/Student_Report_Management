@@ -956,53 +956,54 @@ namespace Student_Report_Management.Controllers
 
 
         //Reports data with Corrected DOB
-        public string ReportsDatawithDOB()
+        public ActionResult ReportsDatawithDOB()
         {
             db.Configuration.ProxyCreationEnabled = false;
             var query = from SR in db.tbl_Student_Report
                         join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
+                        group new { SR, Student} by Student.Student_Id into StudentGroup
                         select new
                         {
-                            SR.Report_Id,
-                            Student.Student_Name,
-                            Student.Student_DOB
+                            Report_Id= StudentGroup.Select(u=>u.SR.Report_Id).FirstOrDefault(),
+                            Student_Name= StudentGroup.Select(u=>u.Student.Student_Name).FirstOrDefault(),
+                            Student_DOB= StudentGroup.Select(u=>u.Student.Student_DOB).FirstOrDefault()
                             
                         };
             var Result = query.ToList();
 
             var NewResult = Result.Select(r =>
-                                            new
+                                            new StudentReportViewModel
                                             {
-                                                r.Report_Id,
-                                                r.Student_Name,
+                                                Report_Id=r.Report_Id,
+                                                Student_Name=r.Student_Name,
                                                 //DOB= r.Student_DOB.HasValue ? DateTimeOffset.FromUnixTimeMilliseconds(r.Student_DOB.Value.Ticks/TimeSpan.TicksPerMillisecond).Date.ToString("yyyy-MM-dd") : string.Empty
                                                 DOB = r.Student_DOB != null ? r.Student_DOB.Value.ToString("yyyy-MM-dd") : string.Empty
                                             });
 
-            var json = new JavaScriptSerializer().Serialize(NewResult);
-            return json;
+            //var json = new JavaScriptSerializer().Serialize(NewResult);
+            return View("ReportsDatawithDOB", NewResult);
         }
 
 
         //Studentwise Report Count
-        public string ReportCount()
+        public ActionResult ReportCount()
         {
             var query = from SR in db.tbl_Student_Report
                         join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
                         group SR by Student.Student_Name into Stud
-                        select new
+                        select new StudentReportViewModel
                         {
-                            StudentName = Stud.Key,
-                            ReportsCpount = Stud.Count()
+                            Student_Name = Stud.Key,
+                            Count = Stud.Count()
                         };
             var Result = query.ToList();
-            var json = new JavaScriptSerializer().Serialize(Result);
-            return json;
+            //var json = new JavaScriptSerializer().Serialize(Result);
+            return View("ReportCount", Result);
         }
 
 
         //Top subjects with more selects
-        public string TopSubwithMoreSelect(string StudentName, string YearName)
+        public ActionResult TopSubwithMoreSelect(string StudentName, string YearName)
         {
             var query = from SR in db.tbl_Student_Report
                         join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
@@ -1012,17 +1013,17 @@ namespace Student_Report_Management.Controllers
                         join Sub in db.tbl_Subject_Master on SSM.Subject_Id equals Sub.Subject_Id
                         where Student.Student_Name == StudentName && YM.Year_Name == YearName
                         group SR by Student.Student_Name into Stud
-                        select new
+                        select new StudentReportViewModel
                         {
-                            StudentName = Stud.Key,
+                            Student_Name = Stud.Key,
                             //StudentEmail = Stud.FirstOrDefault().tbl_Student_Master.Student_Email,
-                            Subject = Stud.FirstOrDefault().tbl_Semister_Subject_Map.tbl_Subject_Master.Subject_Name,
-                            MaxScore = Stud.Max(u => u.User_Score),
-                            Total = Stud.FirstOrDefault().tbl_Semister_Subject_Map.Max_Score
+                            Subject_Name = Stud.FirstOrDefault().tbl_Semister_Subject_Map.tbl_Subject_Master.Subject_Name,
+                            User_Score = (int)Stud.Max(u => u.User_Score),
+                            Total = (int)Stud.FirstOrDefault().tbl_Semister_Subject_Map.Max_Score
                         };
             var Result = query.ToList();
-            var json = new JavaScriptSerializer().Serialize(Result);
-            return json;
+            //var json = new JavaScriptSerializer().Serialize(Result);
+            return View("TopSubwithMoreSelect", Result);
 
         }
 
@@ -1067,7 +1068,7 @@ namespace Student_Report_Management.Controllers
 
 
         //top 3 from Particular Subject
-        public string TopThree(string SubjectName)
+        public ActionResult TopThree(string SubjectName)
         {
             var query = (from SR in db.tbl_Student_Report
                          join Stud in db.tbl_Student_Master on SR.Student_Id equals Stud.Student_Id
@@ -1077,21 +1078,21 @@ namespace Student_Report_Management.Controllers
                          join Year in db.tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
                          where Sub.Subject_Name == SubjectName
                          orderby SR.User_Score descending
-                         select new
+                         select new StudentReportViewModel
                          {
-                             SR.Report_Id,
-                             Stud.Student_Name,
-                             SR.User_Score
+                             Report_Id=SR.Report_Id,
+                             Student_Name=Stud.Student_Name,
+                             User_Score=(int)SR.User_Score
                          }).Take(3);
 
             var Result = query.ToList();
-            var json = new JavaScriptSerializer().Serialize(Result);
-            return json;
+            //var json = new JavaScriptSerializer().Serialize(Result);
+            return View("TopThree", Result);
 
         }
 
         //Particular Students top Subjects
-        public string StudTopSub(string StudentName)
+        public ActionResult StudTopSub(string StudentName)
         {
             var query = (from SR in db.tbl_Student_Report
                          join Stud in db.tbl_Student_Master on SR.Student_Id equals Stud.Student_Id
@@ -1101,17 +1102,17 @@ namespace Student_Report_Management.Controllers
                          join Year in db.tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
                          where Stud.Student_Name == StudentName
                          group SR by Sem.Semister_Name into S
-                         select new
+                         select new StudentReportViewModel
                          {
-                             StudentName = S.FirstOrDefault().tbl_Student_Master.Student_Name,
-                             SemName = S.Key,
-                             Subject= S.FirstOrDefault().tbl_Semister_Subject_Map.tbl_Subject_Master.Subject_Name,
-                             Score = S.Max(m => m.User_Score)
+                             Student_Name = S.FirstOrDefault().tbl_Student_Master.Student_Name,
+                             Semister_Name = S.Key,
+                             Subject_Name= S.FirstOrDefault().tbl_Semister_Subject_Map.tbl_Subject_Master.Subject_Name,
+                             User_Score = (int)S.Max(m => m.User_Score)
                          });
 
             var Result = query.ToList();
-            var json = new JavaScriptSerializer().Serialize(Result);
-            return json;
+            //var json = new JavaScriptSerializer().Serialize(Result);
+            return View("StudTopSub", Result);
 
 
         }
