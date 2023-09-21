@@ -336,4 +336,45 @@
             <button type="submit" class="btn-primary">Search</button>
         }
     </div>
+    <div class="col-md-3">
+        <p>
+            All Students Top subject Semister wise
+        </p>
+        @using (Html.BeginForm("AllStudTopSub", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit" class="btn-primary">Search</button>
+        }
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-md-3">
+        <p>
+            Particular Subject Result Passed or Failed
+        </p>
+        @using (Html.BeginForm("SubjectResult", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit" class="btn-primary">Search</button>
+        }
+    </div>
+    <div class="col-md-3">
+        <p>
+            Result Passed or Failed by Semister
+        </p>
+        @using (Html.BeginForm("SemisterResult", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit" class="btn-primary">Search</button>
+        }
+    </div>
+    <div class="col-md-3">
+        <p>
+            Ordering by Score
+        </p>
+        @using (Html.BeginForm("OrderingbyScore", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit" class="btn-primary">Search</button>
+        }
+    </div>
 </div>

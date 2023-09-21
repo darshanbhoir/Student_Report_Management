@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Student_Report_Management.Models.ViewModels.StudentReportViewModel>
+@{
+    ViewBag.Title = "SubjectResult";
+}
+
+<h4>Particular Subject Result Passed or Failed</h4>
+
+<h6>Enter Details</h6>
+<form method="get" action="/MyAPI/SubjectResult">
+    <label for="StudentId">Enter Student Id</label>
+    <input type="number" name="StudentId" id="StudentId" />
+    <br />
+    <button type="submit" class="btn-outline-primary">Search</button>
+</form>
+
+<table class="table table-bordered table-striped">
+    <tr class="text-center">
+        <th>
+            @Html.DisplayNameFor(model => model.Subject_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User_Score)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Max_Score)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Percentage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Result)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="text-center">
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User_Score)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Max_Score)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Percentage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Result)
+            </td>
+        </tr>
+    }
+</table>
+
+
+@Html.ActionLink("Back", "Index", "Home")

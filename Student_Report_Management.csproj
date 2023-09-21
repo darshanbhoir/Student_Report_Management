@@ -397,6 +397,10 @@
     <Content Include="Views\MyAPI\TopSubwithMoreSelect.cshtml" />
     <Content Include="Views\MyAPI\TopThree.cshtml" />
     <Content Include="Views\MyAPI\StudTopSub.cshtml" />
+    <Content Include="Views\MyAPI\AllStudTopSub.cshtml" />
+    <Content Include="Views\MyAPI\SubjectResult.cshtml" />
+    <Content Include="Views\MyAPI\SemisterResult.cshtml" />
+    <Content Include="Views\MyAPI\OrderingbyScore.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

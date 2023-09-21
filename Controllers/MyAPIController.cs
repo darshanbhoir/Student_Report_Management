@@ -1119,7 +1119,7 @@ namespace Student_Report_Management.Controllers
 
 
         //All Students Top subject Semister wise
-        public string AllStudTopSub()
+        public ActionResult AllStudTopSub()
         {
             var query = (from SR in db.tbl_Student_Report
                          join Stud in db.tbl_Student_Master on SR.Student_Id equals Stud.Student_Id
@@ -1138,19 +1138,19 @@ namespace Student_Report_Management.Controllers
                          .GroupBy(s => new { s.Student_Name, s.Semister_Name })
                          .SelectMany(s => s.OrderByDescending(u => u.User_Score)
                                              .Select((x, index) =>
-                                            new
+                                            new StudentReportViewModel
                                             {
-                                                x.Student_Name,
-                                                x.Semister_Name,
-                                                x.Subject_Name,
-                                                x.User_Score,
-                                                Semname = index + 1
+                                                Student_Name=x.Student_Name,
+                                                Semister_Name=x.Semister_Name,
+                                                Subject_Name = x.Subject_Name,
+                                                User_Score=(int)x.User_Score,
+                                                Sem = index + 1
                                             }))
-                            .Where(x => x.Semname == 1);
+                            .Where(x => x.Sem == 1);
 
             var Result = query.ToList();
-            var json = new JavaScriptSerializer().Serialize(Result);
-            return json;
+            //var json = new JavaScriptSerializer().Serialize(Result);
+            return View("AllStudTopSub", Result);
 
 
         }
@@ -1179,7 +1179,7 @@ namespace Student_Report_Management.Controllers
 
 
         //Particular Subject Result Passed or Failed
-        public string SubjectResult(int StudentId)
+        public ActionResult SubjectResult(int? StudentId)
         {
             var query = from SR in db.tbl_Student_Report
                         join Stud in db.tbl_Student_Master on SR.Student_Id equals Stud.Student_Id
@@ -1189,23 +1189,23 @@ namespace Student_Report_Management.Controllers
                         join Year in db.tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
                         where Stud.Student_Id == StudentId
                         //&& Year.Year_Name=="First Year"
-                        select new
+                        select new StudentReportViewModel
                         {
-                            Sub.Subject_Name,
-                            SR.User_Score,
-                            SSM.Max_Score,
-                            Percentage = SR.User_Score * 100.0 / SSM.Max_Score,
+                            Subject_Name=Sub.Subject_Name,
+                            User_Score=(int)SR.User_Score,
+                            Max_Score=(int)SSM.Max_Score,
+                            Percentage = (int)(SR.User_Score * 100.0 / SSM.Max_Score),
                             Result = (SR.User_Score * 100.0 / SSM.Max_Score) > 40 ? "Passed" : "Failed"
                         };
 
             var Result = query;
-            var json = new JavaScriptSerializer().Serialize(Result);
-            return json;
+            //var json = new JavaScriptSerializer().Serialize(Result);
+            return View("SubjectResult", Result);
         }
 
 
         //Result Passed or Failed by Semister
-        public string SemisterResult(string StudentName)
+        public ActionResult SemisterResult(string StudentName)
         {
             var query = from SR in db.tbl_Student_Report
                         join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
@@ -1217,24 +1217,24 @@ namespace Student_Report_Management.Controllers
                             Student.Student_Name,
                             Sem.Semister_Name
                         } into X
-                        select new
+                        select new StudentReportViewModel
                         {
-                            StudentName = X.Key.Student_Name,
-                            SemisterName = X.Key.Semister_Name,
-                            Obtained = X.Sum(u => u.SR.User_Score),
-                            Total = X.Sum(v => v.SSM.Max_Score),
-                            Percentage = (X.Sum(u => u.SR.User_Score)) * 100.0 / X.Sum(v => v.SSM.Max_Score),
+                            Student_Name = X.Key.Student_Name,
+                            Semister_Name = X.Key.Semister_Name,
+                            Obtained = (int)X.Sum(u => u.SR.User_Score),
+                            Total = (int)X.Sum(v => v.SSM.Max_Score),
+                            Percentage = (double)((X.Sum(u => u.SR.User_Score)) * 100.0 / X.Sum(v => v.SSM.Max_Score)),
                             Result = ((X.Sum(u => u.SR.User_Score)) * 100.0 / X.Sum(v => v.SSM.Max_Score)) > 40 ? "Passed" : "Failed"
                         };
 
             var Result = query;
-            var json = new JavaScriptSerializer().Serialize(Result);
-            return json;
+            //var json = new JavaScriptSerializer().Serialize(Result);
+            return View("SemisterResult", Result);
         }
 
 
         //Grouping by User Score
-        public string UserScoreGroup()
+        public ActionResult UserScoreGroup()
         {
             var query = from SR in db.tbl_Student_Report
                         join Stud in db.tbl_Student_Master on SR.Student_Id equals Stud.Student_Id
@@ -1254,8 +1254,8 @@ namespace Student_Report_Management.Controllers
                         select Score;
 
             var Result = query;
-            var json = new JavaScriptSerializer().Serialize(Result);
-            return json;
+            //var json = new JavaScriptSerializer().Serialize(Result);
+            return View(Result);
         }
 
 
@@ -1311,7 +1311,7 @@ namespace Student_Report_Management.Controllers
 
 
         //ordering by scores
-        public string OrderingbyScore()
+        public ActionResult OrderingbyScore()
         {
             var query = from SR in db.tbl_Student_Report
                         join Student in db.tbl_Student_Master on SR.Student_Id equals Student.Student_Id
@@ -1321,15 +1321,15 @@ namespace Student_Report_Management.Controllers
                         join Year in db.tbl_Year_Master on Sem.Year_Id equals Year.Year_Id
                         orderby Sub.Subject_Name, Student.Student_Name
                         where SR.User_Score > 32 && SR.User_Score < 60
-                        select new
+                        select new StudentReportViewModel
                         {
-                            Student.Student_Name,
-                            Sub.Subject_Name,
-                            SR.User_Score
+                            Student_Name=Student.Student_Name,
+                            Subject_Name=Sub.Subject_Name,
+                            User_Score=(int)SR.User_Score
                         };
             var Result = query.ToList();
-            var json = new JavaScriptSerializer().Serialize(Result);
-            return json;
+            //var json = new JavaScriptSerializer().Serialize(Result);
+            return View("OrderingbyScore", Result);
 
         }
 
@@ -1379,6 +1379,8 @@ namespace Student_Report_Management.Controllers
 
 
         }
+
+
         //By using Let keyword
         public string ScorebyLet(string StudentName)
         {
@@ -1429,7 +1431,6 @@ namespace Student_Report_Management.Controllers
             var json = new JavaScriptSerializer().Serialize(Result);
             return json;
         }
-
 
 
         //MinandMaxScore

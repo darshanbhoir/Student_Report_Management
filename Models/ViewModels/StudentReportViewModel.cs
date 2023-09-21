@@ -73,5 +73,6 @@ namespace Student_Report_Management.Models.ViewModels
         public int Age { get; set; }
         [Display(Name = "Birth Date")]
         public string DOB { get; set; }
+        public string Result { get; set; }
     }
 }
