@@ -1,10 +1,9 @@
 ﻿@model IEnumerable<Student_Report_Management.Models.ViewModels.StudentReportViewModel>
 @{
-    ViewBag.Title = "LowestScorerswithoutFailed";
+    ViewBag.Title = "SemwiseDataSort";
 }
 <br />
-<h2>Lowest Scoring  Excluding Failed Students</h2>
-
+<h4>SemwiseDataSort</h4>
 
 <table class="table table-bordered table-striped">
     <tr class="text-center">
@@ -21,13 +20,9 @@
             @Html.DisplayNameFor(model => model.User_Score)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Year_Name)
+            @Html.DisplayNameFor(model => model.Max_Score)
         </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.Sem)
-        </th>*@
     </tr>
-
 
     @foreach (var item in Model)
     {
@@ -45,13 +40,11 @@
                 @Html.DisplayFor(modelItem => item.User_Score)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Year_Name)
+                @Html.DisplayFor(modelItem => item.Max_Score)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Sem)
-            </td>*@
         </tr>
     }
 </table>
+
 
 @Html.ActionLink("Back", "Index", "Home")

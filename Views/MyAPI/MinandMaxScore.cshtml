@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Student_Report_Management.Models.ViewModels.StudentReportViewModel>
+@{
+    ViewBag.Title = "MinandMaxScore";
+}
+
+<br />
+
+<h4>Minimum and Maximum Score</h4>
+
+<table class="table table-bordered table-striped">
+    <tr class="text-center">
+        <th>
+            @Html.DisplayNameFor(model => model.Student_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Maximum_Score)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.YearMaxScore)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaxScoreSubject)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Minimum_Score)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.YearMinScore)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MinScoreSubject)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="text-center">
+            <td>
+                @Html.DisplayFor(modelItem => item.Student_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Maximum_Score)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.YearMaxScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxScoreSubject)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Minimum_Score)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.YearMinScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinScoreSubject)
+            </td>
+        </tr>
+    }
+</table>
+
+@Html.ActionLink("Back", "Index", "Home")

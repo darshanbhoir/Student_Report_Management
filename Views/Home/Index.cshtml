@@ -2,7 +2,7 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron text-center">
+<div class="jumbotron text-center" style="background-color:#fffb7f">
     <h1>Student Report Management</h1>
     
 </div>
@@ -373,6 +373,56 @@
             Ordering by Score
         </p>
         @using (Html.BeginForm("OrderingbyScore", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit" class="btn-primary">Search</button>
+        }
+    </div>
+    <div class="col-md-3">
+        <p>
+            Semister wise data sorting
+        </p>
+        @using (Html.BeginForm("SemwiseDataSort", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit" class="btn-primary">Search</button>
+        }
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-md-3">
+        <p>
+            Counting Number of Reports in Semister
+        </p>
+        @using (Html.BeginForm("CountingReports", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit" class="btn-primary">Search</button>
+        }
+    </div>
+    <div class="col-md-3">
+        <p>
+            Counting passed students in subject
+        </p>
+        @using (Html.BeginForm("PassedCount", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit" class="btn-primary">Search</button>
+        }
+    </div>
+    <div class="col-md-3">
+        <p>
+            Minimum and Maximum Score
+        </p>
+        @using (Html.BeginForm("MinandMaxScore", "MyAPI", FormMethod.Get))
+        {
+            <button type="submit" class="btn-primary">Search</button>
+        }
+    </div>
+    <div class="col-md-3">
+        <p>
+            Overall Score for Year ThenBy
+        </p>
+        @using (Html.BeginForm("OverallScoreforYearThenBy", "MyAPI", FormMethod.Get))
         {
             <button type="submit" class="btn-primary">Search</button>
         }

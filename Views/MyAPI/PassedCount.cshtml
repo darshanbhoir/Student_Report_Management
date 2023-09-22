@@ -1,12 +1,17 @@
 ﻿@model IEnumerable<Student_Report_Management.Models.ViewModels.StudentReportViewModel>
 @{
-    ViewBag.Title = "FailedStudent";
+    ViewBag.Title = "PassedCount";
 }
+
 <br />
-<h4>Subject wise Failed Student</h4>
+
+<h4>Counting passed students in subject</h4>
 
 <table class="table table-bordered table-striped">
     <tr class="text-center">
+        <th>
+            @Html.DisplayNameFor(model => model.Semister_Name)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Subject_Name)
         </th>
@@ -19,6 +24,9 @@
     {
         <tr class="text-center">
             <td>
+                @Html.DisplayFor(modelItem => item.Semister_Name)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Subject_Name)
             </td>
             <td>
@@ -29,4 +37,3 @@
 </table>
 
 @Html.ActionLink("Back", "Index", "Home")
-

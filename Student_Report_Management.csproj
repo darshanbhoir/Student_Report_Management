@@ -401,6 +401,11 @@
     <Content Include="Views\MyAPI\SubjectResult.cshtml" />
     <Content Include="Views\MyAPI\SemisterResult.cshtml" />
     <Content Include="Views\MyAPI\OrderingbyScore.cshtml" />
+    <Content Include="Views\MyAPI\SemwiseDataSort.cshtml" />
+    <Content Include="Views\MyAPI\CountingReports.cshtml" />
+    <Content Include="Views\MyAPI\PassedCount.cshtml" />
+    <Content Include="Views\MyAPI\MinandMaxScore.cshtml" />
+    <Content Include="Views\MyAPI\OverallScoreforYearThenBy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

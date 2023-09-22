@@ -1,68 +1,56 @@
 ﻿@model IEnumerable<Student_Report_Management.Models.ViewModels.StudentReportViewModel>
 @{
-    ViewBag.Title = "StudentsLowestScore";
+    ViewBag.Title = "OverallScoreforYearThenBy";
 }
-<br />
-<h4>Particular Students Lowest Scores</h4>
+
+<h4>Overall Score for year desc by User Score & thenby YearName</h4>
 
 <h6>Enter Details</h6>
-<form method="get" action="/MyAPI/StudentsLowestScore">
-    <label for="StudentName">Enter Student Name</label>
-    <input type="text" name="StudentName" id="StudentName" />
-    <br />
+<form method="get" action="~/MyAPI/OverallScoreforYearThenBy">
+    <label for="YearName">
+        Enter Year Name
+    </label>
+    <input type="text" name="YearName" id="YearName" />
     <button type="submit" class="btn-outline-primary">Search</button>
 </form>
 
 <table class="table table-bordered table-striped">
     <tr class="text-center">
         <th>
-            @Html.DisplayNameFor(model => model.Student_Id)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Student_Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Subject_Name)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.User_Score)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Semister_Name)
+            @Html.DisplayNameFor(model => model.Max_Score)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Year_Name)
         </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.Years)
-        </th>*@
-
+        <th>
+            @Html.DisplayNameFor(model => model.Semister_Name)
+        </th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr class="text-center">
             <td>
-                @Html.DisplayFor(modelItem => item.Student_Id)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Student_Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subject_Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.User_Score)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Semister_Name)
+                @Html.DisplayFor(modelItem => item.Max_Score)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Year_Name)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Years)
-            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Semister_Name)
+            </td>
         </tr>
     }
 </table>

@@ -74,5 +74,18 @@ namespace Student_Report_Management.Models.ViewModels
         [Display(Name = "Birth Date")]
         public string DOB { get; set; }
         public string Result { get; set; }
+
+        [Display(Name = "Year for Maximum Score")]
+        public string YearMaxScore { get; set; }
+        [Display(Name = "Maximum Score Subject")]
+        public string MaxScoreSubject { get; set; }
+        [Display(Name = "Year for Minimum Score")]
+        public string YearMinScore { get; set; }
+        [Display(Name = "Minimum Score Subject")]
+        public string MinScoreSubject { get; set; }
+        [Display(Name = "Maximum Score")]
+        public int Maximum_Score { get; set; }
+        [Display(Name = "Minimum Score")]
+        public int Minimum_Score { get; set; }
     }
 }
