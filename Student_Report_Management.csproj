@@ -165,6 +165,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyAPIController.cs" />
+    <Compile Include="Controllers\StudentMasterController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -406,6 +407,9 @@
     <Content Include="Views\MyAPI\PassedCount.cshtml" />
     <Content Include="Views\MyAPI\MinandMaxScore.cshtml" />
     <Content Include="Views\MyAPI\OverallScoreforYearThenBy.cshtml" />
+    <Content Include="Views\StudentMaster\GetStudentData.cshtml" />
+    <Content Include="Views\StudentMaster\CreateStudent.cshtml" />
+    <Content Include="Views\StudentMaster\EditStudent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
