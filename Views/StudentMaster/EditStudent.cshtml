@@ -1,33 +1,34 @@
 ﻿@model Student_Report_Management.Models.ViewModels.StudentReportViewModel
 @{
+    /**/
+
     ViewBag.Title = "EditStudent";
 }
 
-<h4>Update Student</h4>
+<h2>Edit Student</h2>
 
 @using (Html.BeginForm("EditStudent", "StudentMaster", FormMethod.Post))
 {
+    @Html.AntiForgeryToken()
     <div class="form-group">
-        @Html.LabelFor(model => model.Student_Name)
-        @Html.TextBoxFor(model => model.Student_Name, new { @class = "form-control" })
+        @Html.LabelFor(Model => Model.Student_Name)
+        @Html.TextBoxFor(Model => Model.Student_Name, new { @class = "form-control" })
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Student_Mobile)
-        @Html.TextBoxFor(model => model.Student_Mobile, new { @class = "form-control" })
+        @Html.LabelFor(Model => Model.Student_Email)
+        @Html.TextBoxFor(Model => Model.Student_Email, new { @class = "form-control" })
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Student_Email)
-        @Html.TextBoxFor(model => model.Student_Email, new { @class = "form-control" })
+        @Html.LabelFor(Model => Model.Student_Mobile)
+        @Html.TextBoxFor(Model => Model.Student_Mobile, new { @class = "form-control" })
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Student_DOB)
-        @Html.EditorFor(model => model.Student_DOB, new { htmlAttributes = new { @class = "form-control", type = "date", format = "yyyy-MM-dd" } })
+        @Html.LabelFor(Model => Model.Student_DOB)
+        @Html.EditorFor(Model => Model.Student_DOB, new { @class = "form-control" })
     </div>
-
     <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" />
+        <input type="submit" value="Update" class="btn btn-primary" />
     </div>
-
     <div>
         @Html.ActionLink("Back to List", "GetStudentData")
     </div>

@@ -3,6 +3,7 @@ using Student_Report_Management.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -65,14 +66,18 @@ namespace Student_Report_Management.Controllers
 
 
         //Edit Student
-        public ActionResult EditStudent(int id)
+        public ActionResult EditStudent(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             var student= db.tbl_Student_Master.Find(id);
             if(student==null)
             {
                 return HttpNotFound();
             }
-            var model = new StudentReportViewModel
+            var viewmodel = new StudentReportViewModel
             {
                 Student_Id = student.Student_Id,
                 Student_Name = student.Student_Name,
@@ -80,27 +85,72 @@ namespace Student_Report_Management.Controllers
                 Student_Mobile = student.Student_Mobile,
                 Student_DOB = (DateTime)student.Student_DOB,
             };
-            return View(model);
+            //Console.WriteLine(viewmodel);
+            return View(viewmodel);
         }
         [HttpPost]
-        public ActionResult EditStudent(StudentReportViewModel model)
+        public ActionResult EditStudent(StudentReportViewModel viewmodel)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                var student= db.tbl_Student_Master.Find(model.Student_Id);
-                if(student == null)
+                try
                 {
-                    return HttpNotFound();
-                }
-                student.Student_Name = model.Student_Name;
-                student.Student_Email = model.Student_Email;
-                student.Student_Mobile = model.Student_Mobile;
-                student.Student_DOB= model.Student_DOB;
+                    var student = db.tbl_Student_Master.Find(viewmodel.Student_Id);
+                    if (student == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    //student.Student_Id = viewmodel.Student_Id;
+                    student.Student_Name = viewmodel.Student_Name;
+                    student.Student_Email = viewmodel.Student_Email;
+                    student.Student_Mobile = viewmodel.Student_Mobile;
+                    student.Student_DOB = viewmodel.Student_DOB;
 
-                db.SaveChanges();
-                return RedirectToAction("GetStudentData");
+                    db.Entry(student).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("GetStudentData");
+                }
+                catch(Exception ex)
+                {
+                    ModelState.AddModelError("", "An error occurred while updating the student.");
+                }
+
+
+
+
+                //var student= db.tbl_Student_Master.Find(model.Student_Id);
+                //var student = db.tbl_Student_Master.Find(viewmodel.Student_Id);
+                //var student = db.tbl_Student_Master.Where(x => x.Student_Id == viewmodel.Student_Id).FirstOrDefault();
+                //    if (student != null)
+                //    {
+                //        //student.Student_Id = viewmodel.Student_Id;
+                //        student.Student_Name = viewmodel.Student_Name;
+                //        student.Student_Email = viewmodel.Student_Email;
+                //        student.Student_Mobile = viewmodel.Student_Mobile;
+                //        student.Student_DOB = viewmodel.Student_DOB;
+
+                //        db.SaveChanges();
+
+                //    }
+                //return RedirectToAction("GetStudentData");
+
+
+
+
+                //var student = new tbl_Student_Master
+                //{
+                //    Student_Name = viewmodel.Student_Name,
+                //    Student_Email = viewmodel.Student_Email,
+                //    Student_Mobile = viewmodel.Student_Mobile,
+                //    Student_DOB = viewmodel.Student_DOB,
+                //};
+                ////db.tbl_Student_Master.Add(student);
+                //db.SaveChanges();
+
+                //return RedirectToAction("GetStudentData");
+                //}
             }
-            return View(model);
+            return View(viewmodel);
         }
     }
 }

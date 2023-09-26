@@ -62,7 +62,6 @@ D:\Git-Student Management\Student_Report_Management\obj\Debug\Student_Report_Man
 D:\Git-Student Management\Student_Report_Management\obj\Debug\Student_Report_Management.csproj.CopyComplete
 D:\Git-Student Management\Student_Report_Management\obj\Debug\Student_Report_Management.dll
 D:\Git-Student Management\Student_Report_Management\obj\Debug\Student_Report_Management.pdb
-D:\Git-Student Management\Student_Report_Management\obj\Debug\Student_Report_Management.csprojAssemblyReference.cache
 F:\Student Management\Server DB\Student_Report_Management\bin\Student_Report_Management.dll.config
 F:\Student Management\Server DB\Student_Report_Management\bin\Student_Report_Management.dll
 F:\Student Management\Server DB\Student_Report_Management\bin\Student_Report_Management.pdb
@@ -128,3 +127,4 @@ F:\Student Management\Server DB\Student_Report_Management\obj\Debug\Student_Repo
 F:\Student Management\Server DB\Student_Report_Management\obj\Debug\Student_Report_Management.csproj.CopyComplete
 F:\Student Management\Server DB\Student_Report_Management\obj\Debug\Student_Report_Management.dll
 F:\Student Management\Server DB\Student_Report_Management\obj\Debug\Student_Report_Management.pdb
+D:\Git-Student Management\Student_Report_Management\obj\Debug\Student_Report_Management.csprojAssemblyReference.cache
