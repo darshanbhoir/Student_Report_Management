@@ -26,3 +26,20 @@
     display:none;
 }
 
+
+/*StudentMaster-GetStudentData*/
+.edit-button{
+    background-color:blue;
+    color:white;
+    padding:3px 7px;
+    border:none;
+    border-radius:3px;
+}
+
+.delete-button {
+    background-color: red;
+    color: white;
+    padding: 3px 7px;
+    border: none;
+    border-radius: 3px;
+}

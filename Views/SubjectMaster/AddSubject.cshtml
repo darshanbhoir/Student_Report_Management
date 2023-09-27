@@ -1,0 +1,23 @@
+﻿@model Student_Report_Management.Models.ViewModels.StudentReportViewModel
+@{
+    ViewBag.Title = "AddSubject";
+}
+
+<h2>Add New Subject</h2>
+
+@using (Html.BeginForm("AddSubject", "SubjectMaster", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(model => model.Subject_Name)
+        @Html.TextBoxFor(model => model.Subject_Name, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Add Subject" class="btn btn-primary" />
+    </div>
+
+    <div>
+        @Html.ActionLink("Back to List", "GetSubjectData")
+    </div>
+}
+

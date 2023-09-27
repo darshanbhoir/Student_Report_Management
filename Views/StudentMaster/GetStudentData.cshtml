@@ -3,6 +3,8 @@
     ViewBag.Title = "GetStudentData";
 }
 
+<link rel="stylesheet" href="~/Content/style.css" />
+
 <h4>Student Data</h4>
 
 <p>
@@ -59,8 +61,8 @@
                 @Html.DisplayFor(modelItem => item.Student_Mobile)
             </td>
             <td>
-                @Html.ActionLink("Edit", "EditStudent", new { id = item.Student_Id })
-                @Html.ActionLink("Delete", "DeleteStudent", new { id = item.Student_Id })
+                @Html.ActionLink("Edit", "EditStudent", new { id = item.Student_Id }, new {@class="edit-button btn btn-primary"})                
+                @Html.ActionLink("Delete", "DeleteStudent", new { id = item.Student_Id }, new { @class = "delete-button btn btn-danger" })
             </td>
         </tr>
     }

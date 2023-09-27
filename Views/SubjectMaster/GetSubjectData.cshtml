@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Student_Report_Management.Models.ViewModels.StudentReportViewModel>
+@{
+    ViewBag.Title = "GetSubjectData";
+}
+
+<link rel="stylesheet" href="~/Content/style.css" />
+
+<h4>Get Subject Data</h4>
+
+<p>
+    @Html.ActionLink("Add New Subject", "AddSubject")
+</p>
+
+@using (Html.BeginForm("GetSubjectData", "SubjectMaster", FormMethod.Get))
+{
+    <div>
+        @Html.Label("Search Subject")
+        @Html.TextBox("SubjectName", ViewBag.CurrentFilter as string)
+    </div>
+    <button type="submit" class="btn-outline-primary">Search</button>
+
+}
+
+<table class="table table-bordered table-striped">
+    <tr class="text-center">
+        <th>
+            @Html.DisplayNameFor(model => model.Subject_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Subject_Name)
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="text-center">
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject_Name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditSubject", new { id = item.Subject_Id }, new { @class = "edit-button btn btn-primary" })
+                @Html.ActionLink("Delete", "DeleteSubject", new { id = item.Subject_Id }, new { @class = "delete-button btn btn-danger" })
+            </td>
+        </tr>
+    }
+</table>
+
+@Html.ActionLink("Back", "Index", "Home")

@@ -166,6 +166,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyAPIController.cs" />
     <Compile Include="Controllers\StudentMasterController.cs" />
+    <Compile Include="Controllers\SubjectMasterController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -410,6 +411,10 @@
     <Content Include="Views\StudentMaster\GetStudentData.cshtml" />
     <Content Include="Views\StudentMaster\CreateStudent.cshtml" />
     <Content Include="Views\StudentMaster\EditStudent.cshtml" />
+    <Content Include="Views\StudentMaster\DeleteStudent.cshtml" />
+    <Content Include="Views\SubjectMaster\GetSubjectData.cshtml" />
+    <Content Include="Views\SubjectMaster\AddSubject.cshtml" />
+    <Content Include="Views\SubjectMaster\EditSubject.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

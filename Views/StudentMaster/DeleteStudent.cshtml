@@ -1,43 +1,45 @@
 ﻿@model Student_Report_Management.Models.ViewModels.StudentReportViewModel
 @{
-    /**/
-
-    ViewBag.Title = "EditStudent";
+    ViewBag.Title = "DeleteStudent";
 }
 
-<h2>Edit Student</h2>
+<h2>Delete Student</h2>
 
-@using (Html.BeginForm("EditStudent", "StudentMaster", FormMethod.Post))
+@using (Html.BeginForm("DeleteStudent", "StudentMaster", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    @*<div>
+    <div>
         @Html.HiddenFor(Model => Model.Student_Id)
-    </div>*@
+    </div>
     <div class="form-group">
         @Html.LabelFor(Model => Model.Student_Id)
         @Html.TextBoxFor(Model => Model.Student_Id, new { @readonly = "readonly", @class = "form-control" })
     </div>
     <div class="form-group">
         @Html.LabelFor(Model => Model.Student_Name)
-        @Html.TextBoxFor(Model => Model.Student_Name, new { @class = "form-control" })
+        @Html.TextBoxFor(Model => Model.Student_Name, new { @readonly = "readonly", @class = "form-control" })
     </div>
     <div class="form-group">
         @Html.LabelFor(Model => Model.Student_Email)
-        @Html.TextBoxFor(Model => Model.Student_Email, new { @class = "form-control" })
+        @Html.TextBoxFor(Model => Model.Student_Email, new { @readonly = "readonly", @class = "form-control" })
     </div>
     <div class="form-group">
         @Html.LabelFor(Model => Model.Student_Mobile)
-        @Html.TextBoxFor(Model => Model.Student_Mobile, new { @class = "form-control" })
+        @Html.TextBoxFor(Model => Model.Student_Mobile, new { @readonly = "readonly", @class = "form-control" })
     </div>
     <div class="form-group">
         @Html.LabelFor(Model => Model.Student_DOB)
-        @Html.TextBoxFor(Model => Model.Student_DOB, new { @class = "form-control" })
+        @Html.TextBoxFor(Model => Model.Student_DOB, new { @readonly = "readonly", @class = "form-control" })
+    </div>
+    <div>
+        <p>Are you sure to Delete this Student</p>
     </div>
     <div class="form-group">
-        <input type="submit" value="Update" class="btn btn-primary" />
+        <input type="submit" value="Delete" class="btn btn-primary" />
     </div>
     <div>
         @Html.ActionLink("Back to List", "GetStudentData")
     </div>
 }
+
 

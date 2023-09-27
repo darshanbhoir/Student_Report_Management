@@ -1,0 +1,28 @@
+﻿@model Student_Report_Management.Models.ViewModels.StudentReportViewModel
+@{
+    ViewBag.Title = "EditSubject";
+}
+
+<h3>Edit Subject</h3>
+
+@using (Html.BeginForm("EditSubject", "SubjectMaster", FormMethod.Post))
+{
+    @*<div>
+            @Html.HiddenFor(Model => Model.Subject_Id)
+        </div>*@
+    <div class="form-group">
+        @Html.LabelFor(Model => Model.Subject_Id)
+        @Html.TextBoxFor(Model => Model.Subject_Id, new { @readonly = "readonly", @class = "form-control" })
+    </div>
+    <div>
+        @Html.LabelFor(Model => Model.Subject_Name)
+        @Html.TextBoxFor(Model => Model.Subject_Name, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Update" class="btn btn-primary" />
+    </div>
+    <div>
+        @Html.ActionLink("Back to List", "GetSubjectData")
+    </div>
+}
+
