@@ -165,8 +165,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyAPIController.cs" />
+    <Compile Include="Controllers\SemesterMasterController.cs" />
     <Compile Include="Controllers\StudentMasterController.cs" />
     <Compile Include="Controllers\SubjectMasterController.cs" />
+    <Compile Include="Controllers\YearMasterController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -415,6 +417,11 @@
     <Content Include="Views\SubjectMaster\GetSubjectData.cshtml" />
     <Content Include="Views\SubjectMaster\AddSubject.cshtml" />
     <Content Include="Views\SubjectMaster\EditSubject.cshtml" />
+    <Content Include="Views\SubjectMaster\DeleteSubject.cshtml" />
+    <Content Include="Views\SemesterMaster\GetSemesterData.cshtml" />
+    <Content Include="Views\SemesterMaster\AddSemester.cshtml" />
+    <Content Include="Views\YearMaster\GetYearData.cshtml" />
+    <Content Include="Views\YearMaster\AddYear.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

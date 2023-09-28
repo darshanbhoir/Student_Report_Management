@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Student_Report_Management.Models.ViewModels.StudentReportViewModel>
+@{
+    ViewBag.Title = "GetYearData";
+}
+
+<h4>Year Data</h4>
+
+<p>
+    @Html.ActionLink("Add New Year", "AddYear")
+</p>
+
+@using (Html.BeginForm("GetYearData", "YearMaster", FormMethod.Get))
+{
+    <div>
+        @Html.Label("Search Year")
+        @Html.TextBox("YearName", ViewBag.CurrentFilter as string)
+    </div>
+    <button type="submit" class="btn-outline-primary">Search</button>
+}
+
+<table class="table table-bordered table-striped">
+    <tr class="text-center">
+        <th>
+            @Html.DisplayNameFor(model => model.Year_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Year_Name)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="text-center">
+            <td>
+                @Html.DisplayFor(modelItem => item.Year_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year_Name)
+            </td>
+        </tr>
+    }
+</table>
+
+@Html.ActionLink("Back", "Index", "Home")

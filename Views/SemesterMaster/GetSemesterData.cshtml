@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Student_Report_Management.Models.ViewModels.StudentReportViewModel>
+@{
+    ViewBag.Title = "GetSemesterData";
+}
+
+<h2>Semester Data</h2>
+
+<p>
+    @Html.ActionLink("Add New Semester", "AddSemester")
+</p>
+
+@using (Html.BeginForm("GetSemesterData", "SemesterMaster", FormMethod.Get))
+{
+    <div>
+        @Html.Label("Search Semester")
+        @Html.TextBox("SemesterName", ViewBag.CurrentFilter as string)
+    </div>
+    <button type="submit" class="btn-outline-primary">Search</button>
+}
+
+<table class="table table-bordered table-striped">
+    <tr class="text-center">
+        <th>
+            @Html.DisplayNameFor(model => model.Semister_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Semister_Name)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="text-center">
+            <td>
+                @Html.DisplayFor(modelItem => item.Semister_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Semister_Name)
+            </td>
+        </tr>
+    }
+</table>
+
+@Html.ActionLink("Back", "Index", "Home")

@@ -1,0 +1,23 @@
+﻿@model Student_Report_Management.Models.ViewModels.StudentReportViewModel
+@{
+    ViewBag.Title = "AddYear";
+}
+
+<h2>Add New Year</h2>
+
+@using (Html.BeginForm("AddYear", "YearMaster", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(model => model.Year_Name)
+        @Html.TextBoxFor(model => model.Year_Name, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Add Year" class="btn btn-primary" />
+    </div>
+
+    <div>
+        @Html.ActionLink("Back to List", "GetYearData")
+    </div>
+}
+

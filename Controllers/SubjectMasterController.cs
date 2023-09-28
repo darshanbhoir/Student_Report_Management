@@ -94,7 +94,53 @@ namespace Student_Report_Management.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("", "An error occurred while updating the student.");
+                    ModelState.AddModelError("", "An error occurred while updating the Subject.");
+                }
+            }
+            return View(viewmodel);
+        }
+
+
+
+        //Delete Subject
+        public ActionResult DeleteSubject(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var subject = db.tbl_Subject_Master.Find(id);
+            if (subject == null)
+            {
+                return HttpNotFound();
+            }
+            var viewmodel = new StudentReportViewModel
+            {
+                Subject_Id = subject.Subject_Id,
+                Subject_Name = subject.Subject_Name,
+            };
+            return View(viewmodel);
+        }
+        [HttpPost]
+        public ActionResult DeleteSubject(StudentReportViewModel viewmodel)
+        {
+            if(ModelState.IsValid)
+            {
+                try
+                {
+                    var subject = db.tbl_Subject_Master.Find(viewmodel.Subject_Id);
+                    if (subject == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    db.tbl_Subject_Master.Remove(subject);
+                    db.SaveChanges();
+
+                    return RedirectToAction("GetSubjectData");
+                }
+                catch(Exception ex)
+                {
+                    ModelState.AddModelError("", "An error occurred while Deleting the Subject.");
                 }
             }
             return View(viewmodel);

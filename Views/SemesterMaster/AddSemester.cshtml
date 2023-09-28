@@ -1,0 +1,27 @@
+﻿@model Student_Report_Management.Models.ViewModels.StudentReportViewModel
+@{
+    ViewBag.Title = "AddSemester";
+}
+
+<h4>Add New Semester</h4>
+
+@using (Html.BeginForm("AddSemester", "SemesterMaster", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(model => model.Semister_Name)
+        @Html.TextBoxFor(model => model.Semister_Name, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Year_Id)
+        @Html.TextBoxFor(model => model.Year_Id, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Add Semester" class="btn btn-primary" />
+    </div>
+
+    <div>
+        @Html.ActionLink("Back to List", "GetSemesterData")
+    </div>
+}
+
