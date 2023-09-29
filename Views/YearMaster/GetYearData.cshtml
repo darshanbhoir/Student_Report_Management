@@ -3,6 +3,7 @@
     ViewBag.Title = "GetYearData";
 }
 
+<br />
 <h4>Year Data</h4>
 
 <p>
@@ -26,18 +27,25 @@
         <th>
             @Html.DisplayNameFor(model => model.Year_Name)
         </th>
+        <th>
+            Actions
+        </th>
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr class="text-center">
-            <td>
-                @Html.DisplayFor(modelItem => item.Year_Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Year_Name)
-            </td>
-        </tr>
+    <tr class="text-center">
+        <td>
+            @Html.DisplayFor(modelItem => item.Year_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Year_Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditYear", new { id = item.Year_Id }, new { @class = "edit-button btn btn-primary" })
+            @Html.ActionLink("Delete", "DeleteYear", new { id = item.Year_Id }, new { @class = "delete-button btn btn-danger" })
+        </td>
+    </tr>
     }
 </table>
 

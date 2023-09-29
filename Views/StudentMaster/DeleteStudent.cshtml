@@ -3,6 +3,7 @@
     ViewBag.Title = "DeleteStudent";
 }
 
+<br />
 <h2>Delete Student</h2>
 
 @using (Html.BeginForm("DeleteStudent", "StudentMaster", FormMethod.Post))
@@ -31,7 +32,7 @@
         @Html.LabelFor(Model => Model.Student_DOB)
         @Html.TextBoxFor(Model => Model.Student_DOB, new { @readonly = "readonly", @class = "form-control" })
     </div>
-    <div>
+    <div class="form-group">
         <p style="color:red">Are you sure to Delete this Student</p>
     </div>
     <div class="form-group">

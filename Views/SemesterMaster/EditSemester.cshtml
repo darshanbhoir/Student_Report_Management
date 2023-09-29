@@ -1,0 +1,31 @@
+﻿@model Student_Report_Management.Models.ViewModels.StudentReportViewModel
+@{
+    /**/
+
+    ViewBag.Title = "EditSemester";
+}
+
+<h4>Edit Semester</h4>
+
+@using (Html.BeginForm("EditSemester", "SemesterMaster", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(Model => Model.Semister_Id)
+        @Html.TextBoxFor(Model => Model.Semister_Id, new { @readonly = "readonly", @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(Model => Model.Semister_Name)
+        @Html.TextBoxFor(Model => Model.Semister_Name, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(Model => Model.Year_Id)
+        @Html.TextBoxFor(Model => Model.Year_Id, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Update" class="btn btn-primary" />
+    </div>
+    <div>
+        @Html.ActionLink("Back to List", "GetSemesterData")
+    </div>
+}
+

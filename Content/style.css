@@ -22,9 +22,18 @@
         vertical-align: middle;
     }
 
-.datatbl{
-    display:none;
+        header .navigation-bar .navbar-nav a{
+            color:white;
+        }
+.navbar-brand{
+    color:white
 }
+
+.datatbl {
+    display: none;
+}
+
+
 
 
 /*StudentMaster-GetStudentData*/
@@ -43,3 +52,5 @@
     border: none;
     border-radius: 3px;
 }
+
+

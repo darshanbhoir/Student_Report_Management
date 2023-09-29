@@ -3,6 +3,7 @@
     ViewBag.Title = "DeleteSubject";
 }
 
+<br />
 <h4>Delete Subject</h4>
 
 @using (Html.BeginForm("DeleteSubject", "SubjectMaster", FormMethod.Post))
@@ -18,7 +19,7 @@
         @Html.LabelFor(Model => Model.Subject_Name)
         @Html.TextBoxFor(Model => Model.Subject_Name, new { @readonly = "readonly", @class = "form-control" })
     </div>
-    <div >
+    <div class="form-group">
         <p style="color:red">
             Are you sure to Delete this Subject
         </p>

@@ -1,0 +1,29 @@
+﻿@model Student_Report_Management.Models.ViewModels.StudentReportViewModel
+@{
+    ViewBag.Title = "DeleteYear";
+}
+
+<br />
+<h4>Delete Year</h4>
+
+@using (Html.BeginForm("DeleteYear", "YearMaster", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(Model => Model.Year_Id)
+        @Html.TextBoxFor(Model => Model.Year_Id, new { @readonly = "readonly", @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(Model => Model.Year_Name)
+        @Html.TextBoxFor(Model => Model.Year_Name, new { @readonly = "readonly", @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <p style="color:red">Are you sure to Delete this Semester</p>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Delete" class="btn btn-primary" />
+    </div>
+    <div>
+        @Html.ActionLink("Back to List", "GetYearData")
+    </div>
+}
+

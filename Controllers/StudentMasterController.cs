@@ -155,7 +155,7 @@ namespace Student_Report_Management.Controllers
 
 
 
-        //Delete Method
+        //Delete Student
         public ActionResult DeleteStudent(int? id)
         {
             if (id == null)

@@ -3,6 +3,7 @@ using Student_Report_Management.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -60,6 +61,83 @@ namespace Student_Report_Management.Controllers
             return View(viewmodel);
 
         }
+
+
+
+        //Edit Year
+        public ActionResult EditYear(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var year = db.tbl_Year_Master.Find(id);
+            if(year==null)
+            {
+                HttpNotFound();
+            }
+            var viewmodel = new StudentReportViewModel
+            {
+                Year_Id = year.Year_Id,
+                Year_Name = year.Year_Name,
+            };
+            return View(viewmodel);
+        }
+        [HttpPost]
+        public ActionResult EditYear(StudentReportViewModel viewmodel)
+        {
+            if(ModelState.IsValid)
+            {
+                var year = db.tbl_Year_Master.Find(viewmodel.Year_Id);
+                if(year==null)
+                {
+                    return HttpNotFound();
+                }
+                year.Year_Name = viewmodel.Year_Name;
+                db.Entry(year).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("GetYearData");
+            }
+            return View(viewmodel);
+        }
         
+
+
+        //Delete Year
+        public ActionResult DeleteYear(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var year = db.tbl_Year_Master.Find(id);
+            if (year == null)
+            {
+                HttpNotFound();
+            }
+            var viewmodel = new StudentReportViewModel
+            {
+                Year_Id = year.Year_Id,
+                Year_Name = year.Year_Name,
+            };
+            return View(viewmodel);
+        }
+        [HttpPost]
+        public ActionResult DeleteYear(StudentReportViewModel viewmodel)
+        {
+            if(ModelState.IsValid)
+            {
+                var year = db.tbl_Year_Master.Find(viewmodel.Year_Id);
+                if(year==null)
+                {
+                    return HttpNotFound();
+                }
+                db.tbl_Year_Master.Remove(year);
+                db.SaveChanges();
+                return RedirectToAction("GetYearData");
+            }
+            return View(viewmodel);
+
+        }
     }
 }

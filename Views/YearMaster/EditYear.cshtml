@@ -1,0 +1,26 @@
+﻿@model Student_Report_Management.Models.ViewModels.StudentReportViewModel
+@{
+    ViewBag.Title = "EditYear";
+}
+
+<br />
+<h4>Edit Year</h4>
+
+@using (Html.BeginForm("EditYear", "YearMaster", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(Model => Model.Year_Id)
+        @Html.TextBoxFor(Model => Model.Year_Id, new { @readonly = "readonly", @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(Model => Model.Year_Name)
+        @Html.TextBoxFor(Model => Model.Year_Name, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Update" class="btn btn-primary" />
+    </div>
+    <div>
+        @Html.ActionLink("Back to List", "GetYearData")
+    </div>
+}
+

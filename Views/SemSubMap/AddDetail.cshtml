@@ -1,0 +1,34 @@
+﻿@model Student_Report_Management.Models.ViewModels.StudentReportViewModel
+@{
+    ViewBag.Title = "AddDetail";
+}
+<br />
+<h4>Add New Details</h4>
+
+@using (Html.BeginForm("AddDetail", "GetSemSubData", FormMethod.Post))
+{
+    @*<div class="form-group">
+        @Html.LabelFor(model => model.Semister_Name)
+        @Html.DropDownList("Semister_Name", Model.Semister_Name, new { @class="form-control"})
+    </div>*@
+    <div class="form-group">
+        @Html.LabelFor(model => model.Semister_Id)
+        @Html.TextBoxFor(model => model.Semister_Id, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Subject_Id)
+        @Html.TextBoxFor(model => model.Subject_Id, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Max_Score)
+        @Html.TextBoxFor(model => model.Max_Score, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Add Details" class="btn btn-primary" />
+    </div>
+
+    <div>
+        @Html.ActionLink("Back to List", "GetSemSubData")
+    </div>
+}

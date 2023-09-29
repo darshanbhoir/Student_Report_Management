@@ -1,29 +1,34 @@
 ﻿@model IEnumerable<Student_Report_Management.Models.ViewModels.StudentReportViewModel>
 @{
-    ViewBag.Title = "GetSubjectData";
+    ViewBag.Title = "GetSemSubData";
 }
-
-<link rel="stylesheet" href="~/Content/style.css" />
-
 <br />
-<h4>Get Subject Data</h4>
+<h4>Get Semister Subject Data</h4>
 
 <p>
-    @Html.ActionLink("Add New Subject", "AddSubject")
+    @Html.ActionLink("Add New Details for Subject", "AddDetail")
 </p>
 
-@using (Html.BeginForm("GetSubjectData", "SubjectMaster", FormMethod.Get))
+@using (Html.BeginForm("GetSemSubData", "SemSubMap", FormMethod.Get))
 {
     <div>
-        @Html.Label("Search Subject")
+        @Html.Label("Searh Subject")
         @Html.TextBox("SubjectName", ViewBag.CurrentFilter as string)
     </div>
     <button type="submit" class="btn-outline-primary">Search</button>
-
 }
 
 <table class="table table-bordered table-striped">
     <tr class="text-center">
+        <th>
+            @Html.DisplayNameFor(model => model.Sem_Subject_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Semister_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Semister_Name)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Subject_Id)
         </th>
@@ -31,7 +36,7 @@
             @Html.DisplayNameFor(model => model.Subject_Name)
         </th>
         <th>
-            Actions
+            @Html.DisplayNameFor(model => model.Max_Score)
         </th>
     </tr>
 
@@ -39,14 +44,22 @@
     {
         <tr class="text-center">
             <td>
+                @Html.DisplayFor(modelItem => item.Sem_Subject_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Semister_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Semister_Name)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Subject_Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Subject_Name)
             </td>
             <td>
-                @Html.ActionLink("Edit", "EditSubject", new { id = item.Subject_Id }, new { @class = "edit-button btn btn-primary" })
-                @Html.ActionLink("Delete", "DeleteSubject", new { id = item.Subject_Id }, new { @class = "delete-button btn btn-danger" })
+                @Html.DisplayFor(modelItem => item.Max_Score)
             </td>
         </tr>
     }

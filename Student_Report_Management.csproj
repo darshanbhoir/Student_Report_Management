@@ -166,6 +166,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyAPIController.cs" />
     <Compile Include="Controllers\SemesterMasterController.cs" />
+    <Compile Include="Controllers\SemSubMapController.cs" />
     <Compile Include="Controllers\StudentMasterController.cs" />
     <Compile Include="Controllers\SubjectMasterController.cs" />
     <Compile Include="Controllers\YearMasterController.cs" />
@@ -422,6 +423,12 @@
     <Content Include="Views\SemesterMaster\AddSemester.cshtml" />
     <Content Include="Views\YearMaster\GetYearData.cshtml" />
     <Content Include="Views\YearMaster\AddYear.cshtml" />
+    <Content Include="Views\SemesterMaster\EditSemester.cshtml" />
+    <Content Include="Views\SemesterMaster\DeleteSemester.cshtml" />
+    <Content Include="Views\YearMaster\EditYear.cshtml" />
+    <Content Include="Views\YearMaster\DeleteYear.cshtml" />
+    <Content Include="Views\SemSubMap\GetSemSubData.cshtml" />
+    <Content Include="Views\SemSubMap\AddDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
