@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Student_Report_Management.Models.ViewModels.StudentReportViewModel>
+@{
+    ViewBag.Title = "GetStudentReport";
+}
+<br />
+<h4>Get Student Report</h4>
+
+@using (Html.BeginForm("GetStudentReport", "StudentReport", FormMethod.Get))
+{
+    <div>
+        @Html.Label("Searh Report by Student Name")
+        @Html.TextBox("StudentName", ViewBag.CurrentFilter as string)
+    </div>
+    <button type="submit" class="btn-outline-primary">Search</button>
+}
+
+<table class="table table-bordered table-striped">
+    <tr class="text-center">
+        <th>
+            @Html.DisplayNameFor(model => model.Report_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Student_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Student_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Subject_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User_Score)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Updated_On)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="text-center">
+            <td>
+                @Html.DisplayFor(modelItem => item.Report_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User_Score)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Updated_On)
+            </td>
+        </tr>
+    }
+</table>
+
+@Html.ActionLink("Back", "Index", "Home")

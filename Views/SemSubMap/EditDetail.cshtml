@@ -1,0 +1,33 @@
+﻿@model Student_Report_Management.Models.ViewModels.StudentReportViewModel
+@{
+    ViewBag.Title = "EditDetail";
+}
+
+<h2>Edit Detail</h2>
+
+@using (Html.BeginForm("EditDetail", "SemSubMap", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(Model => Model.Sem_Subject_Id)
+        @Html.TextBoxFor(Model => Model.Sem_Subject_Id, new { @readonly = "readonly", @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(Model => Model.Semister_Id)
+        @Html.TextBoxFor(Model => Model.Semister_Id, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(Model => Model.Subject_Id)
+        @Html.TextBoxFor(Model => Model.Subject_Id, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(Model => Model.Max_Score)
+        @Html.TextBoxFor(Model => Model.Max_Score, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Update Detail" class="btn btn-primary" />
+    </div>
+    <div>
+        @Html.ActionLink("Back to List", "GetSemSubData")
+    </div>
+}
+

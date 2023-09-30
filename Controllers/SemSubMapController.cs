@@ -3,6 +3,7 @@ using Student_Report_Management.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -50,6 +51,89 @@ namespace Student_Report_Management.Controllers
                     Max_Score = viewmodel.Max_Score,
                 };
                 db.tbl_Semister_Subject_Map.Add(detail);
+                db.SaveChanges();
+
+                return RedirectToAction("GetSemSubData");
+            }
+            return View(viewmodel);
+        }
+
+
+        //Edit details
+        public ActionResult Editdetail(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var detail= db.tbl_Semister_Subject_Map.Find(id);
+            if(detail==null)
+            {
+                return HttpNotFound();
+            }
+            var viewmodel = new StudentReportViewModel
+            {
+                Sem_Subject_Id= detail.Sem_Subject_Id,
+                Semister_Id = detail.Semister_Id,
+                Subject_Id = detail.Subject_Id,
+                Max_Score = (int)detail.Max_Score,
+            };
+            return View(viewmodel);
+        }
+        [HttpPost]
+        public ActionResult EditDetail(StudentReportViewModel viewmodel)
+        {
+            if(ModelState.IsValid)
+            {
+                var detail = db.tbl_Semister_Subject_Map.Find(viewmodel.Sem_Subject_Id);
+                if(detail==null)
+                {
+                    return HttpNotFound();
+                }
+                detail.Semister_Id= viewmodel.Semister_Id;
+                detail.Subject_Id= viewmodel.Subject_Id;
+                detail.Max_Score= viewmodel.Max_Score;
+
+                //db.Entry(detail).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("GetSemSubData");
+            }
+            return View(viewmodel);
+        }
+
+
+        //delete Detail
+        public ActionResult DeleteDetail(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var detail = db.tbl_Semister_Subject_Map.Find(id);
+            if (detail == null)
+            {
+                return HttpNotFound();
+            }
+            var viewmodel = new StudentReportViewModel
+            {
+                Sem_Subject_Id = detail.Sem_Subject_Id,
+                Semister_Id = detail.Semister_Id,
+                Subject_Id = detail.Subject_Id,
+                Max_Score = (int)detail.Max_Score,
+            };
+            return View(viewmodel);
+        }
+        [HttpPost]
+        public ActionResult DeleteDetail(StudentReportViewModel viewmodel)
+        {
+            if(ModelState.IsValid)
+            {
+                var detail = db.tbl_Semister_Subject_Map.Find(viewmodel.Sem_Subject_Id);
+                if (detail == null)
+                {
+                    return HttpNotFound();
+                }
+                db.tbl_Semister_Subject_Map.Remove(detail);
                 db.SaveChanges();
 
                 return RedirectToAction("GetSemSubData");
