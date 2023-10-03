@@ -32,5 +32,31 @@ namespace Student_Report_Management.Controllers
             var Result = query;
             return View(Result);
         }
+
+
+        //Add New Report
+        public ActionResult AddReport()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddReport(StudentReportViewModel viewmodel)
+        {
+            if(ModelState.IsValid)
+            {
+                var report = new tbl_Student_Report
+                {
+                    Student_Id = viewmodel.Student_Id,
+                    Sem_Subject_Id = viewmodel.Sem_Subject_Id,
+                    User_Score = viewmodel.User_Score,
+                    Updated_On = viewmodel.Updated_On,
+                };
+                db.tbl_Student_Report.Add(report);
+                db.SaveChanges();
+
+                return RedirectToAction("GetStudentReport");
+            }
+            return View(viewmodel);
+        }
     }
 }
